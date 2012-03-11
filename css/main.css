@@ -1,9 +1,26 @@
 #container{
 	margin: 0 auto;
 	width: 500px;
-	
 }
 
 .login_form{
 	width: 200px;
 }
+
+#tabr1 {
+    background-color: bada55;
+}
+#app_name {
+    width: 100px;
+	margin: 0 auto;
+}
+
+h2 {
+    font-family: Comic Sans MS;
+}
+
+#form_div {
+margin: 0 auto;
+width: 50%;
+}
+

@@ -1,9 +1,20 @@
 <?php
-class user_home extends ci_Controller{
-
+class adminloader extends ci_Controller{
+	
 	function __construct(){
 		parent::__construct();
 		$this->is_logged_in();
+	}
+	
+	function view($page = 'admin_home'){
+		if (!file_exists('application/views/'.$page.'.php')){
+			show_404();
+		}
+		
+		$data['title'] = ucfirst($page); 
+
+		$this->load->view('templates/admin_header', $data);
+		$this->load->view($page, $data);
 	}
 	
 	function is_logged_in(){

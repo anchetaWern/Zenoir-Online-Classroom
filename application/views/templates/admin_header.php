@@ -1,0 +1,2 @@
+<!--admin template-->
+admin

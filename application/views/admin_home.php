@@ -6,16 +6,16 @@
 	<table>
 		<tbody>
 			<tr>
-				<td><button class="large orange">Teachers</button></td>
-				<td><button class="large blue">Classes</button></td>
+				<td><a href="/zenoir/index.php/adminloader/view/users"><button class="large orange">Users</button></a></td>
+				<td><a href="/zenoir/index.php/adminloader/view/classes"><button class="large blue">Classes</button></a></td>
 			</tr>
 			<tr>
-				<td><button class="large green">Subjects</button></td>
-				<td><button class="large">Courses</button></td>
+				<td><a href="/zenoir/index.php/adminloader/view/subjects"><button class="large green">Subjects</button></a></td>
+				<td><a href="/zenoir/index.php/adminloader/view/courses"><button class="large">Courses</button></a></td>
 			</tr>
 			<tr>
-				<td><button class="large red">Account</button></td>
-				<td><button class="large pink">Admin</button></td>
+				<td><a href=""><button class="large red">Account</button></a></td>
+				<td><a href=""><button class="large pink">Admin</button></a></td>
 			</tr>
 		</tbody>
 	</table>

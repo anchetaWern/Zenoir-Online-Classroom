@@ -12,8 +12,12 @@ class adminloader extends ci_Controller{
 		}
 		
 		$data['title'] = ucfirst($page); 
-
+		
 		$this->load->view('templates/admin_header', $data);
+		
+		
+		$data['table'] = $this->selector($page); //loads the list of data for the table
+		
 		$this->load->view($page, $data);
 	}
 	
@@ -28,5 +32,37 @@ class adminloader extends ci_Controller{
 		$this->session->sess_destroy();
 		redirect('../loader/view/login_form');
 	}
+	
+	function selector($page){
+		switch($page){
+			case 'subjects':
+				$this->load->model('subjects_model');
+				$subjects = $this->subjects_model->select_subjects();
+				return $subjects;
+			break;
+			
+			case 'users':
+				$this->load->model('users');
+				$users = $this->users->select_users();
+				return $users;
+			break;
+			
+			case 'courses':
+				$this->load->model('courses_model');
+				$courses = $this->courses_model->select_courses();
+				return $courses;
+			break;
+			
+			
+			case 'classes':
+				$this->load->model('classrooms_model');
+				$classes = $this->classrooms_model->select_classes();
+				return $classes;
+			break;
+			
+		}
+	}
+	
+	
 }
 ?>

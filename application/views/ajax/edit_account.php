@@ -9,17 +9,17 @@
 
 
 <label for="fname">Firstname</label>
-<input type="text" id="fname" name="fname" value="<?php echo $fname; ?>"/>
+<input type="text" id="fname" name="fname" value="<?php echo $user['fname']; ?>"/>
 
 <label for="mname">Middlename</label>
-<input type="text" id="mname" name="mname" value="<?php echo $mname; ?>"/>
+<input type="text" id="mname" name="mname" value="<?php echo $user['mname']; ?>"/>
 
 <label for="lname">Lastname</label>
-<input type="text" id="lname" name="lname" value="<?php echo $lname; ?>"/>
+<input type="text" id="lname" name="lname" value="<?php echo $user['lname']; ?>"/>
 
 <label for="autobiography">Autobiography</label>
 <textarea name="autobiography" id="autobiography">
-<?php echo $auto_bio; ?>
+<?php echo $user['auto_bio']; ?>
 </textarea>
 
 <input type="button" id="btn_update_account" value="update">

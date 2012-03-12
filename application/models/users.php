@@ -40,8 +40,25 @@ class users extends ci_Model{
 		return $user_data;
 	}
 	
+	function create_user(){
+		$user_id 	= $this->input->post('user_id');
+		$password	= md5($this->input->post('user_id'));
+		$user_type 	= $this->input->post('user_type');
+		$fname		= $this->input->post('fname');
+		$mname		= $this->input->post('mname');
+		$lname		= $this->input->post('lname');
+		
+		$account	= array($user_id, $password, $user_type);
+		$info		= array($user_id, $fname, $mname, $lname);
+		
+		$create_account = $this->db->query("INSERT INTO tbl_users SET user_id=?, hashed_password=?, user_type=?", $account);
+		$create_info	= $this->db->query("INSERT INTO tbl_userinfo SET user_id=?, fname=?, mname=?, lname=?", $info);
+		
+	}
+	
 	function update_user(){
-		$user_id = $this->session->userdata('user_id');
+		//only the user who is currently logged in can update their own information
+		$user_id = $this->session->userdata('user_id'); 
 		$fname = $this->input->post('fname');
 		$mname = $this->input->post('mname');
 		$lname = $this->input->post('lname');
@@ -59,6 +76,39 @@ class users extends ci_Model{
 		}else{
 			
 			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
+		}
+	}
+	
+	function select_users(){
+		$users_array = array();
+		
+		$this->db->select('fname, mname, lname, tbl_users.user_id, user_type');
+		$this->db->from('tbl_users');
+		$this->db->join('tbl_userinfo', 'tbl_users.user_id = tbl_userinfo.user_id');
+		$users = $this->db->get();
+		
+		if($users->num_rows() > 0){
+			foreach($users->result() as $row){
+				$user_type = $this->get_usertype($row->user_type);
+				$users_array[] = array($row->fname, $row->mname, $row->lname, $user_type, $row->user_id);
+			}
+		}
+		return $users_array;
+	}
+	
+	function get_usertype($type_id){
+		switch($type_id){
+			case 1:
+				return 'Administrator';
+			break;
+			
+			case 2:
+				return 'Teacher';
+			break;
+			
+			case 3:
+				return 'Student';
+			break;
 		}
 	}
 }

@@ -1,6 +1,6 @@
 #container{
 	margin: 0 auto;
-	width: 500px;
+	width: 800px;
 }
 
 .login_form{
@@ -15,6 +15,10 @@
 	margin: 0 auto;
 }
 
+#app_title{
+	color: black;
+}
+
 h2 {
     font-family: Comic Sans MS;
 }
@@ -23,4 +27,14 @@ h2 {
 margin: 0 auto;
 width: 50%;
 }
+
+a{
+	text-decoration: none;
+}
+
+.icons{
+	height: 16px;
+	width: 16px;
+}
+
 

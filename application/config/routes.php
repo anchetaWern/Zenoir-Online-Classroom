@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "site_index";
+$route['default_controller'] = "loader/view/login_form";
 $route['404_override'] = '';
 
 

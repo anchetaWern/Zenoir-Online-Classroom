@@ -1,2 +1,0 @@
-<!--teacher template -->
-teacher

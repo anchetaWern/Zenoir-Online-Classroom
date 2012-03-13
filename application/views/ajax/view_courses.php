@@ -1,4 +1,4 @@
-<!--view associated classes to a particular subject or course-->
+
 <div id="modal_header">
 <h4>Associated Classes</h4>
 </div>

@@ -112,13 +112,17 @@ $(function(){
 		);
 	});
 	
-	$('a[data-id]').live('click', function(){
+	$('a[data-id]').live('hover', function(){
 		var current_id = $(this).data('id');
-		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id},
-			function(data){
-				
-			}
-		);
+		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
+		
+	});
+	
+	$('#add_people').live('click', function(){
+		var user_ids = $('#user_ids').val();
+		$.post('/zenoir/index.php/classrooms/add_people', {'user_id' : user_ids}, function(data){
+			$('#fancybox-close').click();
+		});
 	});
 
 });

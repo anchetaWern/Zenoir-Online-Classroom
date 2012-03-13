@@ -62,8 +62,12 @@ class users extends ci_Model{
 		$fname = $this->input->post('fname');
 		$mname = $this->input->post('mname');
 		$lname = $this->input->post('lname');
+		
+		$user_name = $fname . ' ' . $lname;
+		
 		$password = md5($this->input->post('pword'));
 		$autobiography = $this->input->post('autobiography');
+		
 		
 		$user_data = array($fname, $mname, $lname, $autobiography, $user_id);
 		
@@ -74,9 +78,11 @@ class users extends ci_Model{
 			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
 			$update_password = $this->db->query("UPDATE tbl_users SET hashed_password=? WHERE user_id=?", $password);
 		}else{
-			
+		
 			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
 		}
+		
+		$this->session->set_userdata('user_name', $user_name);
 	}
 	
 	function select_users(){
@@ -110,6 +116,22 @@ class users extends ci_Model{
 				return 'Student';
 			break;
 		}
+	}
+	
+	
+	function user_information(){
+		$user = array($this->session->userdata('current_id'));
+		$userinfo_array = array();
+		$query = $this->db->query("SELECT * FROM tbl_userinfo WHERE user_id=?", $user);
+		if($query->num_rows > 0){
+			$row = $query->row();
+			$fname		= $row->fname;
+			$mname		= $row->mname;
+			$lname		= $row->lname;
+			$auto_bio	= $row->autobiography;
+			$userinfo_array = array($fname, $mname, $lname, $auto_bio);
+		}
+		return $userinfo_array;
 	}
 }
 ?>

@@ -5,8 +5,6 @@
 
 <?php
 //inputs
-		
-
 $class_code	= array(
 				'id'=>'class_code',
 				'name'=>'class_code'
@@ -40,6 +38,9 @@ $create 	= array(
 				'value'=>'Create Class',
 				'content'=>'Create Class'
 			);
+
+
+
 
 echo form_label('Class Code', 'class_code');
 echo form_input($class_code);

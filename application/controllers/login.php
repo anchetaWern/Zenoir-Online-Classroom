@@ -23,10 +23,8 @@ class login extends ci_Controller{
 			
 			if($usertype == 1){//admin
 				redirect('../adminloader/view/admin_home');
-			}else if($usertype == 2){//teacher
-				
-			}else if($usertype == 3){//student
-			
+			}else if($usertype == 2 || $usertype == 3){//teacher and student
+				redirect('../class_loader/view/land');
 			}
 			
 		}else{

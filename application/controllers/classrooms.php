@@ -6,5 +6,10 @@ class classrooms extends ci_Controller{
 		$this->load->model('classrooms_model');
 		$this->classrooms_model->create_class();	
 	}
+	
+	function add_people(){
+		$this->load->model('classrooms_model');
+		$this->classrooms_model->add_people();
+	}
 }
 ?>

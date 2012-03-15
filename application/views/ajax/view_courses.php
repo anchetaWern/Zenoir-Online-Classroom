@@ -2,6 +2,7 @@
 <div id="modal_header">
 <h4>Associated Classes</h4>
 </div>
+<?php if(!empty($page)){ ?>
 <table class="tbl_classes">
 <thead>
 	<tr>
@@ -22,3 +23,4 @@
 <?php } ?>
 </tbody>
 </table>
+<?php } ?>

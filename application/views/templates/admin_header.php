@@ -113,6 +113,7 @@ $(function(){
 	});
 	
 	$('a[data-id]').live('hover', function(){
+		
 		var current_id = $(this).data('id');
 		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
 		
@@ -120,9 +121,31 @@ $(function(){
 	
 	$('#add_people').live('click', function(){
 		var user_ids = $('#user_ids').val();
-		$.post('/zenoir/index.php/classrooms/add_people', {'user_id' : user_ids}, function(data){
-			$('#fancybox-close').click();
-		});
+		$.post('/zenoir/index.php/classrooms/add_people', {'user_id' : user_ids}, 
+			function(data){
+				$('#fancybox-close').click();
+			}
+		);
+	});
+	
+	$('#update_subject').live('click', function(){
+		var subj_code	= $.trim($('#subject_code').val());
+		var subj_desc	= $.trim($('#subject_desc').val());
+		$.post('/zenoir/index.php/subjects/update_subject', {'subj_code' : subj_code, 'subj_desc' : subj_desc}, 
+			function(){
+				$('#fancybox-close').click();
+			}
+		);
+	});
+	
+	$('#edit_course').live('click', function(){
+		var course_code	= $.trim($('#course_code').val()); 
+		var course_desc	= $.trim($('#course_desc').val()); 	
+		$.post('/zenoir/index.php/courses/update_course', {'course_code' : course_code, 'course_desc' : course_desc},
+			function(){
+				$('#fancybox-close').click();
+			}
+		);
 	});
 
 });

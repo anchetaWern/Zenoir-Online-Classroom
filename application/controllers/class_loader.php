@@ -55,6 +55,12 @@ class class_loader extends ci_Controller{
 				return $class_users;
 			break;
 			
+			case 'assignments':
+				$this->load->model('assignments_model');
+				$assignments = $this->assignments_model->list_all();
+				return $assignments;
+			break;
+			
 		}
 	}
 

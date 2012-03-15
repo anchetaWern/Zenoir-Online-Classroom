@@ -19,7 +19,7 @@ $subjects = $table;
 		<tr>
 			<td><?php echo $v[0]; ?></td>
 			<td><?php echo $v[1]; ?></td>
-			<td><a href="" class="lightbox"><img class="icons" src="/zenoir/img/update.png"/></a></td>
+			<td><a href="/zenoir/index.php/ajax_loader/view/edit_subject" class="lightbox" data-id="<?php echo $v[2]; ?>"><img class="icons" src="/zenoir/img/update.png" /></a></td>
 			<td><a href="/zenoir/index.php/ajax_loader/view/view_subjects" class="lightbox" data-id="<?php echo $v[2]; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td><!--view classes associated-->
 		</tr>
 		<?php } ?>

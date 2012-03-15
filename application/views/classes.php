@@ -11,7 +11,7 @@
 			<th>Description</th>
 			<th>Subject</th>
 			<th>Teacher</th>
-			<th>Edit</th>
+			<th>Add</th>
 			<th>View</th>
 		</tr>
 	</thead>
@@ -22,7 +22,7 @@
 			<td><?php echo $v[3]; ?></td>
 			<td><?php echo $v[5]; ?></td>
 			<td><?php echo strtoupper($v[2]) .',  '. ucwords($v[0]) . ' ' . ucwords($v[1]); ?></td>
-			<td><a href="/zenoir/index.php/ajax_loader/view/add_people" data-id="<?php echo $v[6]; ?>" class="lightbox"><img class="icons" src="/zenoir/img/update.png"/></a></td>
+			<td><a href="/zenoir/index.php/ajax_loader/view/add_people" data-id="<?php echo $v[6]; ?>" class="lightbox"><img class="icons" src="/zenoir/img/add.png"/></a></td>
 			<td><a href="/zenoir/index.php/adminloader/view/class_home" ><img class="icons" src="/zenoir/img/view.png"/></a></td>
 			
 		</tr>

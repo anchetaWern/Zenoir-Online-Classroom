@@ -26,7 +26,7 @@ echo $class_desc . ' - '. $teacher;
 	<table>
 		<tbody>
 			<tr>
-				<td><a href="/zenoir/"><button class="large orange">Assignments</button></a></td>
+				<td><a href="/zenoir/index.php/class_loader/view/assignments"><button class="large orange">Assignments</button></a></td>
 				<td><a href=""><button class="large blue">Messages</button></a></td>
 				<?php if($user_type == 2 || $user_type == 1){?>
 				<td><a href=""><button class="large">Reports</button></a></td><!--teacher & admin accessible-->
@@ -40,7 +40,7 @@ echo $class_desc . ' - '. $teacher;
 				<?php } ?>
 			</tr>
 			<tr>
-				<td><a href=""><button class="large red">Handouts</button></a></td>
+				<td><a href="/zenoir/index.php/class_loader/view/handouts"><button class="large red">Handouts</button></a></td>
 				<td><a href="/zenoir/index.php/class_loader/view/land"><button class="large pink">Dashboard</button></a></td>
 				<?php if($user_type == 1){ ?>
 				<td><a href=""><button class="large">Admin</button></a></td><!--admin accessible-->

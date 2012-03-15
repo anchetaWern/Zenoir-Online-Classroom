@@ -49,7 +49,7 @@ class classusers_model extends ci_Model{
 				WHERE post_type = '$post_type' AND post_to='$user_id' AND class_id='$class_id' AND status = 1");
 		}
 
-		return array('number_of_post'=>$posts);
+		return $posts;
 			
 	}
 	

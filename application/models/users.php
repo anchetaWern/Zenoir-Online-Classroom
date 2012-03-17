@@ -31,11 +31,16 @@ class users extends ci_Model{
 	
 	function user_info($user_id){
 		$user_data = array();
+		$uid = $user_id;
 		$user_id = array($user_id);
 		$get_user = $this->db->query("SELECT * FROM tbl_userinfo WHERE user_id=?", $user_id);
+		
+		
+		
 		if($get_user->num_rows() > 0){
 			$row = $get_user->row();
-			$user_data = array('fname'=>$row->fname, 'mname'=>$row->mname, 'lname'=>$row->lname, 'auto_bio'=>$row->autobiography);
+			
+			$user_data = array('user_id'=>$uid, 'fname'=>$row->fname, 'mname'=>$row->mname, 'lname'=>$row->lname, 'auto_bio'=>$row->autobiography);
 		}
 		return $user_data;
 	}
@@ -77,12 +82,21 @@ class users extends ci_Model{
 			
 			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
 			$update_password = $this->db->query("UPDATE tbl_users SET hashed_password=? WHERE user_id=?", $password);
+			
+			$user_id = 'UI'.$user_id;
+			$this->session->set_userdata('post_id', $user_id);
 		}else{
 		
 			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
+			
+			
+			$user_id = 'UI'.$user_id;
+			$this->session->set_userdata('post_id', $user_id);
 		}
 		
 		$this->session->set_userdata('user_name', $user_name);
+		
+		
 	}
 	
 	function select_users(){

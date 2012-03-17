@@ -2,8 +2,11 @@
 <link rel="stylesheet" href="/zenoir/libs/kickstart/css/kickstart.css"/>
 <link rel="stylesheet" href="/zenoir/css/main.css"/>
 <link rel="stylesheet" href="/zenoir/libs/dataTables/css/demo_page.css"/>
-<link rel="stylesheet" href="/zenoir/libs/uploadify/uploadify.css"/>
+
 <link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/>
+
+
+<link href="/zenoir/css/fileUploader.css" rel="stylesheet"/>
 
 <script src="/zenoir/js/jquery171.js"></script>
 
@@ -13,11 +16,11 @@
 <!--awesome tables functions-->
 <script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script>
 
-<!--file uploads-->
-<script src="/zenoir/libs/uploadify/swfobject.js"></script>
-<script src="/zenoir/libs/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+
 
 <script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+<script src="/zenoir/js/jquery.fileUploader.js"></script>
 
 
 <script>
@@ -38,7 +41,7 @@ $(function(){
 		var auto_biography = $.trim($('#autobiography').val());
 		$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
 			function(){
-				$('#fancybox-close').click();
+				$('#px-submit').click();
 			});
 	});
 	
@@ -49,12 +52,22 @@ $(function(){
 		var as_deadline	= $.trim($('#deadline').val());
 		$.post('/zenoir/index.php/assignments/create_assignment', {'as_title' : as_title, 'as_body' : as_body, 'as_deadline' : as_deadline},
 			function(){
-				$('#file_upload').uploadifyUpload();
+				$('#px-submit').click();
 				
 			}
 		);
 	});
 
+	$('#create_handout').live('click', function(){
+		
+		var ho_title	= $.trim($('#ho_title').val());
+		var ho_body		= $.trim($('#ho_body').val());
+		$.post('/zenoir/index.php/handouts/create', {'ho_title' : ho_title, 'ho_body' : ho_body},
+			function(){
+				$('#px-submit').click();
+			}
+		);
+	});
 
 });
 </script>

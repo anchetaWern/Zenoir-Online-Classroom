@@ -7,6 +7,12 @@
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script>
 <script src="/zenoir/libs/kickstart/js/prettify.js"></script>
 <script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script>
+
+<!--file uploads-->
+<script src="/zenoir/libs/uploadify/swfobject.js"></script>
+<script src="/zenoir/libs/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+
+<script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script>
 $(function(){
 	$('.tbl_classes').dataTable();

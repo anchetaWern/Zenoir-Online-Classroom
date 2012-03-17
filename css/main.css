@@ -37,4 +37,12 @@ a{
 	width: 16px;
 }
 
+/*universal*/
+
+
+/*assignment*/
+#container_newassignment, #container_newhandout, #container_editaccount  input[type=text]{
+	width: 500px;
+}
+
 

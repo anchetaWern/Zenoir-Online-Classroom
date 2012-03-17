@@ -9,13 +9,26 @@ class courses_model extends ci_Model{
 	}
 	
 	function update_course(){
-		$course_id		= $this->input->post('course_id');
+		$course_id		= $this->session->userdata('current_id');
 		$course_code	= $this->input->post('course_code');
 		$description	= $this->input->post('course_desc');
 		
 		$data			= array($course_code, $description, $course_id);
 		
 		$this->db->query("UPDATE tbl_courses SET course_code=?, course_description=? WHERE course_id=?", $data);
+	}
+	
+	function get_course(){
+		$course_info	= array();
+		$course_id 		= $this->session->userdata('current_id');
+		$course 		= $this->db->query("SELECT * FROM tbl_courses WHERE course_id='$course_id'");
+		if($course->num_rows() > 0){
+			$row 			= $course->row();
+			$course_code	= $row->course_code;
+			$course_desc	= $row->course_description;
+			$course_info = array('course_code'=>$course_code, 'course_desc'=>$course_desc);
+		}
+		return $course_info;
 	}
 	
 	function select_courses(){

@@ -1,18 +1,14 @@
 <!--new assignment-->
 <script>
 $(".date_picker").datepicker({ dateFormat: 'yy-mm-dd' });
-$('#file_upload').uploadify({
-    'uploader'  : '/zenoir/libs/uploadify/uploadify.swf',
-    'script'    : '/zenoir/libs/uploadify/uploadify.php',
-    'cancelImg' : '/zenoir/libs/uploadify/cancel.png',
-    'folder'    : 'uploads',
-	'fileExt'     : '*.jpg;*.gif;*.png; *.doc; *.html; *.htm; *.docx; *.xls; *.xlsx; *.mp3; *.ppt; *.pptx; *.txt',
-	'fileDesc'    : 'Valid Files',
-	'sizeLimit'   : 102400,
-    'auto'      : false,
-	'multi' : true,
-	'buttonImg'   : '/zenoir/libs/uploadify/browse.png'
+$('.fileUpload').fileUploader({
+			allowedExtension: 'jpg|jpeg|gif|png|zip|avi',
+			afterEachUpload: function(data, status, formContainer){
+				$jsonData = $.parseJSON( $(data).find('#upload_data').text() );
+			}
 });
+
+$('.px-buttons').hide();
 </script>
 <div id="modal_header">
 <h4>Create New Assignment</h4>
@@ -46,6 +42,7 @@ $create	= array(
 ?>
 
 <div id="container_newassignment">
+
 <?php
 echo form_label('Title', 'as_title');
 echo form_input($title);	
@@ -56,12 +53,17 @@ echo form_textarea($body);
 echo form_label('Deadline', 'deadline');	
 echo form_input($deadline);
 ?>
-
-<input id="file_upload" type="file" name="file_upload" />
-
+<form action="/zenoir/index.php/upload/do_upload" method="post" enctype="multipart/form-data">
+<input type="file" name="userfile" class="fileUpload" multiple>
+		<div id="div_hide">		
+		<button id="px-submit" type="submit" >Upload</button>
+		<button id="px-clear" type="reset">Clear</button>
+		</div>
+</form>
 <p>
 <?php
 echo form_button($create);
 ?>
 </p>
+
 </div>

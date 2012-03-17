@@ -10,7 +10,6 @@ class ajax_loader extends ci_Controller{
 		
 		$this->load->model('users');
 		$data['user'] = $this->users->user_info($user_id);
-		
 		$data['page'] = $this->selector($page);
 		
 		$this->load->view('ajax/'.$page, $data);
@@ -57,6 +56,19 @@ class ajax_loader extends ci_Controller{
 				$class_code = $this->classrooms_model->select_coursecode();
 				
 				return array('users'=>$users, 'class_code'=>$class_code);
+			break;
+			
+			
+			case 'edit_subject':
+				$this->load->model('subjects_model');
+				$subject = $this->subjects_model->get_subject();
+				return $subject;
+			break;
+			
+			case 'edit_course':
+				$this->load->model('courses_model');
+				$course = $this->courses_model->get_course();
+				return $course;
 			break;
 			
 		}

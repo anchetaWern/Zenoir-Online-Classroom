@@ -5,8 +5,8 @@
 
 <link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/>
 
-
 <link href="/zenoir/css/fileUploader.css" rel="stylesheet"/>
+
 
 <script src="/zenoir/js/jquery171.js"></script>
 
@@ -16,21 +16,29 @@
 <!--awesome tables functions-->
 <script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script>
 
-
-
 <script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script>
 
 <script src="/zenoir/js/jquery.fileUploader.js"></script>
 
 
+
+
 <script>
 $(function(){
 	$(".date_picker").datepicker();
+	$('.tbl_classes').dataTable();
 	
 	$('a[data-classid]').live('hover', function(){//creates a session for the class
 		var class_id = $.trim($(this).data('classid'));
 		
-		$.post('/zenoir/index.php/data_setter/set_class', {'class_id' : class_id}, function(data){console.log(data);});
+		$.post('/zenoir/index.php/data_setter/set_class', {'class_id' : class_id});
+	});
+	
+	$('a[data-id]').live('hover', function(){
+		
+		var current_id = $(this).data('id');
+		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
+		
 	});
 	
 	$('#btn_update_account').live('click',function(){
@@ -63,6 +71,46 @@ $(function(){
 		var ho_title	= $.trim($('#ho_title').val());
 		var ho_body		= $.trim($('#ho_body').val());
 		$.post('/zenoir/index.php/handouts/create', {'ho_title' : ho_title, 'ho_body' : ho_body},
+			function(){
+				$('#px-submit').click();
+			}
+		);
+	});
+	
+	$('#create_message').live('click', function(){
+		var receivers	= $.trim($('#receivers').val());
+		var msg_title 	= $.trim($('#msg_title').val()); 
+		var msg_body 	= $.trim($('#msg_body').val()); 
+		
+		
+		
+		$.post('/zenoir/index.php/messages/create', {'receivers' : receivers, 'msg_title' : msg_title, 'msg_body' : msg_body},
+			function(data){
+				
+				$('#px-submit').click();
+			}
+		);
+	});
+	
+	
+	$('#reply_message').live('click', function(){
+		var msg_title 	= $.trim($('#msg_title').val()); 
+		var msg_body 	= $.trim($('#msg_body').val()); 
+		
+		$.post('/zenoir/index.php/messages/reply', {'msg_title' : msg_title, 'msg_body' : msg_body},
+			function(data){
+				
+				$('#px-submit').click();
+			}
+		);
+	});
+	
+	
+	$('#submit_assignmentreply').live('click', function(){
+		var reply_title	= $.trim($('#as_title').val());
+		var reply_body	= $.trim($('#as_body').val());
+		
+		$.post('/zenoir/index.php/assignments/reply', {'reply_title' : reply_title, 'reply_body' : reply_body},
 			function(){
 				$('#px-submit').click();
 			}

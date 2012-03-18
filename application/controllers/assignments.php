@@ -5,5 +5,10 @@ class assignments extends ci_Controller{
 		$this->load->model('assignments_model');
 		$this->assignments_model->create();
 	}
+	
+	function reply(){
+		$this->load->model('assignments_model');
+		$this->assignments_model->reply();
+	}
 }
 ?>

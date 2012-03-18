@@ -1,3 +1,4 @@
+<!--new message-->
 <script>
 $('.fileUpload').fileUploader({
 			allowedExtension: 'jpg|jpeg|gif|png|zip|avi',
@@ -9,43 +10,56 @@ $('.fileUpload').fileUploader({
 $('.px-buttons').hide();
 </script>
 <div id="modal_header">
-<h4>Create New Handout</h4>
+<h4>Create New Message</h4>
 </div>
 
 <?php
-$ho_title	= array(
-				'id'=>'ho_title',
-				'name'=>'ho_title',
+$class_users = $page;
+
+$msg_title	= array(
+				'id'=>'msg_title',
+				'name'=>'msg_title',
 			);
 
-$ho_body	= array(
-				'id'=>'ho_body',
-				'name'=>'ho_body'
+$msg_body	= array(
+				'id'=>'msg_body',
+				'name'=>'msg_body'
 			);
 	
 $create		= array(
-				'id'=>'create_handout',
-				'name'=>'create_handout',
-				'value'=>'Create Handout',
-				'content'=>'Create Handout',
+				'id'=>'create_message',
+				'name'=>'create_message',
+				'value'=>'Send Message',
+				'content'=>'Send Message',
 				'class'=>'medium green'
 			);
 ?>
 <div class="container">
+
+<?php echo form_label('Send To', 'receivers'); ?>
+<?php if(!empty($class_users)){ ?>
+<select name="receivers[]" id="receivers" multiple>
+	<?php foreach($class_users as $user){ ?>
+		<option value="<?php echo $user['id']; ?>"><?php echo strtoupper($user['lname']) .', '. ucwords($user['fname']); ?></option>
+	<?php } ?>
+</select>
+<?php } ?>
+
 <?php
 echo form_label('Title', 'ho_title');
-echo form_input($ho_title);	
+echo form_input($msg_title);	
 
 echo form_label('Body', 'ho_body');
-echo form_textarea($ho_body);
+echo form_textarea($msg_body);
 ?>
+
 
 <form action="/zenoir/index.php/upload/do_upload" method="post" enctype="multipart/form-data">
 <input type="file" name="userfile" class="fileUpload" multiple>
-		<div id="div_hide">		
+	<div id="div_hide">		
 		<button id="px-submit" type="submit" >Upload</button>
 		<button id="px-clear" type="reset">Clear</button>
-		</div>
+	</div>
 </form>
 
 <p>
@@ -53,4 +67,5 @@ echo form_textarea($ho_body);
 echo form_button($create);
 ?>
 </p>
+
 </div>

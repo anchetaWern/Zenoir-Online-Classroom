@@ -41,8 +41,11 @@ a{
 
 
 /*assignment*/
-#container_newassignment, #container_newhandout, #container_editaccount  input[type=text]{
+.container, .container  input[type=text]{
 	width: 500px;
 }
 
-
+#msg_title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

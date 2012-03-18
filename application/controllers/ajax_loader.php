@@ -71,6 +71,61 @@ class ajax_loader extends ci_Controller{
 				return $course;
 			break;
 			
+			case 'new_message':
+				$this->load->model('classusers_model');
+				$class_users = $this->classusers_model->class_users();
+				return $class_users;
+			break;
+			
+			case 'view_message':
+				$this->load->model('messages_model');
+				$message = $this->messages_model->view();
+				return $message;
+			break;
+			
+			
+			case 'reply':
+				$this->load->model('messages_model');
+				$reply_details = $this->messages_model->reply_details();
+				return $reply_details;
+			break;
+			
+			case 'msg_history':
+				$this->load->model('messages_model');
+				$history = $this->messages_model->history();
+				return $history;
+			break;
+			
+			case 'view_handout':
+				$this->load->model('handouts_model');
+				$handout = $this->handouts_model->view();
+				return $handout;
+			break;
+			
+			case 'view_assignment':
+				$this->load->model('assignments_model');
+				$assignment = $this->assignments_model->view();
+				return $assignment;
+			break;
+			
+			case 'view_assignmentreply':
+				$this->load->model('assignments_model');
+				$assignment = $this->assignments_model->view_reply();
+				return $assignment;
+			break;
+			
+			case 'assignment_reply':
+				$this->load->model('assignments_model');
+				$assignment = $this->assignments_model->reply_details();
+				return $assignment;
+			break;
+			
+			case 'list_assignmentreplies':
+				$this->load->model('assignments_model');
+				$assignment_reply = $this->assignments_model->list_replies();
+				return $assignment_reply;
+			break;
+			
 		}
 	}
 }

@@ -16,7 +16,7 @@ $('.ui-button-text span').text('Select Photo');
 </div>
 
 
-<div id="container_editaccount">
+<div class="container">
 <p>
 <form action="/zenoir/index.php/upload/do_upload" method="post" enctype="multipart/form-data">
 <input type="file" name="userfile" class="fileUpload">

@@ -26,8 +26,8 @@ $assignments = $table;
 			<td><?php echo $row['title']; ?></td>
 			<td><?php echo $row['date']; ?></td>
 			<td><?php echo $row['deadline']; ?></td>
-			<td></td>
-			<td></td>
+			<td><a href="" class="ligtbox"><img src="/zenoir/img/update.png" class="icons"/></a></td>
+			<td><a href="/zenoir/index.php/ajax_loader/view/view_assignment" data-id="<?php echo $row['assignment_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		</tr>
 		<?php } ?>
 	</tbody>

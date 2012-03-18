@@ -53,6 +53,26 @@ class classusers_model extends ci_Model{
 			
 	}
 	
+	function class_users(){//returns users in a specific class
+		$current_user = $this->session->userdata('user_id');
+		$class_id = $this->session->userdata('current_class');
+		$class_user_r = array();
+		$query = $this->db->query("SELECT tbl_userinfo.user_id, fname, mname, lname FROM tbl_userinfo
+								LEFT JOIN tbl_classpeople ON tbl_userinfo.user_id = tbl_classpeople.user_id
+								WHERE class_id = '$class_id' AND tbl_userinfo.user_id != '$current_user'");
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$id		= $row->user_id;
+				$fname	= $row->fname;
+				$mname  = $row->mname;
+				$lname	= $row->lname;
+				
+				$class_user_r[] = array('id'=>$id, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+			}
+		}
+		return $class_user_r;
+	}
+	
 	
 	function class_status($status){
 		$stat = 'LOCKED';

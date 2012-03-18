@@ -1,6 +1,5 @@
-<!--new assignment-->
+<!--assignment reply-->
 <script>
-$(".date_picker").datepicker({ dateFormat: 'yy-mm-dd' });
 $('.fileUpload').fileUploader({
 			allowedExtension: 'jpg|jpeg|gif|png|zip|avi',
 			afterEachUpload: function(data, status, formContainer){
@@ -10,11 +9,8 @@ $('.fileUpload').fileUploader({
 
 $('.px-buttons').hide();
 </script>
-<div id="modal_header">
-<h4>Create New Assignment</h4>
-</div>
-
 <?php
+$assignment = $page;
 $title 	= array(
 			'name'=>'as_title',
 			'id'=>'as_title'
@@ -25,22 +21,19 @@ $body	= array(
 			'id'=>'as_body'
 		);
 
-$deadline=array(
-			'name'=>'deadline',
-			'id'=>'deadline',
-			'class'=>'date_picker'
-		);
-
-$create	= array(
-			'id'=>'create_assignment',
-			'name'=>'create_assignment',
-			'value'=>'Create Assignment',
-			'content'=>'Create Assignment',
+$reply	= array(
+			'id'=>'submit_assignmentreply',
+			'name'=>'submit_assignmentreply',
+			'value'=>'Submit Reply',
+			'content'=>'Submit Reply',
 			'class'=>'medium green'
 		);
 
-?>
 
+?>
+<div id="modal_header">
+<h4>Reply to Assignment - <?php echo $assignment['as_title']; ?></h4>
+</div>
 <div class="container">
 
 <?php
@@ -49,9 +42,6 @@ echo form_input($title);
 
 echo form_label('Body', 'as_body');
 echo form_textarea($body);
-
-echo form_label('Deadline', 'deadline');	
-echo form_input($deadline);
 ?>
 <form action="/zenoir/index.php/upload/do_upload" method="post" enctype="multipart/form-data">
 <input type="file" name="userfile" class="fileUpload" multiple>
@@ -62,7 +52,7 @@ echo form_input($deadline);
 </form>
 <p>
 <?php
-echo form_button($create);
+echo form_button($reply);
 ?>
 </p>
 

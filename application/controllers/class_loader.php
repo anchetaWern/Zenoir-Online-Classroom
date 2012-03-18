@@ -67,6 +67,12 @@ class class_loader extends ci_Controller{
 				return $handouts;
 			break;
 			
+			case 'messages':
+				$this->load->model('messages_model');
+				$messages = $this->messages_model->messages();
+				return $messages;
+			break;
+			
 		}
 	}
 

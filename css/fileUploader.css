@@ -1,3 +1,9 @@
+.upload-data {
+    width: 300px;
+    height: 35px;
+    font-size: 12px;
+}
+
 .px-form-input {
 	float: left;
 }

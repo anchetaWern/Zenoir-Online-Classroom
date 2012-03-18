@@ -147,5 +147,8 @@ class users extends ci_Model{
 		}
 		return $userinfo_array;
 	}
+	
+	
+	
 }
 ?>

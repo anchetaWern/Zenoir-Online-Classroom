@@ -18,7 +18,8 @@ $title 	= array(
 
 $body	= array(
 			'name'=>'as_body',
-			'id'=>'as_body'
+			'id'=>'as_body',
+			'value'=>$assignment['as_body']
 		);
 
 $reply	= array(

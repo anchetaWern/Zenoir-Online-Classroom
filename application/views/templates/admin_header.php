@@ -16,6 +16,12 @@ $(function(){
 	$('.tbl_classes').dataTable();
 	
 	
+	$('a[data-classid]').live('hover', function(){//creates a session for the class
+		var class_id = $.trim($(this).data('classid'));
+		
+		$.post('/zenoir/index.php/data_setter/set_class', {'class_id' : class_id});
+	});
+	
 	$('#btn_update_account').live('click',function(){
 		var password = $.trim($('#password').val()); 
 		var fname = $.trim($('#fname').val());
@@ -159,4 +165,6 @@ $(function(){
 <a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $this->session->userdata('user_name'); ?></a>
 <a href="/zenoir/index.php/adminloader/destroy_userdata">[Logout]</a>
 <div id="container">
-	<div id="app_name"><h2><a id="app_title" href="/zenoir/index.php/adminloader/view/admin_home">Zenoir</a></h2></div>
+	<div id="app_name"><img src="/zenoir/img/zenoir.png"/><h2><a id="app_title" href="/zenoir/index.php/adminloader/view/admin_home">Zenoir</a></h2></div>
+	
+

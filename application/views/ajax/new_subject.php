@@ -21,7 +21,8 @@ $create 	= array(
 				'id'=>'create_subject',
 				'name'=>'create_subjectSubject',
 				'value'=>'Create Subject',
-				'content'=>'Create Subject'
+				'content'=>'Create Subject',
+				'class'=>'medium green'
 			);					
 					
 echo form_label('Subject Code','subject_code');

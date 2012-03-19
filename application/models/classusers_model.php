@@ -24,34 +24,7 @@ class classusers_model extends ci_Model{
 	}
 	
 	
-	function unread_posts(){//gets the number of unread post per module for the currently logged in user
-		$user_id  = $this->session->userdata('user_id');
-		$class_id = $this->session->userdata('current_class');
-		$posts 	  = array();
-		/*
-		post types:
-		1- Assignments
-		2- Messages
-		3- Quizzes
-		4- Session
-		5- Handouts
-		*/
-		
-		/*
-		post status:
-		1- Unread
-		0- Read
-		*/
-		
-		for($x = 1; $x <= 5; $x++){
-			$post_type = $x;
-			$posts[$x] = $this->db->query("SELECT post_id FROM tbl_poststatus 
-				WHERE post_type = '$post_type' AND post_to='$user_id' AND class_id='$class_id' AND status = 1");
-		}
 
-		return $posts;
-			
-	}
 	
 	function class_users(){//returns users in a specific class
 		$current_user = $this->session->userdata('user_id');

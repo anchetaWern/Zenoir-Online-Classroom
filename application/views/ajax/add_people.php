@@ -9,5 +9,7 @@
 <?php } ?>
 </select>
 
-<button name="add_people" id="add_people" value="Add People">Add People</button>
+<p>
+<button name="add_people" id="add_people" value="Add People" class="medium green">Add People</button>
+</p>
 </div>

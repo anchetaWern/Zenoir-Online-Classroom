@@ -13,18 +13,24 @@ class handouts_model extends ci_Model{
 		$handout_id = $this->db->insert_id();
 		$handout_id = 'HO'.$handout_id;
 		$this->session->set_userdata('post_id', $handout_id);
+		
+		$this->load->model('post');
+		$this->post->class_post($handout_id , 2);
 	}
 	
 	function list_all(){
 		$class_id	= $this->session->userdata('current_class');
 		$handouts_r = array();
+		$this->load->model('post');
 		$handouts = $this->db->query("SELECT handout_id, ho_title, date_posted FROM tbl_handouts WHERE class_id='$class_id' AND status = 1 ORDER BY date_posted DESC");
 		if($handouts->num_rows > 0){
 			foreach($handouts->result() as $row){	
 				$handout_id=$row->handout_id;
 				$ho_title  = $row->ho_title;
 				$ho_date   = $row->date_posted;
-				$handouts_r[] = array('handout_id'=>$handout_id,'ho_title'=>$ho_title, 'date_posted'=>$ho_date);
+				
+				$post_status = $this->post->status('HO'.$handout_id);
+				$handouts_r[] = array('status'=>$post_status,'handout_id'=>$handout_id,'ho_title'=>$ho_title, 'date_posted'=>$ho_date);
 			}
 		}
 		return $handouts_r;

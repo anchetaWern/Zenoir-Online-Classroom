@@ -30,6 +30,9 @@ class messages_model extends ci_Model{
 			$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
 		}
 		
+		$this->load->model('post');
+		$this->post->message_post('PO'.$msg_id, 5, $receivers);
+		
 	}
 	
 	
@@ -86,6 +89,7 @@ class messages_model extends ci_Model{
 									WHERE tbl_messages.sender_id='$current_user' AND class_id='$class_id' ORDER BY datetime_sent DESC");							
 		$outbox_count = $outbox->num_rows();
 		
+		$this->load->model('post');
 		
 		if($inbox_count > 0){
 			foreach($inbox->result() as $row){
@@ -94,7 +98,9 @@ class messages_model extends ci_Model{
 				$date_sent	= $row->datetime_sent;
 				$fname		= $row->fname;
 				$lname		= $row->lname;
-				$messages_r['inbox'][] = array('msg_id'=>$message_id, 'msg_title'=>$msg_title,'date_sent'=>$date_sent, 'fname'=>$fname, 'lname'=>$lname);
+				
+				$post_status = $this->post->status('PO'.$message_id);
+				$messages_r['inbox'][] = array('status'=>$post_status, 'msg_id'=>$message_id, 'msg_title'=>$msg_title,'date_sent'=>$date_sent, 'fname'=>$fname, 'lname'=>$lname);
 			}
 		}
 		
@@ -116,7 +122,7 @@ class messages_model extends ci_Model{
 	
 	function view(){//for viewing a message
 		$current_user = $this->session->userdata('user_id');
-		$message_id = $this->session->userdata('current_id');
+		$message_id = $this->session->userdata('msg_id');
 		$file_message_id = 'PO'.$message_id;
 		
 		$message_data['message'] = array();
@@ -192,7 +198,7 @@ class messages_model extends ci_Model{
 			$sender = $row->sender; //the person you're replying to
 			$this->session->set_userdata('sender_id', $row->sender_id); //set sender id for replying later
 			$this->session->set_userdata('root_msg_id', $row->root_msg_id);
-			$message_data['message'] = array('msg_title'=>$msg_title, 'sender'=>$sender);
+			$message_data['message'] = array('msg_id'=>$message_id,'msg_title'=>$msg_title, 'sender'=>$sender);
 		}						
 		return $message_data;						
 	}

@@ -38,8 +38,8 @@ class class_loader extends ci_Controller{
 		switch($page){
 			case 'class_home':
 				//load class info - number of unread stuff, etc.
-				$this->load->model('classusers_model');
-				$unread =  $this->classusers_model->unread_posts();
+				$this->load->model('post');
+				$unread =  $this->post->unread_posts();
 				return $unread;
 			break;
 		
@@ -71,6 +71,30 @@ class class_loader extends ci_Controller{
 				$this->load->model('messages_model');
 				$messages = $this->messages_model->messages();
 				return $messages;
+			break;
+			
+			case 'quizzes':
+				$this->load->model('quizzes_model');
+				$quizzes = $this->quizzes_model->list_all();
+				return $quizzes;
+			break;
+			
+			case 'view_quiz':
+				$this->load->model('quizzes_model');
+				$quiz = $this->quizzes_model->view();
+				return $quiz;
+			break;
+			
+			case 'take_quiz':
+				$this->load->model('quizzes_model');
+				$quiz = $this->quizzes_model->view();
+				return $quiz;
+			break;
+			
+			case 'view_scores':
+				$this->load->model('quizzes_model');
+				$scores = $this->quizzes_model->scores();
+				return $scores;
 			break;
 			
 		}

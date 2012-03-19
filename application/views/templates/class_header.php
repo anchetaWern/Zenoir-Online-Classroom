@@ -21,11 +21,16 @@
 <script src="/zenoir/js/jquery.fileUploader.js"></script>
 
 
+<script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script>
 
 
 <script>
 $(function(){
-	$(".date_picker").datepicker();
+$('.time_picker').datetimepicker({
+	ampm: true,
+	dateFormat: 'yy-mm-dd'
+});
+	
 	$('.tbl_classes').dataTable();
 	
 	$('a[data-classid]').live('hover', function(){//creates a session for the class
@@ -41,6 +46,11 @@ $(function(){
 		
 	});
 	
+	$('a[data-msgid]').live('hover', function(){
+		var msg_id = $(this).data('msgid');
+		$.post('/zenoir/index.php/data_setter/set_message', {'msg_id' : msg_id});
+	});
+	
 	$('#btn_update_account').live('click',function(){
 		var password = $.trim($('#password').val()); 
 		var fname = $.trim($('#fname').val());
@@ -50,7 +60,8 @@ $(function(){
 		$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
 			function(){
 				$('#px-submit').click();
-			});
+			}
+		);
 	});
 	
 	$('#create_assignment').live('click', function(){
@@ -61,7 +72,6 @@ $(function(){
 		$.post('/zenoir/index.php/assignments/create_assignment', {'as_title' : as_title, 'as_body' : as_body, 'as_deadline' : as_deadline},
 			function(){
 				$('#px-submit').click();
-				
 			}
 		);
 	});
@@ -81,9 +91,7 @@ $(function(){
 		var receivers	= $.trim($('#receivers').val());
 		var msg_title 	= $.trim($('#msg_title').val()); 
 		var msg_body 	= $.trim($('#msg_body').val()); 
-		
-		
-		
+	
 		$.post('/zenoir/index.php/messages/create', {'receivers' : receivers, 'msg_title' : msg_title, 'msg_body' : msg_body},
 			function(data){
 				
@@ -116,13 +124,60 @@ $(function(){
 			}
 		);
 	});
+	
+	$('#next').live('click', function(){
+		var quiz_title	= $.trim($('#quiz_title').val());
+		var quiz_body	= $.trim($('#quiz_body').val());
+		var start_time	= $.trim($('#start_time').val());
+		var end_time	= $.trim($('#end_time').val());
+		
+		//put the general quiz info on the session
+		$.post('/zenoir/index.php/quizzes/cache', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
+			function(){
+				window.location = "/zenoir/index.php/class_loader/view/quiz_items";
+			}
+		);
+	});
+	
+	$('#create_quiz').live('click', function(){
+		var questions	= $('.qt').serializeArray();
+		var a			= $('.ca').serializeArray();
+		var b			= $('.cb').serializeArray();
+		var c			= $('.cc').serializeArray();
+		var d			= $('.cd').serializeArray();
+		var answers		= $('.an').serializeArray();
+		$.post('/zenoir/index.php/quizzes/create', {'questions' : questions, 'a' : a, 'b' : b, 'c' : c, 'd' : d, 'answers' : answers},
+			function(data){
+				console.log(data);
+			});
+	});
+	
+	$('#submit_quiz').live('click', function(){
+		var answers 	= $('.answers').serializeArray();
+		$.post('/zenoir/index.php/quizzes/submit', {'answers' : answers}, function(data){console.log(data);});
+	});
 
 });
 </script>
-
+<?php
+//classroom information
+$class_info = $this->session->userdata('classroom_info');
+$class_code = $class_info['class_code'];
+$class_desc = $class_info['class_desc'];
+$teacher	= ucwords($class_info['fname'] . ' ' .$class_info['lname']);
+?>
 <title><?php echo $title; ?></title>
 <!--user id-->
 <a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $this->session->userdata('user_name'); ?></a>
 <a href="/zenoir/index.php/class_loader/destroy_userdata">[Logout]</a>
 <div id="container">
-	<div id="app_name"><h2><a id="app_title" href="/zenoir/index.php/class_loader/view/class_home">Zenoir</a></h2></div>
+	<div id="app_name"><img src="/zenoir/img/zenoir.png"/><h2><a id="app_title" href="/zenoir/index.php/class_loader/view/class_home">Zenoir</a></h2></div>
+
+<div id="class_title">
+<h6>
+<?php 
+echo $class_code.'<br/>'; 
+echo $class_desc . ' - '. $teacher; 
+?>
+</h6>
+</div>

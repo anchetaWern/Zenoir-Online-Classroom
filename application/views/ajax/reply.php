@@ -31,6 +31,14 @@ $reply		= array(
 				'content'=>'Send Message',
 				'class'=>'medium green'
 			);
+			
+$back		= array(
+				'id'=>'back_message',
+				'name'=>'back_message',
+				'value'=>'Back to Message',
+				'content'=>'Back to Message',
+				'class'=>'medium orange'
+			);
 ?>
 <div id="modal_header">
 <h4>Reply to Message - <?php echo $message['msg_title']; ?></h4>
@@ -62,5 +70,8 @@ echo form_textarea($msg_body);
 <?php
 echo form_button($reply);
 ?>
+<a href="/zenoir/index.php/ajax_loader/view/view_message" class="lightbox">
+<?php echo form_button($back); ?>
+</a>
 </p>
 </div>

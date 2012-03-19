@@ -7,4 +7,4 @@
 
 
 <div id="container">
-	<div id="app_name"><h2>Zenoir</h2></div>
+	<div id="app_name"><img src="/zenoir/img/zenoir.png"/><h2>Zenoir</h2></div>

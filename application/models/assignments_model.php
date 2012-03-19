@@ -16,6 +16,10 @@ class assignments_model extends ci_Model{
 			$assignment_id = $this->db->insert_id();
 			$assignment_id = 'AS'.$assignment_id;
 			$this->session->set_userdata('post_id', $assignment_id);
+			
+			//set assignment read status to all of the students in the class
+			$this->load->model('post');
+			$this->post->class_post($assignment_id , 1);
 		}
 		
 		function delete(){
@@ -28,9 +32,13 @@ class assignments_model extends ci_Model{
 			//even teachers and admins cannot see assignments that are deleted
 			$assignments = array();
 			$query = $this->db->query("SELECT assignment_id, as_title, as_body, date, deadline FROM tbl_assignment WHERE class_id='$class_id' AND status=1"); 
+			
+			$this->load->model('post');
+
 			if($query->num_rows() > 0){
 				foreach($query->result() as $row){
-					$assignments[] = array('assignment_id'=>$row->assignment_id, 'title'=>$row->as_title, 'date'=>$row->date, 'deadline'=>$row->deadline);
+					$post_status = $this->post->status('AS'.$row->assignment_id);
+					$assignments[] = array('status'=>$post_status, 'assignment_id'=>$row->assignment_id, 'title'=>$row->as_title, 'date'=>$row->date, 'deadline'=>$row->deadline);
 				}
 			}
 			return $assignments;
@@ -61,12 +69,13 @@ class assignments_model extends ci_Model{
 		function reply_details(){//get the details needed when replying to an assignment: title of the assignment you're replying to and assignment_id
 			$assignment_id = $this->session->userdata('current_id');
 			$assignment_details = array();
-			$assignment = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id = '$assignment_id'");
+			$assignment = $this->db->query("SELECT as_title, as_body FROM tbl_assignment WHERE assignment_id = '$assignment_id'");
 			
 			if($assignment->num_rows() > 0){
 				$row = $assignment->row();
 				$as_title = $row->as_title;
-				$assignment_details = array('as_title'=>$as_title);
+				$as_body  = $row->as_body;
+				$assignment_details = array('as_title'=>$as_title, 'as_body'=>$as_body);
 			}
 			return $assignment_details;
 		}
@@ -83,7 +92,25 @@ class assignments_model extends ci_Model{
 			$reply_id 		= $this->db->insert_id();
 			$reply_id		= 'AR'.$reply_id; //assignment response prefix
 			
+			$this->load->model('post');
+			$this->post->class_post('AR'.$quiz_id , 3);
+			
 			$this->session->set_userdata('post_id', $reply_id);
+			
+			
+			//fetch teacher for the current class
+			$class_id 		= $this->session->userdata('current_class');
+			$query			= $this->db->query("SELECT teacher_id FROM tbl_classteachers WHERE class_id='$class_id'");
+			if($query->num_rows() > 0){
+				$row = $query->row();
+				$teacher_id = $row->teacher_id;
+				
+				//set response status to unread
+				$this->load->model('post');
+				$this->post->message_post($reply_id, 3, $teacher_id);
+			}
+			
+			
 		}
 		
 		function list_replies(){//loads the replies to a specific assignment
@@ -101,6 +128,8 @@ class assignments_model extends ci_Model{
 				$replies_r['as_id'] = $row->assignment_id;
 			}
 			
+			$this->load->model('post');
+			
 			if($replies->num_rows() > 0){
 				foreach($replies->result() as $row){
 					$res_id		= $row->asresponse_id;
@@ -108,7 +137,9 @@ class assignments_model extends ci_Model{
 					$res_date	= $row->response_datetime;
 					$sender		= $row->sender;
 					
-					$replies_r['replies'][] = array('res_id'=>$res_id, 'res_title'=>$res_title, 'res_date'=>$res_date, 'sender'=>$sender);
+					$post_status = $this->post->status('AR'.$res_id);
+					
+					$replies_r['replies'][] = array('status'=>$post_status, 'res_id'=>$res_id, 'res_title'=>$res_title, 'res_date'=>$res_date, 'sender'=>$sender);
 				}
 			}
 			return $replies_r;

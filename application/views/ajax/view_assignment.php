@@ -16,7 +16,7 @@ $view	= array(
 			'name'=>'view_assignmentreplies',
 			'value'=>'View Response',
 			'content'=>'View Response',
-			'class'=>'medium'
+			'class'=>'medium orange'
 		);
 ?>
 <div id="modal_header">
@@ -44,10 +44,15 @@ Deadline : <?php echo $assignment['deadline']; ?>
 <?php } ?>
 </div>
 
+<?php if($this->session->userdata('usertype') == 3){ ?>
 <a href="/zenoir/index.php/ajax_loader/view/assignment_reply" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
 <?php echo form_button($reply); ?>
 </a>
+<?php } ?>
+
+<?php if($this->session->userdata('usertype') == 1 || $this->session->userdata('usertype') == 2){ ?>
 <a href="/zenoir/index.php/ajax_loader/view/list_assignmentreplies" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
 <?php echo form_button($view); ?>
 </a>
+<?php } ?>
 </div><!--end of container-->

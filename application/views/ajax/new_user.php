@@ -40,7 +40,8 @@ $create		= array(
 				'id'=>'create_user',
 				'name'=>'create_user',
 				'value'=>'Create User',
-				'content'=>'Create User'
+				'content'=>'Create User',
+				'class'=>'medium green'
 			);	
 
 echo form_label('User Type', 'user_types');

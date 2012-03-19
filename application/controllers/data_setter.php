@@ -24,5 +24,11 @@ class data_setter extends ci_Controller{
 		
 		echo $this->session->userdata('current_class');
 	}
+	
+	function set_message(){//sets a session of the message that the user has viewed
+		$message_id = $this->input->post('msg_id');
+		$this->session->set_userdata('msg_id', $message_id);
+		
+	}
 }
 ?>

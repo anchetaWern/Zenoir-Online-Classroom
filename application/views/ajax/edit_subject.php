@@ -24,7 +24,8 @@ $edit 	= array(
 				'id'=>'update_subject',
 				'name'=>'update_subject',
 				'value'=>'Update Subject',
-				'content'=>'Update Subject'
+				'content'=>'Update Subject',
+				'class'=>'medium green'
 			);					
 					
 echo form_label('Subject Code','subject_code');

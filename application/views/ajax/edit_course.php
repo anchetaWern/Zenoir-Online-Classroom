@@ -23,7 +23,8 @@ $update 	= array(
 				'id'=>'edit_course',
 				'name'=>'edit_course',
 				'value'=>'Update Course',
-				'content'=>'Update Course'
+				'content'=>'Update Course',
+				'class'=>'medium green'
 			);	
 					
 echo form_label('Course Code','course_code');

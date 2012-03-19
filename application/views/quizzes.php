@@ -28,7 +28,15 @@ $quizzes = $table;
 <tbody>
 <?php foreach($quizzes as $row){ ?>
 	<tr>
-		<td><?php echo $row['title']; ?></td>
+		<td>
+		<?php echo $row['title']; ?>
+		<?php
+		$combined_status = $row['student_status'] + $row['teacher_status'];
+		?>
+		<?php if($combined_status >= 1){ ?>
+		<span class="red_star">*</span>
+		<?php } ?>
+		</td>
 		<td><?php echo $row['date']; ?></td>
 		<td><?php echo date('g:i:s A', strtotime($row['start_time'])); ?></td>
 		<td><?php echo date('g:i:s A', strtotime($row['end_time'])); ?></td>

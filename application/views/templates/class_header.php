@@ -40,11 +40,10 @@ $('.time_picker').datetimepicker({
 	});
 	
 	$('a[data-id]').live('hover', function(){
-		
 		var current_id = $(this).data('id');
 		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
-		
 	});
+	
 	
 	$('a[data-msgid]').live('hover', function(){
 		var msg_id = $(this).data('msgid');

@@ -12,6 +12,7 @@ class data_setter extends ci_Controller{
 		echo $this->session->userdata('current_id');
 	}
 	
+	
 	function set_class(){
 		$class_id = $this->input->post('class_id');
 		$this->session->unset_userdata('current_class');

@@ -19,9 +19,11 @@ class quizzes_model extends ci_Model{
 				$qz_date	= $row->qz_date;
 				$start_time	= $row->start_time;
 				$end_time	= $row->end_time;
-				$post_status = $this->post->status('QZ'.$quiz_id);
+				$student_status = $this->post->status('QZ'.$quiz_id);
+				$teacher_status = $this->post->status('QR'.$quiz_id);
 				
-				$quiz[] = array('status'=>$post_status, 'quiz_id'=>$quiz_id, 'title'=>$qz_title, 'date'=>$qz_date, 'start_time'=>$start_time, 'end_time'=>$end_time);
+				$quiz[] = array('teacher_status'=>$teacher_status, 'student_status'=>$student_status, 'quiz_id'=>$quiz_id, 'title'=>$qz_title, 
+								'date'=>$qz_date, 'start_time'=>$start_time, 'end_time'=>$end_time);
 			}
 		}
 		return $quiz;
@@ -136,9 +138,17 @@ class quizzes_model extends ci_Model{
 		$query		= $this->db->query("INSERT INTO tbl_quizresult SET quiz_id='$quiz_id', class_id='$class_id', user_id='$user_id', score='$score'");
 		$quizresponse_id = $this->db->insert_id();
 		
-		//
-		$this->load->model('post');
-		$this->post->class_post($quizresponse_id , 7);
+		//fetch teacher for the current class
+		$class_id 		= $this->session->userdata('current_class');
+		$query			= $this->db->query("SELECT teacher_id FROM tbl_classteachers WHERE class_id='$class_id'");
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$teacher_id = $row->teacher_id;
+			
+			//set response status to unread
+			$this->load->model('post');
+			$this->post->message_post('QR'.$quiz_id, 7, $teacher_id);
+		}
 		
 	}
 	
@@ -166,7 +176,7 @@ class quizzes_model extends ci_Model{
 					$student	= $row->student;
 					$score		= $row->score;
 					
-					$post_status = $this->post->status('QR'.$result_id);
+					$post_status = $this->post->status('QR'.$quiz_id);
 					$quiz_results['result'][] = array('status'=>$post_status, 'student'=>$student, 'score'=>$score);
 				}
 			}

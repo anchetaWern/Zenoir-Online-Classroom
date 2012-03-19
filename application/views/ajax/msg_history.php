@@ -26,7 +26,7 @@ $back		= array(
 	
 	<div id="date">
 		Date:
-		<?php echo $row['date']; ?>
+		<?php echo date('Y-m-d g:i:s A', strtotime($row['date'])); ?>
 	</div>
 	
 	<div id="msg_body">

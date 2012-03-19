@@ -26,7 +26,10 @@ $assignments = $table;
 		<tr>
 			<td>
 			<?php echo $row['title']; ?>
-			<?php if($row['status'] == 1){ ?>
+			<?php
+			$combined_status = $row['student_status'];
+			?>
+			<?php if($combined_status >= 1){ ?>
 			<span class="red_star">*</span>
 			<?php } ?>
 			</td>

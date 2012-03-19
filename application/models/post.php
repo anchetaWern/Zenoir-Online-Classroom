@@ -5,9 +5,16 @@ class post extends ci_Model{
 	function message_post($post_id, $post_type, $receivers){//set message status for each receiver
 		$post_from	= $this->session->userdata('user_id');
 		$class_id 	= $this->session->userdata('current_class');
-	
-		foreach($receivers as $post_to){
-			
+		
+		
+		if(is_array($receivers)){
+			foreach($receivers as $post_to){
+				
+				$set_status = $this->db->query("INSERT INTO tbl_poststatus SET class_id='$class_id', post_id='$post_id', 
+							post_type='$post_type', post_from='$post_from', post_to='$post_to'");
+			}
+		}else{
+			$post_to = $receivers;
 			$set_status = $this->db->query("INSERT INTO tbl_poststatus SET class_id='$class_id', post_id='$post_id', 
 						post_type='$post_type', post_from='$post_from', post_to='$post_to'");
 		}
@@ -76,12 +83,18 @@ class post extends ci_Model{
 	}
 	
 	
-	function unset_post(){//unsets the read status of the post to the student
+	function unset_post($prefix){//unsets the read status of the post to the student
 		$user_id 	= $this->session->userdata('user_id');
 		$class_id	= $this->session->userdata('current_class');
-		$post_id	= $this->session->userdata('current_id');
+		$post_id	= $prefix.$this->session->userdata('current_id');
 		
-		$this->db->query("UPDATE tbl_poststatus SET  status=0 WHERE post_id='$post_id' AND user_id='$user_id'");
+		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_id='$post_id' AND post_to='$user_id'");
+		
+	}
+	
+	function unset_all($prefix){//unsets all the status of scores of students in a quiz 
+		$post_id	= $prefix.$this->session->userdata('current_id');
+		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_id='$post_id'");
 	}
 }
 ?>

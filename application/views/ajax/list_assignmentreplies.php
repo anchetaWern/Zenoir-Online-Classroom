@@ -27,7 +27,12 @@ $back	= array(
 	<tbody>
 	<?php foreach($replies['replies'] as $row){ ?>
 		<tr>
-			<td><?php echo $row['res_title']; ?></td>
+			<td>
+			<?php echo $row['res_title']; ?>
+			<?php if($row['status']){ ?>
+			<span class="red_star">*</span>
+			<?php } ?>
+			</td>
 			<td><?php echo $row['res_date']; ?></td>
 			<td><?php echo $row['sender']; ?></td>
 			<td><a href="/zenoir/index.php/ajax_loader/view/view_assignmentreply" data-id="<?php echo $row['res_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>

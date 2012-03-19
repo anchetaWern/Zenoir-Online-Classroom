@@ -86,12 +86,18 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'take_quiz':
+				$this->load->model('post');
+				$this->post->unset_post('QZ');
+			
 				$this->load->model('quizzes_model');
 				$quiz = $this->quizzes_model->view();
 				return $quiz;
 			break;
 			
 			case 'view_scores':
+				$this->load->model('post');
+				$this->post->unset_all('QR');
+			
 				$this->load->model('quizzes_model');
 				$scores = $this->quizzes_model->scores();
 				return $scores;

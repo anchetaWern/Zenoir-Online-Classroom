@@ -24,7 +24,12 @@ Quiz Date:
 	<tbody>
 	<?php foreach($quiz_results as $result){ ?>
 		<tr>
-			<td><?php echo $result['student']; ?></td>
+			<td>
+			<?php echo $result['student']; ?>
+			<?php if($result['status']){ ?>
+			<span class="red_star">*</span>
+			<?php } ?>
+			</td>
 			<td><?php echo $result['score']; ?></td>
 		</tr>
 	<?php } ?>

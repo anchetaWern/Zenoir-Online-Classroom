@@ -21,7 +21,7 @@ $unread = $table;
 				</td><!--teacher & admin accessible-->
 			</tr>
 			<tr>
-				<td><a href="/zenoir/index.php/class_loader/view/quizzes"><button class="large green">Quizzes(<?php echo $unread['quiz'];  ?>)</button></a></td>
+				<td><a href="/zenoir/index.php/class_loader/view/quizzes"><button class="large green">Quizzes(<?php echo $unread['quiz'] + $unread['quiz_response'];  ?>)</button></a></td>
 				<td><a href=""><button class="large">Sessions(<?php echo $unread['session'];  ?>)</button></a></td>
 				<td>
 				<?php if($user_type == 2 || $user_type == 1){?>

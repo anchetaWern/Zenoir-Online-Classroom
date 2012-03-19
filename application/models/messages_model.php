@@ -65,6 +65,9 @@ class messages_model extends ci_Model{
 		$msg_id	 		= $this->db->insert_id();
 		$this->session->set_userdata('post_id', 'PO'.$msg_id);
 		
+		$this->load->model('post');
+		$this->post->message_post('PO'.$msg_id, 5, $receiver);
+		
 		$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
 	}
 	
@@ -75,10 +78,10 @@ class messages_model extends ci_Model{
 		$messages_r['inbox']  = array();
 		$messages_r['outbox'] = array();
 		$inbox = $this->db->query("SELECT msg_title, datetime_sent, fname, lname, tbl_messages.message_id
-									FROM tbl_messages 
-									LEFT JOIN tbl_messagereceiver ON tbl_messages.message_id = tbl_messagereceiver.msgreceiver_id
+									FROM tbl_messagereceiver 
+									LEFT JOIN tbl_messages ON tbl_messagereceiver.message_id = tbl_messages.message_id
 									LEFT JOIN tbl_userinfo ON tbl_messages.sender_id = tbl_userinfo.user_id
-									WHERE tbl_messagereceiver.receiver_id='$current_user' AND class_id='$class_id' ORDER BY datetime_sent DESC");
+									WHERE receiver_id='$current_user' and class_id='$class_id' ORDER BY datetime_sent DESC");
 		$inbox_count = $inbox->num_rows();
 		
 		

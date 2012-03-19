@@ -37,8 +37,9 @@ class assignments_model extends ci_Model{
 
 			if($query->num_rows() > 0){
 				foreach($query->result() as $row){
-					$post_status = $this->post->status('AS'.$row->assignment_id);
-					$assignments[] = array('status'=>$post_status, 'assignment_id'=>$row->assignment_id, 'title'=>$row->as_title, 'date'=>$row->date, 'deadline'=>$row->deadline);
+					$student_status = $this->post->status('AS'.$row->assignment_id);
+					$teacher_status = $this->post->status('AR'.$row->assignment_id);
+					$assignments[] = array('teacher_status'=>$teacher_status, 'student_status'=>$student_status, 'assignment_id'=>$row->assignment_id, 'title'=>$row->as_title, 'date'=>$row->date, 'deadline'=>$row->deadline);
 				}
 			}
 			return $assignments;
@@ -92,8 +93,7 @@ class assignments_model extends ci_Model{
 			$reply_id 		= $this->db->insert_id();
 			$reply_id		= 'AR'.$reply_id; //assignment response prefix
 			
-			$this->load->model('post');
-			$this->post->class_post('AR'.$quiz_id , 3);
+			
 			
 			$this->session->set_userdata('post_id', $reply_id);
 			

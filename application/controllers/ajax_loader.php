@@ -78,6 +78,9 @@ class ajax_loader extends ci_Controller{
 			break;
 			
 			case 'view_message':
+				$this->load->model('post');
+				$this->post->unset_post('PO');
+			
 				$this->load->model('messages_model');
 				$message = $this->messages_model->view();
 				return $message;
@@ -97,18 +100,27 @@ class ajax_loader extends ci_Controller{
 			break;
 			
 			case 'view_handout':
+				$this->load->model('post');
+				$this->post->unset_post('HO');
+			
 				$this->load->model('handouts_model');
 				$handout = $this->handouts_model->view();
 				return $handout;
 			break;
 			
 			case 'view_assignment':
+				$this->load->model('post');
+				$this->post->unset_post('AS');
+			
 				$this->load->model('assignments_model');
 				$assignment = $this->assignments_model->view();
 				return $assignment;
 			break;
 			
 			case 'view_assignmentreply':
+				$this->load->model('post');
+				$this->post->unset_post('AR');
+			
 				$this->load->model('assignments_model');
 				$assignment = $this->assignments_model->view_reply();
 				return $assignment;

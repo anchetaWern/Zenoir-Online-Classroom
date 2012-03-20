@@ -31,5 +31,16 @@ class data_setter extends ci_Controller{
 		$this->session->set_userdata('msg_id', $message_id);
 		
 	}
+	
+	function set_sessiontype(){//sets the session type whether masked, class, or team session
+		/*
+		session types:
+		1-masked
+		2-class
+		3-team
+		*/
+		$session_type = $this->input->post('session_type');
+		$this->session->set_userdata('session_type', $session_type);
+	}
 }
 ?>

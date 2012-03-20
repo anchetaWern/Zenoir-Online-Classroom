@@ -155,6 +155,59 @@ $('.time_picker').datetimepicker({
 		var answers 	= $('.answers').serializeArray();
 		$.post('/zenoir/index.php/quizzes/submit', {'answers' : answers}, function(data){console.log(data);});
 	});
+	
+	$('#create_group').live('click', function(){
+		console.log('created group');
+		var group_name 		= $.trim($('#group_name').val());
+		var group_members 	= $('#class_users').serializeArray();
+		$.post('/zenoir/index.php/groups/create', {'group_name' : group_name, 'members' : group_members},
+				function(){
+				
+				}
+		);
+	});
+	
+	$('#ses_validity').live('click', function(){
+		if($(this).attr('checked')){
+			$('#time_setter').hide();
+		}else{
+			$('#time_setter').show();
+		}
+	});
+	
+	$('a[data-sestype]').live('hover', function(){
+		var session_type 	= $(this).data('sestype');
+		$.post('/zenoir/index.php/data_setter/set_sessiontype', {'session_type' : session_type});
+	});
+	
+	$('#create_mcsession').live('click', function(){
+		var title		= $.trim($('#ses_title').val());
+		var ses_desc	= $.trim($('#ses_body').val());
+		var infinite	= 0;
+		
+		if($('#ses_validity').attr('checked')){
+			infinite = 1;
+		}
+		
+		var time_from	= $.trim($('#time_from').val());
+		var time_to		= $.trim($('#time_to').val());
+		
+		if($('#session_groups').length){//team session
+			var members	= $('#session_groups').serializeArray();
+			
+		}else{//class and masked session
+			var members	= 0;
+		}
+		
+		$.post('/zenoir/index.php/sessions/create', {'ses_title' : title, 'ses_body' : ses_desc, 'infinite' : infinite, 
+														'time_from' : time_from, 'time_to' : time_to, 'members' : members},
+														function(data){
+															console.log(data);
+														});
+		
+	});
+	
+	
 
 });
 </script>
@@ -167,8 +220,15 @@ $teacher	= ucwords($class_info['fname'] . ' ' .$class_info['lname']);
 ?>
 <title><?php echo $title; ?></title>
 <!--user id-->
+<span class="spacer">
 <a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $this->session->userdata('user_name'); ?></a>
+</span>
+<span class="spacer">
+<a href="/zenoir/index.php/ajax_loader/view/groups" class="lightbox">Groups</a>
+</span>
+<span class="spacer">
 <a href="/zenoir/index.php/class_loader/destroy_userdata">[Logout]</a>
+</span>
 <div id="container">
 	<div id="app_name"><img src="/zenoir/img/zenoir.png"/><h2><a id="app_title" href="/zenoir/index.php/class_loader/view/class_home">Zenoir</a></h2></div>
 

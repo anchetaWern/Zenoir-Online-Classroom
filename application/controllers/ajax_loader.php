@@ -102,6 +102,9 @@ class ajax_loader extends ci_Controller{
 			case 'view_handout':
 				$this->load->model('post');
 				$this->post->unset_post('HO');
+				
+				$this->load->model('logs_model');
+				$this->logs_model->lag(6, 'HO');
 			
 				$this->load->model('handouts_model');
 				$handout = $this->handouts_model->view();
@@ -111,6 +114,9 @@ class ajax_loader extends ci_Controller{
 			case 'view_assignment':
 				$this->load->model('post');
 				$this->post->unset_post('AS');
+				
+				$this->load->model('logs_model');
+				$this->logs_model->lag(4, 'AS');
 			
 				$this->load->model('assignments_model');
 				$assignment = $this->assignments_model->view();
@@ -120,6 +126,9 @@ class ajax_loader extends ci_Controller{
 			case 'view_assignmentreply':
 				$this->load->model('post');
 				$this->post->unset_post('AR');
+				
+				$this->load->model('logs_model');
+				$this->logs_model->lag(14, 'AR');
 			
 				$this->load->model('assignments_model');
 				$assignment = $this->assignments_model->view_reply();
@@ -127,6 +136,7 @@ class ajax_loader extends ci_Controller{
 			break;
 			
 			case 'assignment_reply':
+			
 				$this->load->model('assignments_model');
 				$assignment = $this->assignments_model->reply_details();
 				return $assignment;
@@ -137,6 +147,41 @@ class ajax_loader extends ci_Controller{
 				$assignment_reply = $this->assignments_model->list_replies();
 				return $assignment_reply;
 			break;
+			
+			case 'new_group':
+				$this->load->model('classusers_model');
+				$class_users = $this->classusers_model->class_users();
+				return $class_users;
+			break;
+			
+			case 'groups':
+				$this->load->model('groups_model');
+				$groups = $this->groups_model->list_all();
+				return $groups;
+			break;
+			
+			case 'new_classsession':
+				$session_type = $this->session->userdata('session_type');
+				$session['title'] = '';
+				if($session_type == 1){//masked
+					$session['title'] = 'Masked';
+					
+				}else if($session_type == 2){//class
+					$session['title'] = 'Class';
+				}else if($session_type == 3){//team session - load groups
+					$session['title'] = 'Team';
+					$this->load->model('groups_model');
+					$session['groups'] =  $this->groups_model->list_all();
+					
+				}
+				
+				return $session;
+			break;
+			
+			
+			
+			
+			
 			
 		}
 	}

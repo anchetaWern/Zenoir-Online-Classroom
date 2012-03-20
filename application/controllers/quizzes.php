@@ -13,11 +13,17 @@ class quizzes extends ci_Controller{
 	}
 	
 	function create(){
+		$this->load->model('logs_model');
+		$this->logs_model->lag(11, 'QZ');
+	
 		$this->load->model('quizzes_model');
 		$this->quizzes_model->create();
 	}
 	
 	function submit(){
+		$this->load->model('logs_model');
+		$this->logs_model->lag(13, 'QR');
+	
 		$this->load->model('quizzes_model');
 		$this->quizzes_model->submit();
 	}	

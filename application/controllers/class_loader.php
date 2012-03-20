@@ -80,6 +80,9 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'view_quiz':
+				$this->load->model('logs_model');
+				$this->logs_model->lag(5, 'QZ');
+			
 				$this->load->model('quizzes_model');
 				$quiz = $this->quizzes_model->view();
 				return $quiz;
@@ -88,6 +91,9 @@ class class_loader extends ci_Controller{
 			case 'take_quiz':
 				$this->load->model('post');
 				$this->post->unset_post('QZ');
+			
+				$this->load->model('logs_model');
+				$this->logs_model->lag(16, 'QZ');
 			
 				$this->load->model('quizzes_model');
 				$quiz = $this->quizzes_model->view();
@@ -101,6 +107,12 @@ class class_loader extends ci_Controller{
 				$this->load->model('quizzes_model');
 				$scores = $this->quizzes_model->scores();
 				return $scores;
+			break;
+			
+			case 'sessions':
+				$this->load->model('sessions_model');
+				$sessions = $this->sessions_model->list_all();
+				return $sessions;
 			break;
 			
 		}

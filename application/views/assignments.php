@@ -1,6 +1,4 @@
 <!--assignments-->
-
-<!--new assignment-->
 <?php if($this->session->userdata('usertype') != 3){ ?>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/new_assignment" class="lightbox">Create New</a>

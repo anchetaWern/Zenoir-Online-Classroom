@@ -6,12 +6,12 @@ class classusers_model extends ci_Model{
 		
 		$user_id = $this->session->userdata('user_id');
 		$classes_array = array();
-		$query = $this->db->query("SELECT class_code, course_description, subject_description, class_description, status, tbl_classes.class_id
+		$query = $this->db->query("SELECT class_code, course_description, subject_description, class_description, tbl_classpeople.status, tbl_classes.class_id
 								FROM tbl_classpeople 
 								LEFT JOIN tbl_classes ON tbl_classpeople.class_id = tbl_classes.class_id
 								LEFT JOIN tbl_subject ON tbl_classes.subject_id = tbl_subject.subject_id
 								LEFT JOIN tbl_courses ON tbl_classes.course_id = tbl_courses.course_id
-								WHERE user_id='$user_id'");
+								WHERE user_id='$user_id' AND tbl_classpeople.status=1");
 		
 		
 		if($query->num_rows > 0){
@@ -72,7 +72,83 @@ class classusers_model extends ci_Model{
 	}
 	
 	
+	function list_invited_students(){//list of all students which are not already enrolled in the current class
+		$class_id	= $this->session->userdata('current_class');
+		$query 		= $this->db->query("SELECT tbl_userinfo.user_id, fname, mname, lname FROM tbl_users
+									LEFT JOIN tbl_userinfo ON tbl_users.user_id = tbl_userinfo.user_id
+									WHERE tbl_users.user_id NOT IN(SELECT user_id FROM tbl_classpeople WHERE class_id = '$class_id') AND user_type != 1 AND user_type != 2");
+		
+		$invited 	= array();
+		
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$id			= $row->user_id;
+				$fname		= $row->fname;
+				$mname		= $row->mname;
+				$lname		= $row->lname;
+				
+				$invited[] = array('fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname, 'id'=>$id);
+			}
+		}
+		return $invited;
 	
+	}
+	
+	function invites(){//invites the student into the current class. Status of the student in the classroom is equal to 0 until student confirms invitation
+		$class_id	= $this->session->userdata('current_class');
+		$student_id	= $this->input->post('student_id');
+		$this->db->query("INSERT INTO tbl_classpeople SET status=0, class_id='$class_id', user_id='$student_id'");
+	}
+	
+	function accept(){//student accepts teacher invite
+		$student_id = $this->input->post('student_id');
+		$class_id	= $this->input->post('class_id');
+		$this->db->query("UPDATE tbl_classpeople SET status=1 WHERE class_id='$class_id' AND user_id='$student_id'");
+	}
+	
+	
+	function list_invites(){//list all the classroom invites for the current user
+		$user_id= $this->session->userdata('user_id');
+		$classes= array();
+		$query 	= $this->db->query("SELECT user_id, class_code, class_description, tbl_classes.class_id FROM tbl_classes
+									LEFT JOIN tbl_classpeople ON tbl_classes.class_id = tbl_classpeople.class_id
+									WHERE tbl_classpeople.user_id='$user_id' AND tbl_classpeople.status = 0"); 
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$student_id			= $row->user_id;
+				$class_id			= $row->class_id;
+				$class_code			= $row->class_code;
+				$class_description	= $row->class_description;
+				
+				$teacher	= $this->teacher($class_id);
+				$teacher_id	= $teacher['teacher_id'];
+				$fname		= $teacher['fname'];
+				$mname		= $teacher['mname'];
+				$lname		= $teacher['lname'];
+				
+				$classes[] = array('student_id'=>$student_id, 'class_id'=>$class_id, 'class_code'=>$class_code, 'class_description'=>$class_description, 
+									'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname, 'teacher_id'=>$teacher_id);
+			}
+		}
+		return $classes;
+	}
+	
+	function teacher($class_id){//returns the teacher of a specific class
+		$query = $this->db->query("SELECT teacher_id,  fname, mname, lname FROM tbl_classteachers
+								LEFT JOIN tbl_userinfo ON tbl_classteachers.teacher_id = tbl_userinfo.user_id
+								WHERE tbl_classteachers.class_id='$class_id'");
+		$teacher_info = array();
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$teacher_id	= $row->teacher_id;
+			$fname		= $row->fname;
+			$mname		= $row->mname;
+			$lname		= $row->lname;
+			
+			$teacher_info = array('teacher_id'=>$teacher_id, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+		}
+		return $teacher_info;
+	}
 	
 	
 	function class_status($status){

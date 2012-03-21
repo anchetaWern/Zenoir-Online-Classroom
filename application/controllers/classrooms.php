@@ -11,5 +11,15 @@ class classrooms extends ci_Controller{
 		$this->load->model('classrooms_model');
 		$this->classrooms_model->add_people();
 	}
+	
+	function invites(){
+		$this->load->model('classusers_model');
+		$this->classusers_model->invites();
+	}
+	
+	function accept(){
+		$this->load->model('classusers_model');
+		$this->classusers_model->accept();
+	}
 }
 ?>

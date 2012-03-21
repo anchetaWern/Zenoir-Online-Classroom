@@ -213,6 +213,28 @@ $('.time_picker').datetimepicker({
 	});
 	
 	
+	$('img[data-inviteid]').live('click', function(){//teacher invites student
+		var invite_id	= $(this).data('inviteid');
+		var invite_name = $(this).data('invitename');
+		var answer = confirm('Are you sure you want to invite ' + invite_name + ' into this class?');
+		if(answer){
+			$.post('/zenoir/index.php/classrooms/invites', {'student_id' : invite_id}, function(){
+				alert('Student successfully invited to the classroom!');
+			});
+		}
+	});
+	
+	$('img[data-studentid]').live('click', function(){//student accepts teacher invite
+		var student_id	= $(this).data('studentid');
+		var class_id	= $(this).data('classid');
+		var answer = confirm('Are you sure you want to join this class?');
+		if(answer){
+			$.post('/zenoir/index.php/classrooms/accept', {'student_id' : student_id, 'class_id' : class_id}, function(){
+				alert('You can now enter the classroom!');
+			});
+		}
+	});
+	
 
 });
 </script>

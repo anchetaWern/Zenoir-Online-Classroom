@@ -50,9 +50,13 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'land':
+				$user['classes'] = array();
+				$user['invites'] = array();
 				$this->load->model('classusers_model');
-				$class_users = $this->classusers_model->user_classes();
-				return $class_users;
+				
+				$user['classes'] 	= $this->classusers_model->user_classes();
+				$user['invites']	= $this->classusers_model->list_invites();
+				return $user;
 			break;
 			
 			case 'assignments':
@@ -119,6 +123,12 @@ class class_loader extends ci_Controller{
 				$this->load->model('classusers_model');
 				$students = $this->classusers_model->class_users();
 				return $students;
+			break;
+			
+			case 'teachers':
+				$this->load->model('classusers_model');
+				$invited = $this->classusers_model->list_invited_students();
+				return $invited;
 			break;
 			
 		}

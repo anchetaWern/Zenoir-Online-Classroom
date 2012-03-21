@@ -16,7 +16,7 @@ $unread = $table;
 				<td><a href="/zenoir/index.php/class_loader/view/messages"><button class="large blue">Messages(<?php echo $unread['message']; ?>)</button></a></td>
 				<td>
 				<?php if($user_type == 2 || $user_type == 1){?>
-				<a href=""><button class="large">Reports</button></a>
+				<a href="/zenoir/index.php/class_loader/view/reports"><button class="large">Reports</button></a>
 				<?php } ?>
 				</td><!--teacher & admin accessible-->
 			</tr>

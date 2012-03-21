@@ -134,6 +134,7 @@ class users extends ci_Model{
 	
 	
 	function user_information(){
+		$user_id = $this->session->userdata('current_id');
 		$user = array($this->session->userdata('current_id'));
 		$userinfo_array = array();
 		$query = $this->db->query("SELECT * FROM tbl_userinfo WHERE user_id=?", $user);
@@ -143,7 +144,7 @@ class users extends ci_Model{
 			$mname		= $row->mname;
 			$lname		= $row->lname;
 			$auto_bio	= $row->autobiography;
-			$userinfo_array = array($fname, $mname, $lname, $auto_bio);
+			$userinfo_array = array($fname, $mname, $lname, $auto_bio, $user_id);
 		}
 		return $userinfo_array;
 	}

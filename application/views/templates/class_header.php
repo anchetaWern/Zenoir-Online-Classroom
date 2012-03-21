@@ -180,6 +180,11 @@ $('.time_picker').datetimepicker({
 		$.post('/zenoir/index.php/data_setter/set_sessiontype', {'session_type' : session_type});
 	});
 	
+	$('a[data-sestype]').live('click', function(){
+		var session_type 	= $(this).data('sestype');
+		$.post('/zenoir/index.php/data_setter/set_sessiontype', {'session_type' : session_type});
+	});
+	
 	$('#create_mcsession').live('click', function(){
 		var title		= $.trim($('#ses_title').val());
 		var ses_desc	= $.trim($('#ses_body').val());

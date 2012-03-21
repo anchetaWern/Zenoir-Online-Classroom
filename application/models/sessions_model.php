@@ -2,6 +2,7 @@
 class sessions_model extends ci_Model{
 
 	function create(){
+		$user_id = $this->session->userdata('user_id');
 		/*
 		session types:
 		1- Masked
@@ -35,6 +36,8 @@ class sessions_model extends ci_Model{
 				$member_id = $row['id'];
 				$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$member_id'");
 			}
+			
+				$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$user_id'");
 		
 		}else{//team session
 			$this->load->model('groups_model');
@@ -66,7 +69,9 @@ class sessions_model extends ci_Model{
 	function list_all(){//list all the sessions where the current user has been invited or participated
 		$user_id	= $this->session->userdata('user_id');
 		$sessions	= array();
-		$query 		= $this->db->query("SELECT tbl_sessions.session_id, ses_title, ses_description, time_from, time_to, ses_type, infinite FROM tbl_sessions
+		$query 		= $this->db->query("SELECT tbl_sessions.session_id, ses_title, ses_description, 
+						DATE(time_from) AS date, time_from, time_to, ses_type, infinite 
+						FROM tbl_sessions
 						LEFT JOIN tbl_sessionspeople ON tbl_sessions.session_id = tbl_sessionspeople.session_id
 						WHERE tbl_sessionspeople.user_id='$user_id'");
 		if($query->num_rows() > 0){
@@ -74,20 +79,37 @@ class sessions_model extends ci_Model{
 				$id				= $row->session_id;
 				$title			= $row->ses_title;
 				$description	= $row->ses_description;
+				$date			= $row->date;
 				$from			= $row->time_from;
 				$to				= $row->time_to;
 				$type			= $row->ses_type;
 				$infinite		= $row->infinite;
 				
-				$sessions[] = array('id'=>$id, 'title'=>$title, 'description'=>$description, 'from'=>$from,'to'=>$to, 'type'=>$type, 'infinite'=>$infinite);
+				$sessions[] = array('id'=>$id, 'title'=>$title, 'description'=>$description, 'date'=>$date, 'from'=>$from,'to'=>$to, 'type'=>$type, 'infinite'=>$infinite);
 			}
 		}
 		return $sessions;
 	}
 	
 	
-	function view(){//view the conversation in a session
-	
+	function view(){//view basic info of a selected session
+		$session_id = $this->session->userdata('current_id');
+		$session_info = array();
+		$query = $this->db->query("SELECT ses_title, ses_description, ses_type, DATE(time_from) AS date, infinite, time_from, time_to FROM tbl_sessions");
+		if($query->num_rows() > 0){
+			$row 			= $query->row();
+			
+			$title			= $row->ses_title;
+			$description	= $row->ses_description;
+			$date			= $row->date;
+			$from			= $row->time_from;
+			$to				= $row->time_to;
+			$type			= $row->ses_type;
+			$infinite		= $row->infinite;
+			
+			$session_info	= array('id'=>$session_id, 'title'=>$title, 'description'=>$description, 'date'=>$date, 'from'=>$from,'to'=>$to, 'type'=>$type, 'infinite'=>$infinite);
+		}
+		return $session_info;
 	}
 }
 ?>

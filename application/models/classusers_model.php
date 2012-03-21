@@ -47,6 +47,34 @@ class classusers_model extends ci_Model{
 	}
 	
 	
+	function user_logs(){//lists all the activities performed of the selected student
+		$user_id	= $this->session->userdata('current_id');
+		$class_id	= $this->session->userdata('current_class');
+		
+		
+		$log_info	= array();
+		$logs		= $this->db->query("SELECT act_datetime, activity, activity_details
+										FROM tbl_activitylog 
+										LEFT JOIN tbl_activities ON tbl_activitylog.activity_id = tbl_activities.activity_id
+										WHERE class_id='$class_id' AND user_id='$user_id'");
+		
+		if($logs->num_rows() > 0){
+			foreach($logs->result() as $row){
+				
+				$datetime	= $row->act_datetime;
+				$activity	= $row->activity;
+				$details	= $row->activity_details;
+				
+				$log_info[]	= array('datetime'=>$datetime, 'act'=>$activity, 'details'=>$details);
+			}
+		}
+		return $log_info;
+	}
+	
+	
+	
+	
+	
 	function class_status($status){
 		$stat = 'LOCKED';
 		if($status == 1){

@@ -115,6 +115,12 @@ class class_loader extends ci_Controller{
 				return $sessions;
 			break;
 			
+			case 'reports':
+				$this->load->model('classusers_model');
+				$students = $this->classusers_model->class_users();
+				return $students;
+			break;
+			
 		}
 	}
 

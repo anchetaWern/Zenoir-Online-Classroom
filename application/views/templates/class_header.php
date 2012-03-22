@@ -1,35 +1,29 @@
-<!--admin template-->
-<link rel="stylesheet" href="/zenoir/libs/kickstart/css/kickstart.css"/>
-<link rel="stylesheet" href="/zenoir/css/main.css"/>
-<link rel="stylesheet" href="/zenoir/libs/dataTables/css/demo_page.css"/>
-
-<link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/>
-
-<link href="/zenoir/css/fileUploader.css" rel="stylesheet"/>
+<!--class template-->
+<link rel="stylesheet" href="/zenoir/libs/kickstart/css/kickstart.css"/><!--ui and overall layout style-->
+<link rel="stylesheet" href="/zenoir/css/main.css"/><!--main style-->
+<link rel="stylesheet" href="/zenoir/libs/dataTables/css/demo_page.css"/><!--table styles-->
+<link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/><!--ui style-->
+<link rel="stylesheet" href="/zenoir/css/fileUploader.css"/><!--fileuploader style-->
 
 
-<script src="/zenoir/js/jquery171.js"></script>
-
-<script src="/zenoir/libs/kickstart/js/kickstart.js"></script>
+<script src="/zenoir/js/jquery171.js"></script><!--core-->
+<script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
 <script src="/zenoir/libs/kickstart/js/prettify.js"></script>
+<script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script><!--table functionality-->
+<script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script><!--ui script-->
+<script src="/zenoir/js/jquery.fileUploader.js"></script><!--file uploader script-->
+<script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
 
-<!--awesome tables functions-->
-<script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script>
-
-<script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script>
-
-<script src="/zenoir/js/jquery.fileUploader.js"></script>
-
-
-<script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script>
 
 
 <script>
 $(function(){
-$('.time_picker').datetimepicker({
-	ampm: true,
-	dateFormat: 'yy-mm-dd'
-});
+	
+	
+	$('.time_picker').datetimepicker({
+		ampm: true,
+		dateFormat: 'yy-mm-dd'
+	});
 	
 	$('.tbl_classes').dataTable();
 	
@@ -40,9 +34,12 @@ $('.time_picker').datetimepicker({
 	});
 	
 	$('a[data-id]').live('hover', function(){
+		
 		var current_id = $(this).data('id');
-		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
+		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id}, function(data){console.log(data);});
 	});
+	
+
 	
 	
 	$('a[data-msgid]').live('hover', function(){
@@ -232,6 +229,15 @@ $('.time_picker').datetimepicker({
 			$.post('/zenoir/index.php/classrooms/accept', {'student_id' : student_id, 'class_id' : class_id}, function(){
 				alert('You can now enter the classroom!');
 			});
+		}
+	});
+	
+	$('#enter_session').live('click', function(){
+		var masked_name = $.trim($('#alias').val());
+		if(masked_name != ''){//for masked session
+			$.post('/zenoir/index.php/data_setter/set_mask', {'masked_name' : masked_name});
+		}else{//for team and class session
+			$.post('/zenoir/index.php/data_setter/set_name');
 		}
 	});
 	

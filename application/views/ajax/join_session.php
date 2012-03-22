@@ -18,6 +18,7 @@ $enter	= array(
 			'class'=>'medium green'
 		);
 ?>
+
 <div id="modal_header">
 <h4><?php echo $session['title']; ?></h4>
 </div>
@@ -54,7 +55,7 @@ echo form_input($alias);
 }
 ?>
 <p>
-<a href="/zenoir/index.php/class_loader/view/session">
+<a href="/zenoir/index.php/class_loader/view/session?sid=<?php echo $session['id']; ?>" data-id="<?php echo $session['id']; ?>">
 <?php echo form_button($enter); ?>
 </a>
 </p>

@@ -49,7 +49,7 @@ Create New:
 			</td>
 			<td><?php echo date('g:i:s A', strtotime($row['from'])); ?></td>
 			<td><?php echo date('g:i:s A', strtotime($row['to'])); ?></td>
-			<td><a href="/zenoir/index.php/ajax_loader/view/join_session" class="lightbox" data-sestype="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>"><img src="/zenoir/img/take.png" class="icons"/></a></td>
+			<td><a href="/zenoir/index.php/ajax_loader/view/join_session?sesid=<?php echo $row['id']; ?>" class="lightbox" data-sestype="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>"><img src="/zenoir/img/take.png" class="icons"/></a></td>
 		</tr>
 		<?php } ?>
 	</tbody>

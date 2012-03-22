@@ -1,19 +1,24 @@
 <!--admin template-->
-<link rel="stylesheet" href="/zenoir/libs/kickstart/css/kickstart.css"/>
-<link rel="stylesheet" href="/zenoir/css/main.css"/>
-<link rel="stylesheet" href="/zenoir/libs/dataTables/css/demo_page.css"/>
+<link rel="stylesheet" href="/zenoir/libs/kickstart/css/kickstart.css"/><!--ui and overall layout style-->
+<link rel="stylesheet" href="/zenoir/css/main.css"/><!--main style-->
+<link rel="stylesheet" href="/zenoir/libs/dataTables/css/demo_page.css"/><!--table styles-->
+<link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/><!--ui style-->
+<link rel="stylesheet" href="/zenoir/css/fileUploader.css"/><!--fileuploader style-->
+<link rel="stylesheet" href="/zenoir/libs/wysihtml5/src/bootstrap-wysihtml5.css"/><!--text formatting style-->
 
-<script src="/zenoir/js/jquery171.js"></script>
-<script src="/zenoir/libs/kickstart/js/kickstart.js"></script>
+<script src="/zenoir/js/jquery171.js"></script><!--core-->
+<script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
 <script src="/zenoir/libs/kickstart/js/prettify.js"></script>
-<script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script>
+<script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script><!--table functionality-->
+<script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script><!--ui script-->
+<script src="/zenoir/js/jquery.fileUploader.js"></script><!--file uploader script-->
+<script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
+<script src="/zenoir/libs/wysihtml5/src/bootstrap-wysihtml5.js"></script><!--text formatting script-->
 
-
-
-<script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script>
 <script>
 $(function(){
 	$('.tbl_classes').dataTable();
+	
 	
 	
 	$('a[data-classid]').live('hover', function(){//creates a session for the class

@@ -57,3 +57,20 @@ a{
 .spacer {
     margin-right: 30px;
 }
+
+#text-input {
+    width: 500px;
+}
+
+#chatbox {
+    margin: 0 auto;
+    width: 580px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+#message_box {
+    width: 580px;
+    margin: 0 auto;
+    margin-top: 20px;
+}

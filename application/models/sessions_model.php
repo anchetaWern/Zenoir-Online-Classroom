@@ -92,10 +92,11 @@ class sessions_model extends ci_Model{
 	}
 	
 	
-	function view(){//view basic info of a selected session
-		$session_id = $this->session->userdata('current_id');
+	function view($session_id){//view basic info of a selected session
+		
 		$session_info = array();
-		$query = $this->db->query("SELECT ses_title, ses_description, ses_type, DATE(time_from) AS date, infinite, time_from, time_to FROM tbl_sessions");
+		
+		$query = $this->db->query("SELECT ses_title, ses_description, ses_type, DATE(time_from) AS date, infinite, time_from, time_to FROM tbl_sessions WHERE session_id=?", $session_id);
 		if($query->num_rows() > 0){
 			$row 			= $query->row();
 			

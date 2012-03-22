@@ -43,7 +43,9 @@ $create		= array(
 				'content'=>'Create User',
 				'class'=>'medium green'
 			);	
-
+?>
+<div class="container">
+<?php
 echo form_label('User Type', 'user_types');
 echo form_dropdown('user_types', $user_types, '3' , 'id="user_type"');		
 
@@ -61,3 +63,4 @@ echo form_input($lname);
 
 echo form_button($create);
 ?>
+</div><!--end of new container-->

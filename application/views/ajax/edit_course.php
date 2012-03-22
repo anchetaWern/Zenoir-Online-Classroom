@@ -26,7 +26,10 @@ $update 	= array(
 				'content'=>'Update Course',
 				'class'=>'medium green'
 			);	
-					
+?>
+
+<div class="container">
+<?php					
 echo form_label('Course Code','course_code');
 echo form_input($course_code);
 
@@ -35,3 +38,4 @@ echo form_input($course_description);
 
 echo form_button($update);
 ?>
+</div>

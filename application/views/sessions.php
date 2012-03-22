@@ -1,15 +1,13 @@
 <!--sessions-->
+<h6>[Sessions]</h6>
 <!--sessions home-->
 <?php
 $sessions = $table;
 $session_types = array('Class', 'Masked', 'Team');
 ?>
 <div class="content">
-<p>
-Create New:
-</p>
-<p>
 
+<p>
 <?php if($this->session->userdata('usertype') != 3){//only teacher can create masked and class session ?>
 <span class="spacer"><a href="/zenoir/index.php/ajax_loader/view/new_classsession" data-sestype="1" class="lightbox">Masked Session</a></span>
 <span class="spacer"><a href="/zenoir/index.php/ajax_loader/view/new_classsession" data-sestype="2" class="lightbox">Class Session</a></span>

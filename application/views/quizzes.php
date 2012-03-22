@@ -1,4 +1,5 @@
 <!--quizzes-->
+<h6>[Quizzes]</h6>
 <!--new quiz-->
 <?php if($this->session->userdata('usertype') != 3){ ?>
 <p>

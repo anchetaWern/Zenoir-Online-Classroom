@@ -1,4 +1,5 @@
 <!--handouts-->
+<h6>[Handouts]</h6>
 <?php if($this->session->userdata('usertype') != 3){ ?>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/new_handout" class="lightbox">Create New</a>

@@ -8,14 +8,28 @@ class classrooms_model extends ci_Model{
 		$teacher_id     = $this->input->post('teacher_id');	
 		$course_id		= $this->input->post('course_id');
 		
-		$data_class 	= array($subject_id, $course_id, $class_code, $class_desc);
+		//additional details
+		$date_created	= $this->input->post('date_created');
+		$details		= $this->input->post('details');
+		
+		$data_class 	= array($subject_id, $course_id, $class_code, $class_desc, $date_created, $details);
 		
 		
-		$class_info = $this->db->query("INSERT INTO tbl_classes SET subject_id=?, course_id=?, class_code=?, class_description=?", $data_class);
+		$class_info = $this->db->query("INSERT INTO tbl_classes SET subject_id=?, course_id=?, class_code=?, class_description=?, date_created=?, addl_notes=?", $data_class);
 		$class_id	= $this->db->insert_id();
 		
+		//class teacher
 		$data_teacher	= array($teacher_id, $class_id);
-		$class_teacher = $this->db->query("INSERT INTO tbl_classteachers SET teacher_id=?, class_id=?", $data_teacher);
+		$class_teacher 	= $this->db->query("INSERT INTO tbl_classteachers SET teacher_id=?, class_id=?", $data_teacher);
+		
+		//class modules - all modules in the class are enabled by default
+		$modules		= $this->db->query("SELECT module_id FROM tbl_modules");
+		if($modules->num_rows() > 0){
+			foreach($modules->result() as $row){
+				$module_id 		= $row->module_id;
+				$this->db->query("INSERT INTO tbl_classmodules SET module_id='$module_id', class_id='$class_id'");
+			}
+		}
 		
 	}
 	
@@ -125,6 +139,49 @@ class classrooms_model extends ci_Model{
 		}
 		return $class_info;
 		
+	}
+	
+	
+	function class_modules(){//lists all the modules in the class
+		$class_id 	= $this->session->userdata('current_class');
+		$modules 	= $this->db->query("SELECT classmodule_id, mod_title, mod_description, status FROM tbl_classmodules 
+										LEFT JOIN tbl_modules ON tbl_classmodules.module_id = tbl_modules.module_id
+										WHERE class_id='$class_id'");
+		$module_r 	= array();
+		
+		if($modules->num_rows() > 0){
+			foreach($modules->result() as $row){
+				$classmodule_id		= $row->classmodule_id;
+				$mod_title			= $row->mod_title;
+				$mod_description	= $row->mod_description;
+				$status				= $row->status;
+				
+				$module_r[] = array('classmodule_id'=>$classmodule_id, 'mod_title'=>$mod_title, 'mod_description'=>$mod_description, 'status'=>$status);
+			}
+		}
+		return $module_r;
+	}
+	
+	function enable(){//enables a specific module
+		$classmodule_id = $this->input->post('cm_id');
+		$this->db->query("UPDATE tbl_classmodules SET status=1 WHERE classmodule_id='$classmodule_id'");
+		
+	}
+	
+	function disable(){//disables a specific module
+		$classmodule_id = $this->input->post('cm_id');
+		$this->db->query("UPDATE tbl_classmodules SET status=0 WHERE classmodule_id='$classmodule_id'");
+	}
+	
+	function module_status($module_id){//returns the status of a module whether enabled or disabled
+		$class_id 	= $this->session->userdata('current_class');
+		
+		$query = $this->db->query("SELECT status FROM tbl_classmodules WHERE module_id='$module_id' AND class_id='$class_id'");
+		if($query->num_rows() > 0){
+			$row 	= $query->row();
+			$status = $row->status;
+		}
+		return $status;
 	}
 }
 ?>

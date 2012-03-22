@@ -241,6 +241,16 @@ $(function(){
 		}
 	});
 	
+	$('.endis_module').live('click', function(){
+		console.log($(this).data('classmoduleid'));
+		var classmodule_id = $(this).data('classmoduleid');
+		if($(this).attr('checked')){
+			$.post('/zenoir/index.php/classrooms/enable', {'cm_id' : classmodule_id}, function(data){console.log(data);});
+		}else{
+			$.post('/zenoir/index.php/classrooms/disable', {'cm_id' : classmodule_id});
+		}
+	});
+	
 
 });
 </script>

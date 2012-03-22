@@ -60,24 +60,44 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'assignments':
+				$this->load->model('classrooms_model');
+				if($this->classrooms_model->module_status(1) == 0){
+					redirect('../class_loader/view/class_home');
+				}
+			
 				$this->load->model('assignments_model');
 				$assignments = $this->assignments_model->list_all();
 				return $assignments;
 			break;
 			
 			case 'handouts':
+				$this->load->model('classrooms_model');
+				if($this->classrooms_model->module_status(3) == 0){
+					redirect('../class_loader/view/class_home');
+				}
+			
 				$this->load->model('handouts_model');
 				$handouts = $this->handouts_model->list_all();
 				return $handouts;
 			break;
 			
 			case 'messages':
+				$this->load->model('classrooms_model');
+				if($this->classrooms_model->module_status(4) == 0){
+					redirect('../class_loader/view/class_home');
+				}
+			
 				$this->load->model('messages_model');
 				$messages = $this->messages_model->messages();
 				return $messages;
 			break;
 			
 			case 'quizzes':
+				$this->load->model('classrooms_model');
+				if($this->classrooms_model->module_status(2) == 0){
+					redirect('../class_loader/view/class_home');
+				}
+			
 				$this->load->model('quizzes_model');
 				$quizzes = $this->quizzes_model->list_all();
 				return $quizzes;
@@ -114,6 +134,11 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'sessions':
+				$this->load->model('classrooms_model');
+				if($this->classrooms_model->module_status(5) == 0){
+					redirect('../class_loader/view/class_home');
+				}
+			
 				$this->load->model('sessions_model');
 				$sessions = $this->sessions_model->list_all();
 				return $sessions;
@@ -126,9 +151,17 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'teachers':
+				//invited students
+				$classes['invited'] = array();
+				$classes['modules'] = array();
 				$this->load->model('classusers_model');
-				$invited = $this->classusers_model->list_invited_students();
-				return $invited;
+				$classes['invited'] = $this->classusers_model->list_invited_students();
+				
+				//modules
+				$this->load->model('classrooms_model');
+				$classes['modules'] = $this->classrooms_model->class_modules();
+				
+				return $classes;
 			break;
 			
 			

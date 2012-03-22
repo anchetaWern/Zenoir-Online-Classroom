@@ -39,15 +39,6 @@ $(function(){
 			});
 	});
 	
-	$('#create_class').live('click', function(){
-		var class_code	= $.trim($('#class_code').val());
-		var subject		= $.trim($('#subject').val());		
-		var teacher		= $.trim($('#teacher').val());
-		var course		= $.trim($('#course').val());
-		
-		$.post('/zenoir/index.php/');
-	});
-	
 	$('#create_user').live('click', function(){
 		var user_id 	= $.trim($('#user_id').val());
 		var user_type	= $.trim($('#user_type').val());
@@ -88,6 +79,10 @@ $(function(){
 		var subject			= $.trim($('#subject').val());
 		var course			= $.trim($('#course').val());
 		
+		//additional details
+		var date_created	= $.trim($('#date_created').val());
+		var addl_details	= $.trim($('#addl_details').val());
+		
 		var teacher_id		= 0;
 		var subject_id		= 0;
 		var course_id		= 0;
@@ -120,7 +115,8 @@ $(function(){
 		});
 		
 		$.post('/zenoir/index.php/classrooms/create_class', 
-			{'class_code' : class_code, 'subject_id' : subject_id, 'teacher_id' : teacher_id, 'course_id' : course_id, 'class_desc' : class_desc},
+			{'class_code' : class_code, 'subject_id' : subject_id, 'teacher_id' : teacher_id, 'course_id' : course_id,
+			'class_desc' : class_desc, 'date_created' : date_created, 'details' : addl_details},
 			function(){
 				$('#fancybox-close').click();
 			}

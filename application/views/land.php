@@ -1,11 +1,13 @@
 <!--teacher and student landing page-->
 <!--Selection of class to enter-->
 <!--only classes where the teacher or student belong will show up here-->
+<h6>[Dashboard]</h6>
 <?php
 $user_type 	= $this->session->userdata('usertype');
 $classes 	= $table['classes'];
 $invites	= $table['invites'];
 ?>
+
 <ul class="tabs left">
 	<li><a href="#classes">Classes</a></li>
 	<?php if($user_type == 3){ ?>

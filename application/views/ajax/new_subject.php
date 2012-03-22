@@ -24,7 +24,10 @@ $create 	= array(
 				'content'=>'Create Subject',
 				'class'=>'medium green'
 			);					
-					
+?>
+
+<div class="container">
+<?php					
 echo form_label('Subject Code','subject_code');
 echo form_input($subject_code);
 
@@ -33,3 +36,4 @@ echo form_input($subject_description);
 
 echo form_button($create);
 ?>
+</div><!--end of container-->

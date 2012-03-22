@@ -1,6 +1,9 @@
 <!--add people to a class-->
 <div id="modal_header">
 <h4>Add People - <?php echo $page['class_code']; ?></h4>
+</div>
+
+<div class="container">
 <select name="user_ids" id="user_ids" multiple>
 <?php foreach($page['users'] as $v){ ?>
 	<?php if($v[3] !=  "Administrator"){ ?><!--admin is not tied to any specific class-->

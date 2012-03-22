@@ -1,4 +1,7 @@
 <!--creation of new classes-->
+<script>
+$(".date_picker").datepicker({ dateFormat: 'yy-mm-dd' });
+</script>
 <div id="modal_header">
 <h4>Create New Class</h4>
 </div>
@@ -31,17 +34,30 @@ $course		= array(
 				'list'=>'courses',
 				'placeholder'=>'Eg. BSCS/4-3'
 			);
+			
+$date		= array(
+				'id'=>'date_created',
+				'name'=>'date_created',
+				'class'=>'date_picker'
+			);
+
+$addl		= array(
+				'id'=>'addl_details',
+				'name'=>'addl_details',
+				'placeholder'=>'Eg. Semester, Class Notes'
+			);			
 
 $create 	= array(
 				'id'=>'create_class',
 				'name'=>'create_class',
 				'value'=>'Create Class',
-				'content'=>'Create Class'
+				'content'=>'Create Class',
+				'class'=>'medium green'
 			);
+?>
 
-
-
-
+<div class="container">
+<?php
 echo form_label('Class Code', 'class_code');
 echo form_input($class_code);
 
@@ -56,6 +72,12 @@ echo form_input($teacher);
 
 echo form_label('Course/Yr/Section', 'course');
 echo form_input($course);
+
+echo form_label('Start Date', 'date_created');
+echo form_input($date);
+
+echo form_label('Additional Details', 'addl_details');
+echo form_input($addl);
 
 echo form_button($create);
 ?>
@@ -83,3 +105,5 @@ $courses  = $page['courses'];
 	<option data-courseid="<?php echo $v[2]; ?>" value="<?php echo ucwords($v[1]); ?>"><?php echo ucwords($v[1]); ?></option>
 <?php } ?>
 </datalist>
+
+</div><!--end of container-->

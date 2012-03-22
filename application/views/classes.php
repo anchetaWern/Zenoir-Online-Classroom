@@ -1,5 +1,5 @@
 <!--class management-->
-
+<h6>[Classes]</h6>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/new_class" class="lightbox">Create New</a>
 </p>

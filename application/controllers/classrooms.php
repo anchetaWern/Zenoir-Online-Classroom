@@ -21,5 +21,21 @@ class classrooms extends ci_Controller{
 		$this->load->model('classusers_model');
 		$this->classusers_model->accept();
 	}
+	
+	function enable(){
+		$this->load->model('classrooms_model');
+		$this->classrooms_model->enable();
+		
+	}
+	
+	function disable(){
+		$this->load->model('classrooms_model');
+		$this->classrooms_model->disable();
+	}
+	
+	function module_status(){
+		$this->load->model('classrooms_model');
+		$this->classrooms_model->module_status();
+	}
 }
 ?>

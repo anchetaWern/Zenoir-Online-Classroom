@@ -4,7 +4,7 @@
 2. enable/disable modules
 3. remove students from the current classroom
 -->
-<h6>[Classroom Settings]</h6>
+<h4>[Classroom Settings]</h4>
 <ul class="tabs left">
 	<li><a href="#invite_students">Invite Students</a></li>
 	<li><a href="#modules">Enable/Disable Modules</a></li>

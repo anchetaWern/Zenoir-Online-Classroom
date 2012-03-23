@@ -1,5 +1,5 @@
 <!--subjects management-->
-<h6>[Subjects]</h6>
+<h4>[Subjects]</h4>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/new_subject" class="lightbox">Create New</a>
 </p>

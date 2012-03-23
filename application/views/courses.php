@@ -1,5 +1,5 @@
 <!--courses management-->
-<h6>[Courses]</h6>
+<h4>[Courses]</h4>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/new_course" class="lightbox">Create New</a>
 </p>

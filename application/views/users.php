@@ -1,5 +1,5 @@
 <!--teacher management-->
-<h6>[Users]</h6>
+<h4>[Users]</h4>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/new_user" class="lightbox">Create New</a>
 </p>

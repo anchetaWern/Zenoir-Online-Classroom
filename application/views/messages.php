@@ -1,5 +1,5 @@
 <!--messages-->
-<h6>[Messages]</h6>
+<h4>[Messages]</h4>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/new_message" class="lightbox">Create New</a>
 </p>

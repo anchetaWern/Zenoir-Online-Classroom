@@ -25,7 +25,7 @@ class data_setter extends ci_Controller{
 	}
 	
 	
-	function set_class(){
+	function set_class(){//sets the details for the class where the teacher or student entered
 		$class_id = $this->input->post('class_id');
 		$this->session->unset_userdata('current_class');
 		$this->session->set_userdata('current_class', $class_id);

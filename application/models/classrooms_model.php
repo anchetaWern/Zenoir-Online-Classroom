@@ -10,12 +10,13 @@ class classrooms_model extends ci_Model{
 		
 		//additional details
 		$date_created	= $this->input->post('date_created');
+		$date_lock		= $this->input->post('date_to');
 		$details		= $this->input->post('details');
 		
-		$data_class 	= array($subject_id, $course_id, $class_code, $class_desc, $date_created, $details);
+		$data_class 	= array($subject_id, $course_id, $class_code, $class_desc, $date_created, $date_lock, $details);
 		
 		
-		$class_info = $this->db->query("INSERT INTO tbl_classes SET subject_id=?, course_id=?, class_code=?, class_description=?, date_created=?, addl_notes=?", $data_class);
+		$class_info = $this->db->query("INSERT INTO tbl_classes SET subject_id=?, course_id=?, class_code=?, class_description=?, date_created=?, date_lock=?, addl_notes=?", $data_class);
 		$class_id	= $this->db->insert_id();
 		
 		//class teacher
@@ -122,7 +123,7 @@ class classrooms_model extends ci_Model{
 		$class_info = array();
 		$class_id = $this->session->userdata('current_class');
 		//only 1 teacher per class but a teacher can have many classes
-		$query = $this->db->query("SELECT class_code, class_description, fname, mname, lname
+		$query = $this->db->query("SELECT class_code, class_description, fname, mname, lname, addl_notes
 								FROM tbl_classes
 								LEFT JOIN tbl_classteachers ON tbl_classes.class_id = tbl_classteachers.class_id
 								LEFT JOIN tbl_userinfo ON tbl_classteachers.teacher_id = tbl_userinfo.user_id
@@ -135,7 +136,8 @@ class classrooms_model extends ci_Model{
 			$fname		= $row->fname;
 			$mname		= $row->mname;
 			$lname		= $row->lname;
-			$class_info = array('class_code'=>$class_code, 'class_desc'=>$class_desc, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+			$notes		= $row->addl_notes;
+			$class_info = array('class_code'=>$class_code, 'class_desc'=>$class_desc, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname, 'notes'=>$notes);
 		}
 		return $class_info;
 		

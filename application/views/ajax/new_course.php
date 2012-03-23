@@ -19,9 +19,12 @@ $create 	= array(
 				'id'=>'create_course',
 				'name'=>'create_course',
 				'value'=>'Create Course',
-				'content'=>'Create Course'
+				'content'=>'Create Course',
+				'class'=>'medium green'
 			);	
-					
+?>
+<div class="container">
+<?php					
 echo form_label('Course Code','course_code');
 echo form_input($course_code);
 
@@ -30,3 +33,4 @@ echo form_input($course_description);
 
 echo form_button($create);
 ?>
+</div>

@@ -1,7 +1,8 @@
 <!--class management-->
-<h6>[Classes]</h6>
+
+<h4>[Classes]</h4>
 <p>
-<a href="/zenoir/index.php/ajax_loader/view/new_class" class="lightbox">Create New</a>
+<a id="nc" href="" class="lightbox">Create New</a>
 </p>
 
 <table class="tbl_classes">
@@ -29,3 +30,11 @@
 		<?php } ?>
 	</tbody>
 </table>
+<script>
+var datalist = 'options' in document.createElement('datalist');
+if(datalist){
+	$('#nc').attr('href', '/zenoir/index.php/ajax_loader/view/new_class?dl=1');
+}else{
+	$('#nc').attr('href', '/zenoir/index.php/ajax_loader/view/new_class?dl=2');
+}
+</script>

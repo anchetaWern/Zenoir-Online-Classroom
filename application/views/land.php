@@ -1,7 +1,7 @@
 <!--teacher and student landing page-->
 <!--Selection of class to enter-->
 <!--only classes where the teacher or student belong will show up here-->
-<h6>[Dashboard]</h6>
+<h4>[Dashboard]</h4>
 <?php
 $user_type 	= $this->session->userdata('usertype');
 $classes 	= $table['classes'];
@@ -13,6 +13,9 @@ $invites	= $table['invites'];
 	<?php if($user_type == 3){ ?>
 	<li><a href="#notifications">Invites</a></li>
 	<?php } ?>
+	<li><a href="#unreads">Unread Posts</a></li>
+	<li><a href="#recents">Recent Activities</a></li>
+	<li><a href="#previous">Previous Classes</a></li>
 </ul>
 
 <div id="classes" class="tab-content">
@@ -66,6 +69,15 @@ $invites	= $table['invites'];
 <?php } ?>
 </div><!--end of notifications-->
 <?php } ?>
+
+<div id="unreads" class="tab-content">
+</div><!--end of unreads-->
+
+<div id="recents" class="tab-content">
+</div><!--end of recents-->
+
+<div id="previous" class="tab-content">
+</div><!--end of previous-->
 
 
 

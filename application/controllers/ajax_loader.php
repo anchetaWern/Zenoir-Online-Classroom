@@ -27,7 +27,9 @@ class ajax_loader extends ci_Controller{
 				$this->load->model('courses_model');
 				$courses = $this->courses_model->select_courses();
 				
-				return array('subjects'=>$subjects, 'users'=>$users, 'courses'=>$courses);
+				$datalist = $_GET['dl'];//1 if browser supports datalist; 2 if not
+				
+				return array('subjects'=>$subjects, 'users'=>$users, 'courses'=>$courses, 'datalist'=>$datalist);
 			break;
 			
 			case 'view_subjects':

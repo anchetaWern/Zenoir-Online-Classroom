@@ -15,6 +15,7 @@
 <script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
 <script src="/zenoir/libs/wysihtml5/src/bootstrap-wysihtml5.js"></script><!--text formatting script-->
 
+
 <script>
 $(function(){
 	$('.tbl_classes').dataTable();
@@ -40,39 +41,80 @@ $(function(){
 	});
 	
 	$('#create_user').live('click', function(){
+		var create 		= 1;
 		var user_id 	= $.trim($('#user_id').val());
 		var user_type	= $.trim($('#user_type').val());
 		var fname		= $.trim($('#user_fname').val());
 		var mname		= $.trim($('#user_mname').val());
 		var lname		= $.trim($('#user_lname').val());
-		$.post('/zenoir/index.php/usert/create_user', {'user_id' : user_id, 'user_type' : user_type, 'fname' : fname, 'mname' : mname, 'lname' : lname}, 
-			function(){
-				$('#fancybox-close').click();
+		
+		var user_data	= [user_id, user_type, fname, mname, lname];
+		for(var x in user_data){
+			if(user_data[x] == ''){
+				create = 0;
 			}
-		);
+		}
+		
+		if(create == 1){
+			$.post('/zenoir/index.php/usert/create_user', {'user_id' : user_id, 'user_type' : user_type, 'fname' : fname, 'mname' : mname, 'lname' : lname}, 
+				function(){
+					$('#fancybox-close').click();
+				}
+			);
+		}else{
+			alert('All fields are required');
+		}
 	});
 	
 	$('#create_subject').live('click', function(){
+		var create			= 1;
 		var subject_code	= $.trim($('#subject_code').val()); 
 		var description		= $.trim($('#subject_desc').val()); 	
-		$.post('/zenoir/index.php/subjects/create_subject', {'subject_code' : subject_code, 'description' : description},
-			function(){
-				$('#fancybox-close').click();
+		
+		var subject			= [subject_code, description];
+		for(var x in subject){
+			if(subject[x] == ''){
+				create = 0;
 			}
-		);
+		}
+		
+		if(create == 1){
+			$.post('/zenoir/index.php/subjects/create_subject', {'subject_code' : subject_code, 'description' : description},
+				function(){
+					$('#fancybox-close').click();
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	$('#create_course').live('click', function(){
+		var create			= 1;
 		var course_code		= $.trim($('#course_code').val());
 		var description		= $.trim($('#course_desc').val());
-		$.post('/zenoir/index.php/courses/create_course', {'course_code' : course_code, 'course_desc' : description},
-			function(){
-				$('#fancybox-close').click();
+		
+		var course			= [course_code, description];
+		for(var x in course){
+			if(course[x] == ''){
+				create = 0;
 			}
-		);
+		}
+		
+		if(create == 1){
+			$.post('/zenoir/index.php/courses/create_course', {'course_code' : course_code, 'course_desc' : description},
+				function(){
+					$('#fancybox-close').click();
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	$('#create_class').live('click', function(){
+		
+		var create			= 1;
 		var class_code 		= $.trim($('#class_code').val());
 		var class_desc 		= $.trim($('#class_desc').val());
 		var teacher			= $.trim($('#teacher').val());
@@ -81,11 +123,12 @@ $(function(){
 		
 		//additional details
 		var date_created	= $.trim($('#date_created').val());
+		var date_lock		= $.trim($('#date_to').val());
 		var addl_details	= $.trim($('#addl_details').val());
 		
-		var teacher_id		= 0;
-		var subject_id		= 0;
-		var course_id		= 0;
+		var teacher_id		= $.trim($('#teacher').val());
+		var subject_id		= $.trim($('#subject').val());
+		var course_id		= $.trim($('#course').val());
 		
 		$('#teachers option').each(function(){
 			var current_teacher = $(this).val();
@@ -114,13 +157,25 @@ $(function(){
 			}
 		});
 		
-		$.post('/zenoir/index.php/classrooms/create_class', 
-			{'class_code' : class_code, 'subject_id' : subject_id, 'teacher_id' : teacher_id, 'course_id' : course_id,
-			'class_desc' : class_desc, 'date_created' : date_created, 'details' : addl_details},
-			function(){
-				$('#fancybox-close').click();
+		var class_data 		= [class_code, class_desc, teacher, subject, course, date_created, date_lock, addl_details, teacher_id, subject_id, course_id];
+		
+		for(var x in class_data){
+			if(class_data[x] == ''){
+				create = 0;
 			}
-		);
+		}
+		
+		if(create == 1){
+			$.post('/zenoir/index.php/classrooms/create_class', 
+				{'class_code' : class_code, 'subject_id' : subject_id, 'teacher_id' : teacher_id, 'course_id' : course_id,
+				'class_desc' : class_desc, 'date_created' : date_created, 'date_to' : date_lock, 'details' : addl_details},
+				function(){
+					$('#fancybox-close').click();
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	$('a[data-id]').live('hover', function(){
@@ -140,23 +195,49 @@ $(function(){
 	});
 	
 	$('#update_subject').live('click', function(){
+		var update		= 1;
 		var subj_code	= $.trim($('#subject_code').val());
 		var subj_desc	= $.trim($('#subject_desc').val());
-		$.post('/zenoir/index.php/subjects/update_subject', {'subj_code' : subj_code, 'subj_desc' : subj_desc}, 
-			function(){
-				$('#fancybox-close').click();
+		
+		var subj		= [subj_code, subj_desc];
+		for(var x in subj){
+			if(subj[x] == ''){
+				update = 0;
 			}
-		);
+		}
+		
+		if(update == 1){
+			$.post('/zenoir/index.php/subjects/update_subject', {'subj_code' : subj_code, 'subj_desc' : subj_desc}, 
+				function(){
+					$('#fancybox-close').click();
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	$('#edit_course').live('click', function(){
+		var update		= 1;
 		var course_code	= $.trim($('#course_code').val()); 
 		var course_desc	= $.trim($('#course_desc').val()); 	
-		$.post('/zenoir/index.php/courses/update_course', {'course_code' : course_code, 'course_desc' : course_desc},
-			function(){
-				$('#fancybox-close').click();
+		var course		= [course_code, course_desc];
+		
+		for(var x in course){
+			if(course[x] == ''){
+				update = 0;
 			}
-		);
+		}
+		
+		if(update == 1){
+			$.post('/zenoir/index.php/courses/update_course', {'course_code' : course_code, 'course_desc' : course_desc},
+				function(){
+					$('#fancybox-close').click();
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 
 });

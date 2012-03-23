@@ -65,87 +65,181 @@ $(function(){
 		var as_title	= $.trim($('#as_title').val());
 		var as_body		= $.trim($('#as_body').val());
 		var as_deadline	= $.trim($('#deadline').val());
-		$.post('/zenoir/index.php/assignments/create_assignment', {'as_title' : as_title, 'as_body' : as_body, 'as_deadline' : as_deadline},
-			function(){
-				$('#px-submit').click();
+		var submits 	= 1;
+		
+		var assignment = [as_title, as_body, as_deadline];
+		for(var x in assignment){
+			if(assignment[x] == ''){
+				submits = 0;
 			}
-		);
+		}
+		
+		if(submits == 1){
+			$.post('/zenoir/index.php/assignments/create_assignment', {'as_title' : as_title, 'as_body' : as_body, 'as_deadline' : as_deadline},
+				function(){
+					$('#px-submit').click();
+					$('#as_title, #as_body, #deadline').val('');
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 
 	$('#create_handout').live('click', function(){
-		
+		var create		= 1;
 		var ho_title	= $.trim($('#ho_title').val());
 		var ho_body		= $.trim($('#ho_body').val());
-		$.post('/zenoir/index.php/handouts/create', {'ho_title' : ho_title, 'ho_body' : ho_body},
-			function(){
-				$('#px-submit').click();
+		var handout		= [ho_title, ho_body];
+		
+		for(var x in handout){
+			if(handout[x] == ''){
+				create = 0;
 			}
-		);
+		}
+		
+		if(create == 1){
+			$.post('/zenoir/index.php/handouts/create', {'ho_title' : ho_title, 'ho_body' : ho_body},
+				function(){
+					$('#px-submit').click();
+					$('#ho_title, #ho_body').val('');
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	$('#create_message').live('click', function(){
+		var send		= 1;
 		var receivers	= $.trim($('#receivers').val());
 		var msg_title 	= $.trim($('#msg_title').val()); 
 		var msg_body 	= $.trim($('#msg_body').val()); 
-	
-		$.post('/zenoir/index.php/messages/create', {'receivers' : receivers, 'msg_title' : msg_title, 'msg_body' : msg_body},
-			function(data){
-				
-				$('#px-submit').click();
+		
+		var message		= [msg_title, msg_body];
+		var receiver_len= $('#receivers :selected').length;
+		
+		for(var x in message){
+			if(message[x] == ''){
+				send = 0;
 			}
-		);
+		}
+		
+		if(send == 1 && receiver_len >= 1){
+			$.post('/zenoir/index.php/messages/create', {'receivers' : receivers, 'msg_title' : msg_title, 'msg_body' : msg_body},
+				function(data){
+					$('#px-submit').click();
+					$('#receivers, #msg_title, #msg_body').val('');
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	
 	$('#reply_message').live('click', function(){
+		var create		= 1;
 		var msg_title 	= $.trim($('#msg_title').val()); 
 		var msg_body 	= $.trim($('#msg_body').val()); 
 		
-		$.post('/zenoir/index.php/messages/reply', {'msg_title' : msg_title, 'msg_body' : msg_body},
-			function(data){
-				
-				$('#px-submit').click();
+		var reply = [msg_title, msg_body];
+		for(var x in reply){
+			if(reply[x] == ''){
+				create = 0;
 			}
-		);
+		}
+		
+		if(create == 1){
+			$.post('/zenoir/index.php/messages/reply', {'msg_title' : msg_title, 'msg_body' : msg_body},
+				function(data){
+					$('#px-submit').click();
+					$('#msg_title, #msg_body').val('');
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	
 	$('#submit_assignmentreply').live('click', function(){
+		var create		= 1;
 		var reply_title	= $.trim($('#as_title').val());
 		var reply_body	= $.trim($('#as_body').val());
 		
-		$.post('/zenoir/index.php/assignments/reply', {'reply_title' : reply_title, 'reply_body' : reply_body},
-			function(){
-				$('#px-submit').click();
+		var reply		= [reply_title, reply_body];
+		
+		for(var x in reply){
+			if(reply[x] == ''){
+				create = 0;
 			}
-		);
+		}
+		
+		if(create == 1){
+			$.post('/zenoir/index.php/assignments/reply', {'reply_title' : reply_title, 'reply_body' : reply_body},
+				function(){
+					$('#px-submit').click();
+					$('#as_title, #as_body').val('');
+				}
+			);
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	$('#next').live('click', function(){
+		var create		= 1;
 		var quiz_title	= $.trim($('#quiz_title').val());
 		var quiz_body	= $.trim($('#quiz_body').val());
 		var start_time	= $.trim($('#start_time').val());
 		var end_time	= $.trim($('#end_time').val());
 		
-		//put the general quiz info on the session
-		$.post('/zenoir/index.php/quizzes/cache', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
-			function(){
-				window.location = "/zenoir/index.php/class_loader/view/quiz_items";
+		var quiz		= [quiz_title, quiz_body, start_time, end_time];
+		
+		for(var x in quiz){
+			if(quiz[x] == ''){
+				create = 0;
 			}
-		);
+		}
+		
+		if(create == 1){
+			//put the general quiz info on the session
+			$.post('/zenoir/index.php/quizzes/cache', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
+				function(){
+					window.location = "/zenoir/index.php/class_loader/view/quiz_items";
+				}
+			);
+		}else{
+			alert('All fields are required');
+		}
 	});
 	
 	$('#create_quiz').live('click', function(){
+		var create_quiz	= 1;
 		var questions	= $('.qt').serializeArray();
 		var a			= $('.ca').serializeArray();
 		var b			= $('.cb').serializeArray();
 		var c			= $('.cc').serializeArray();
 		var d			= $('.cd').serializeArray();
 		var answers		= $('.an').serializeArray();
-		$.post('/zenoir/index.php/quizzes/create', {'questions' : questions, 'a' : a, 'b' : b, 'c' : c, 'd' : d, 'answers' : answers},
-			function(data){
-				console.log(data);
+	
+		$('input[type=text]').each(function(){
+			if($(this).attr('value') == ''){
+				create_quiz = 0;
+			}
+		});
+		
+		if(create_quiz == 1){
+		
+			$.post('/zenoir/index.php/quizzes/create', {'questions' : questions, 'a' : a, 'b' : b, 'c' : c, 'd' : d, 'answers' : answers},
+				function(data){
+					window.location = "/zenoir/index.php/class_loader/view/quizzes";
 			});
+		
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	$('#submit_quiz').live('click', function(){
@@ -183,6 +277,7 @@ $(function(){
 	});
 	
 	$('#create_mcsession').live('click', function(){
+		var create		= 1;
 		var title		= $.trim($('#ses_title').val());
 		var ses_desc	= $.trim($('#ses_body').val());
 		var infinite	= 0;
@@ -194,6 +289,7 @@ $(function(){
 		var time_from	= $.trim($('#time_from').val());
 		var time_to		= $.trim($('#time_to').val());
 		
+		
 		if($('#session_groups').length){//team session
 			var members	= $('#session_groups').serializeArray();
 			
@@ -201,12 +297,31 @@ $(function(){
 			var members	= 0;
 		}
 		
-		$.post('/zenoir/index.php/sessions/create', {'ses_title' : title, 'ses_body' : ses_desc, 'infinite' : infinite, 
-														'time_from' : time_from, 'time_to' : time_to, 'members' : members},
-														function(data){
-															console.log(data);
-														});
+		var session = [title, ses_desc];
+		if(infinite == 0){
+			session = [title, ses_desc, time_from, time_to];
+		}
 		
+		for(var x in session){
+			if(session[x] == ''){
+				create = 0;
+			}
+		}
+		
+		if($('#session_groups').length > 0 && $('#session_groups :selected').length == 0){
+			create = 0;
+		}
+		
+		if(create == 1){
+			$.post('/zenoir/index.php/sessions/create', {'ses_title' : title, 'ses_body' : ses_desc, 'infinite' : infinite, 
+															'time_from' : time_from, 'time_to' : time_to, 'members' : members},
+															function(data){
+																$('#fancybox-close').click();
+																
+															});
+		}else{
+			alert('All fields are required!');
+		}
 	});
 	
 	
@@ -260,6 +375,7 @@ $class_info = $this->session->userdata('classroom_info');
 $class_code = $class_info['class_code'];
 $class_desc = $class_info['class_desc'];
 $teacher	= ucwords($class_info['fname'] . ' ' .$class_info['lname']);
+$notes		= $class_info['notes'];
 ?>
 <title><?php echo $title; ?></title>
 <!--user id-->
@@ -279,7 +395,8 @@ $teacher	= ucwords($class_info['fname'] . ' ' .$class_info['lname']);
 <h6>
 <?php 
 echo $class_code.'<br/>'; 
-echo $class_desc . ' - '. $teacher; 
+echo $class_desc . ' - '. $teacher.'<br/>'; 
+echo $notes;
 ?>
 </h6>
 </div>

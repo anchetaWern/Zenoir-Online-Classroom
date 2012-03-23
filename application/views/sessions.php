@@ -1,5 +1,5 @@
 <!--sessions-->
-<h6>[Sessions]</h6>
+<h4>[Sessions]</h4>
 <!--sessions home-->
 <?php
 $sessions = $table;

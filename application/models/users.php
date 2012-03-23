@@ -149,7 +149,35 @@ class users extends ci_Model{
 		return $userinfo_array;
 	}
 	
-
+	
+	function unread_post(){//selects all the unread post from all the classes
+		$user_id = $this->session->userdata('user_id');
+		$unreads = $this->db->query("SELECT class_code, class_description, post_type, post_id FROM tbl_poststatus 
+									LEFT JOIN tbl_classes ON tbl_poststatus.class_id = tbl_classes.class_id
+									WHERE post_to='$user_id' AND tbl_poststatus.status=1");
+		$this->load->model('post');
+		$unread_r = array();
+		if($unreads->num_rows() > 0){
+			foreach($unreads->result() as $row){
+				$class_code			= $row->class_code;
+				$class_description	= $row->class_description;
+				$post_type_id		= $row->post_type;
+				$post_id			= $row->post_id;
+				$post_type 			= $this->post->post_type($post_type_id);
+				$post_title			= $this->post->post_title($post_type_id, $post_id);
+				$unread_r[]			= array('class_code'=>$class_code,'class_description'=>$class_description,'post_type'=>$post_type, 'post_title'=>$post_title);
+			}
+		}
+		return $unread_r;
+	}
+	
+	function recent_activities(){//selects all the activities from all the classes in the past  week - SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK) 
+		$user_id = $this->session->userdata('current_id');
+	} 
+	
+	function previous_classes(){//selects all the previous classes attended by the current user
+		$user_id = $this->session->userdata('current_id');
+	}
 	
 	
 	

@@ -96,5 +96,29 @@ class post extends ci_Model{
 		$post_id	= $prefix.$this->session->userdata('current_id');
 		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_id='$post_id'");
 	}
+	
+	function post_type($post_type){//returns the post type from a post_type id
+		$post_types = array('assignment', 'handout', 'assignment_response', 'quiz', 'message', 'session', 'quiz_response');
+		return $post_types[$post_type - 1];
+	}
+	
+	function post_title($post_type, $post_id){//returns the post title from the post_type id and post_id
+		$post_id_len	= strlen($post_id);
+		$post_id		= substr($post_id, 2, $post_id_len);
+		$tables 		= array('tbl_assignment', 'tbl_handouts', 'tbl_assignmentresponse', 'tbl_quiz', 'tbl_messages', 'tbl_sessions');
+		$fields_id 		= array('assignment_id', 'handout_id', 'asresponse_id', 'quiz_id', 'message_id', 'session_id');
+		$fields_title	= array('as_title', 'ho_title', 'res_title', 'qz_title', 'msg_title', 'ses_title');
+		
+		$table			= $tables[$post_type - 1];
+		$field_base		= $fields_id[$post_type - 1];
+		$field_get		= $fields_title[$post_type - 1];
+		
+		$query = $this->db->query("SELECT $field_get FROM $table WHERE $field_base = '$post_id'");
+		if($query->num_rows() > 0){
+			$row 	= $query->row();
+			$field  = $row->$field_get;
+		}
+		return $field;
+	}
 }
 ?>

@@ -6,6 +6,8 @@
 $user_type 	= $this->session->userdata('usertype');
 $classes 	= $table['classes'];
 $invites	= $table['invites'];
+$unreads	= $table['unreads'];
+$old_classes=$table['old_classes'];
 ?>
 
 <ul class="tabs left">
@@ -71,12 +73,59 @@ $invites	= $table['invites'];
 <?php } ?>
 
 <div id="unreads" class="tab-content">
+
+<?php if(!empty($unreads)){ ?>
+	<table>
+		<thead>
+			<tr>
+				<th>Class Code</th>
+				<th>Description</th>
+				<th>Post Type</th>
+				<th>Title</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach($unreads as $row){ ?>
+			<tr>
+				<td><?php echo $row['class_code']; ?></td>
+				<td><?php echo $row['class_description']; ?></td>
+				<td><?php echo $row['post_type']; ?></td>
+				<td><?php echo $row['post_title']; ?></td>
+			</tr>
+		<?php } ?>
+		</tbody>
+	</table>
+<?php } ?>
 </div><!--end of unreads-->
 
 <div id="recents" class="tab-content">
 </div><!--end of recents-->
 
 <div id="previous" class="tab-content">
+<?php if(!empty($old_classes)){ ?>
+<table>
+	<thead>
+		<tr>
+			<th>Class Code</th>
+			<th>Description</th>
+			<th>Subject</th>
+			<th>Course</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach($old_classes as $v){ ?>
+		<tr>
+			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0]; ?></a></td><!--enter class-->
+			<td><?php echo $v[1]; ?></td>
+			<td><?php echo $v[2]; ?></td>
+			<td><?php echo $v[3]; ?></td>
+			<td><?php echo $v[4]; ?></td>
+		</tr>
+		<?php } ?>
+	</tbody>
+</table>
+<?php } ?>
 </div><!--end of previous-->
 
 

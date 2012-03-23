@@ -11,7 +11,7 @@ class classusers_model extends ci_Model{
 								LEFT JOIN tbl_classes ON tbl_classpeople.class_id = tbl_classes.class_id
 								LEFT JOIN tbl_subject ON tbl_classes.subject_id = tbl_subject.subject_id
 								LEFT JOIN tbl_courses ON tbl_classes.course_id = tbl_courses.course_id
-								WHERE user_id='$user_id' AND tbl_classpeople.status=1");
+								WHERE user_id='$user_id' AND tbl_classpeople.status = 1 AND tbl_classes.date_lock > CURDATE() AND tbl_classes.status = 1");
 		
 		
 		if($query->num_rows > 0){
@@ -22,6 +22,28 @@ class classusers_model extends ci_Model{
 		}
 		return $classes_array;
 	}
+	
+	function user_oldclasses(){//get the classes that has already expired but was not locked by the teacher
+		
+		$user_id = $this->session->userdata('user_id');
+		$classes_array = array();
+		$query = $this->db->query("SELECT class_code, course_description, subject_description, class_description, tbl_classpeople.status, tbl_classes.class_id
+								FROM tbl_classpeople 
+								LEFT JOIN tbl_classes ON tbl_classpeople.class_id = tbl_classes.class_id
+								LEFT JOIN tbl_subject ON tbl_classes.subject_id = tbl_subject.subject_id
+								LEFT JOIN tbl_courses ON tbl_classes.course_id = tbl_courses.course_id
+								WHERE user_id='$user_id' AND tbl_classpeople.status = 1 AND tbl_classes.date_lock <= CURDATE() AND tbl_classes.status = 1");
+		
+		
+		if($query->num_rows > 0){
+			foreach($query->result() as $row){
+				$status = $this->class_status($row->status);
+				$classes_array[] = array($row->class_code, $row->class_description, $row->subject_description, $row->course_description, $status, $row->class_id);
+			}
+		}
+		return $classes_array;
+	}
+	
 	
 	
 

@@ -5,6 +5,7 @@
 $(document).ready(function(){
 	
 	now.receiveMessage = function(name, message){
+		
 		$("#tbl_messages").append("<tr><td>" + name + ": " + message +"</td></tr>");
 		$('#tbl_messages tr:even').addClass('alt');
 	}
@@ -30,6 +31,7 @@ $(document).ready(function(){
 	now.ready(function(){
 		// By default pick the first chatroom 
 		now.changeRoom($('#session_room').val());
+		
 		// Connection established and room set; allow user to start sending messages
 		$("#send-button").removeAttr('disabled');
 	});

@@ -37,5 +37,15 @@ class classrooms extends ci_Controller{
 		$this->load->model('classrooms_model');
 		$this->classrooms_model->module_status();
 	}
+	
+	function export(){
+		$this->load->model('classrooms_model');
+		$this->classrooms_model->export();
+	}
+	
+	function remove(){
+		$this->load->model('classusers_model');
+		$this->classusers_model->remove();
+	}
 }
 ?>

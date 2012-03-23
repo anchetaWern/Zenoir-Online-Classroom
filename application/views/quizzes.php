@@ -10,7 +10,7 @@
 <?php 
 $quizzes = $table;
 ?>
-
+<div class="tbl_view">
 <?php if(!empty($quizzes)){ ?>
 <table class="tbl_classes">
 <thead>
@@ -51,3 +51,4 @@ $quizzes = $table;
 </tbody>
 </table>
 <?php } ?>
+</div>

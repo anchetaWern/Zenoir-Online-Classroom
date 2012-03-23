@@ -14,7 +14,7 @@
 $inbox 	= $table['inbox'];
 $outbox	= $table['outbox'];
 ?>
-
+<div class="tbl_view">
 <?php if(!empty($inbox)){ ?>
 <table class="tbl_classes">
 	<thead>
@@ -42,10 +42,11 @@ $outbox	= $table['outbox'];
 	</tbody>
 </table>
 <?php } ?>
-
+</div><!--end of tbl_view-->
 </div><!--end of inbox-->
 
 <div id="outbox" class="tab-content">
+<div class="tbl_view">
 <?php if(!empty($outbox)){ ?>
 <table class="tbl_classes">
 	<thead>
@@ -68,4 +69,5 @@ $outbox	= $table['outbox'];
 	</tbody>
 </table>
 <?php } ?>
+</div><!--end of tbl_view-->
 </div><!--end of outbox-->

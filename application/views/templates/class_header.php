@@ -79,6 +79,7 @@ $(function(){
 				function(){
 					$('#px-submit').click();
 					$('#as_title, #as_body, #deadline').val('');
+					$('#tbl_view').load('/zenoir/index.php/class_loader/view/assignments');
 				}
 			);
 		}else{
@@ -363,6 +364,29 @@ $(function(){
 			$.post('/zenoir/index.php/classrooms/enable', {'cm_id' : classmodule_id}, function(data){console.log(data);});
 		}else{
 			$.post('/zenoir/index.php/classrooms/disable', {'cm_id' : classmodule_id});
+		}
+	});
+	
+	$('#btn_export').live('click', function(){
+		var export_class = $('#export_to').val();
+		$('#export_group input[type=checkbox]').each(function(index){
+			if($(this).attr('checked')){
+				
+				$.post('/zenoir/index.php/classrooms/export', {'export_class' : export_class, 'export_type' : index});
+			}
+		});
+		
+	});
+	
+	$('img[data-removename]').live('click', function(){
+		var student_id = $.trim($(this).data('removeid'));
+		var x = confirm('Are you sure you want to remove this student from this class?');
+		if(x){
+			$.post('/zenoir/index.php/classrooms/remove', {'student_id' : student_id},
+				function(){
+					$(this).parents('tr').remove();
+				}
+			);
 		}
 	});
 	

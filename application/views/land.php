@@ -16,7 +16,6 @@ $old_classes=$table['old_classes'];
 	<li><a href="#notifications">Invites</a></li>
 	<?php } ?>
 	<li><a href="#unreads">Unread Posts</a></li>
-	<li><a href="#recents">Recent Activities</a></li>
 	<li><a href="#previous">Previous Classes</a></li>
 </ul>
 
@@ -98,8 +97,7 @@ $old_classes=$table['old_classes'];
 <?php } ?>
 </div><!--end of unreads-->
 
-<div id="recents" class="tab-content">
-</div><!--end of recents-->
+
 
 <div id="previous" class="tab-content">
 <?php if(!empty($old_classes)){ ?>

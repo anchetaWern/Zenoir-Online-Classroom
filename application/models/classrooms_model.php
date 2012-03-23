@@ -185,5 +185,66 @@ class classrooms_model extends ci_Model{
 		}
 		return $status;
 	}
+	
+	function export(){//exports class data to other classes (Eg. handout, student)
+		//all handouts and students are being exported
+		$class_id	= $this->session->userdata('current_class');
+		$exp_class	= $this->input->post('export_class'); //class id to export to
+		$exp_type	= $this->input->post('export_type');
+		if($exp_type == 0){//student
+			$decision = $this->exported($class_id, $exp_class, $exp_type);
+			
+			if($decision == 0){
+				$export = $this->db->query("INSERT INTO tbl_exports SET source_class='$class_id', receiving_class='$exp_class', export_type='$exp_type'");
+				
+				$query_student = $this->db->query("SELECT user_id FROM tbl_classpeople WHERE class_id='$class_id' AND status = 1");
+				if($query_student->num_rows() > 0){
+					foreach($query_student->result() as $row){
+						
+						$user_id = $row->user_id;
+						$transfer_students = $this->db->query("INSERT INTO tbl_classpeople SET user_id='$user_id', class_id='$exp_class'");
+					}
+				}
+			}
+			
+		}else if($exp_type == 1){//handout
+			$decision = $this->exported($class_id, $exp_class, $exp_type);
+			
+			if($decision == 0){
+				$export = $this->db->query("INSERT INTO tbl_exports SET source_class='$class_id', receiving_class='$exp_class', export_type='$exp_type'");
+				
+				$query_handout = $this->db->query("SELECT handout_id, ho_title, ho_body FROM tbl_handouts WHERE class_id='$class_id'");
+				if($query_handout->num_rows() > 0){
+					foreach($query_handout->result() as $row){
+						$ho_id	  = 'HO'.$row->handout_id;
+						$ho_title = $row->ho_title;
+						$ho_body  = $row->ho_body;
+						
+						$this->db->query("INSERT INTO tbl_handouts SET class_id='$exp_class', ho_title='$ho_title', ho_body='$ho_body', date_posted=CURDATE()");
+						$new_ho_id = 'HO'.$this->db->insert_id();
+						
+						$handout_files = $this->db->query("SELECT post_id, file_id FROM tbl_filepost WHERE post_id='$ho_id'");
+						if($handout_files->num_rows() > 0){
+							foreach($handout_files->result() as $row){
+								$post_id = $row->post_id;
+								$file_id = $row->file_id;
+								$this->db->query("INSERT INTO tbl_filepost SET post_id='$new_ho_id', file_id='$file_id'");
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	function exported($source, $receiver, $type){//returns 0 if not exported to class, 1 if already exported before
+		$query = $this->db->query("SELECT export_id FROM tbl_exports WHERE source_class='$source' AND receiving_class='$receiver' AND export_type='$type'");
+		if($query->num_rows() > 0){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
 }
 ?>

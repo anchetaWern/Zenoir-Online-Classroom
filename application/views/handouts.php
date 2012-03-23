@@ -10,6 +10,7 @@
 $handouts = $table;
 ?>
 <!--existing assignments both done, read, and not done-->
+<div class="tbl_view">
 <?php if(!empty($handouts)){ ?>
 <table class="tbl_classes">
 	<thead>
@@ -35,3 +36,4 @@ $handouts = $table;
 	</tbody>
 </table>
 <?php } ?>
+</div>

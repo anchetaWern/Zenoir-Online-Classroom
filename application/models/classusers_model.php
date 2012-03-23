@@ -54,7 +54,7 @@ class classusers_model extends ci_Model{
 		$class_user_r = array();
 		$query = $this->db->query("SELECT tbl_userinfo.user_id, fname, mname, lname FROM tbl_userinfo
 								LEFT JOIN tbl_classpeople ON tbl_userinfo.user_id = tbl_classpeople.user_id
-								WHERE class_id = '$class_id' AND tbl_userinfo.user_id != '$current_user'");
+								WHERE class_id = '$class_id' AND tbl_userinfo.user_id != '$current_user' AND tbl_classpeople.status = 1");
 		if($query->num_rows() > 0){
 			foreach($query->result() as $row){
 				$id		= $row->user_id;
@@ -170,6 +170,18 @@ class classusers_model extends ci_Model{
 			$teacher_info = array('teacher_id'=>$teacher_id, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
 		}
 		return $teacher_info;
+	}
+	
+	function remove(){//removes a student from a class
+		$student_id = $this->input->post('student_id');
+		$class_id	= $this->session->userdata('current_class');
+		/*
+		status:
+		1-active
+		2-removed
+		0-invited
+		*/
+		$this->db->query("UPDATE tbl_classpeople SET status = 2 WHERE class_id='$class_id' AND user_id='$student_id'");
 	}
 	
 	

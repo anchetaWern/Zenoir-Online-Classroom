@@ -9,6 +9,7 @@
 <?php 
 $assignments = $table;
 ?>
+<div class="tbl_view">
 <!--existing assignments both done, read, and not done-->
 <?php if(!empty($table)){ ?>
 <table class="tbl_classes">
@@ -40,3 +41,4 @@ $assignments = $table;
 	</tbody>
 </table>
 <?php } ?>
+</div>

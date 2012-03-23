@@ -15,6 +15,7 @@ $session_types = array('Class', 'Masked', 'Team');
 <span class="spacer"><a href="/zenoir/index.php/ajax_loader/view/new_classsession" data-sestype="3" class="lightbox">Team Session</a></span>
 </p>
 
+<div class="tbl_view">
 <?php if(!empty($sessions)){ ?>
 <table class="tbl_classes">
 	<thead>
@@ -53,6 +54,6 @@ $session_types = array('Class', 'Masked', 'Team');
 	</tbody>
 </table>
 <?php } ?>
-
-</div>
+</div><!--end of tbl_view-->
+</div><!--end of content-->
 

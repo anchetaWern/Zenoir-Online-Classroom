@@ -89,7 +89,7 @@ class messages_model extends ci_Model{
 									FROM tbl_messages
 									LEFT JOIN tbl_messagereceiver ON tbl_messages.message_id = tbl_messagereceiver.message_id
 									LEFT JOIN tbl_userinfo ON tbl_messagereceiver.receiver_id = tbl_userinfo.user_id
-									WHERE tbl_messages.sender_id='$current_user' AND class_id='$class_id' ORDER BY datetime_sent DESC");							
+									WHERE tbl_messages.sender_id='$current_user' AND class_id='$class_id' GROUP BY msg_title ORDER BY datetime_sent DESC");							
 		$outbox_count = $outbox->num_rows();
 		
 		$this->load->model('post');

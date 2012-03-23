@@ -67,13 +67,15 @@ class sessions_model extends ci_Model{
 	}
 	
 	function list_all(){//list all the sessions where the current user has been invited or participated
+		
 		$user_id	= $this->session->userdata('user_id');
+		$class_id	= $this->session->userdata('current_class');
 		$sessions	= array();
 		$query 		= $this->db->query("SELECT tbl_sessions.session_id, ses_title, ses_description, 
 						DATE(time_from) AS date, time_from, time_to, ses_type, infinite 
 						FROM tbl_sessions
 						LEFT JOIN tbl_sessionspeople ON tbl_sessions.session_id = tbl_sessionspeople.session_id
-						WHERE tbl_sessionspeople.user_id='$user_id'");
+						WHERE tbl_sessionspeople.user_id='$user_id' AND class_id='$class_id'");
 		if($query->num_rows() > 0){
 			foreach($query->result() as $row){
 				$id				= $row->session_id;
@@ -109,8 +111,14 @@ class sessions_model extends ci_Model{
 			$infinite		= $row->infinite;
 			
 			$session_info	= array('id'=>$session_id, 'title'=>$title, 'description'=>$description, 'date'=>$date, 'from'=>$from,'to'=>$to, 'type'=>$type, 'infinite'=>$infinite);
+			$_SESSION['ses'] = $session_info;
 		}
 		return $session_info;
+	}
+	
+	function is_valid(){//checks if the selected session is still valid returns 1 if valid 2 if invalid
+		
+	
 	}
 }
 ?>

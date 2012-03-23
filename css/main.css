@@ -74,3 +74,11 @@ a{
     margin: 0 auto;
     margin-top: 20px;
 }
+
+.export_type label{
+	display: inline;
+}
+
+#export_group{
+	margin-top: 20px;
+}

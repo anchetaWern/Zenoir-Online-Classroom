@@ -162,10 +162,15 @@ class class_loader extends ci_Controller{
 				$this->load->model('classusers_model');
 				$classes['invited'] = $this->classusers_model->list_invited_students();
 				
+				//remove students
+				$classes['remove'] = $this->classusers_model->class_users();
+				
 				//modules
 				$this->load->model('classrooms_model');
 				$classes['modules'] = $this->classrooms_model->class_modules();
 				
+				//exports
+				$classes['exports'] = $this->classusers_model->user_classes(); 
 				return $classes;
 			break;
 			

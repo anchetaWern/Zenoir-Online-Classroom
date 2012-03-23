@@ -48,11 +48,11 @@ everyone.now.changeRoom = function(newRoom){
         // Tell everyone he left :)
         oldGroup.now.receiveMessage(this.now.name , ' has left the session and gone to '+newRoom);
     }
+	
+	
     var newGroup = nowjs.getGroup(newRoom);
     newGroup.addUser(this.user.clientId);
     
-
-	
 	//load previous messages here
 	client.query(
 	  'SELECT message, mask_name FROM tbl_sessioncontent WHERE session_id=' + newRoom,
@@ -71,7 +71,7 @@ everyone.now.changeRoom = function(newRoom){
 	
 	
 	// Tell everyone he joined
-    newGroup.now.receiveMessage(this.now.name , ' has joined the session');
+    //newGroup.now.receiveMessage(this.now.name , ' has joined the session');
 
     this.now.serverRoom = newRoom;
 };

@@ -168,6 +168,15 @@ class assignments_model extends ci_Model{
 			}
 			return $reply;
 		}
+		
+		function check(){
+		//checks if student can still reply to an assignment 
+		//once the deadline becomes less than the current date the student cannot reply to the assignment anymore
+			$assignment_id = $this->session->userdata('current_id');
+			$query = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id='$assignment_id' AND deadline >= CURDATE()");
+			
+			return $query->num_rows();
+		}
 	
 }
 ?>

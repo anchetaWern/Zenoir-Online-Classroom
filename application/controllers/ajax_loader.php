@@ -138,8 +138,12 @@ class ajax_loader extends ci_Controller{
 			break;
 			
 			case 'assignment_reply':
-			
+				
 				$this->load->model('assignments_model');
+				$reply = $this->assignments_model->check();
+				if($reply == 0){
+					redirect('../ajax_loader/view/view_assignment');
+				}
 				$assignment = $this->assignments_model->reply_details();
 				return $assignment;
 			break;

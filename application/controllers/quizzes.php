@@ -26,7 +26,9 @@ class quizzes extends ci_Controller{
 	
 		$this->load->model('quizzes_model');
 		$this->quizzes_model->submit();
-	}	
+	}
+
+
 
 }
 ?>

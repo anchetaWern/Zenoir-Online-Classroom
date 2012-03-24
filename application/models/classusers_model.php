@@ -128,6 +128,12 @@ class classusers_model extends ci_Model{
 		$this->db->query("UPDATE tbl_classpeople SET status=1 WHERE class_id='$class_id' AND user_id='$student_id'");
 	}
 	
+	function decline(){//student declines teachers invite
+		$student_id = $this->input->post('student_id');
+		$class_id	= $this->input->post('class_id');
+		$this->db->query("DELETE FROM tbl_classpeople WHERE user_id='$student_id' AND class_id='$class_id'");
+	}
+	
 	
 	function list_invites(){//list all the classroom invites for the current user
 		$user_id= $this->session->userdata('user_id');

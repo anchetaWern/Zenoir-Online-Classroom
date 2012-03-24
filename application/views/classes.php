@@ -22,7 +22,7 @@
 			<td><?php echo $v[3]; ?></td>
 			<td><?php echo $v[5]; ?></td>
 			<td><?php echo strtoupper($v[2]) .',  '. ucwords($v[0]) . ' ' . ucwords($v[1]); ?></td>
-			<td><a href="/zenoir/index.php/adminloader/view/class_home" data-classid="<?php echo $v[6]; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td>
+			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[6]; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td>
 			
 		</tr>
 		<?php } ?>

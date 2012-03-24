@@ -118,13 +118,19 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'take_quiz':
+				$this->load->model('quizzes_model');
+				$take = $this->quizzes_model->check();
+				if($take == 0){
+					redirect('../class_loader/view/quizzes');
+				}
+				
 				$this->load->model('post');
 				$this->post->unset_post('QZ');
-			
+				
 				$this->load->model('logs_model');
 				$this->logs_model->lag(16, 'QZ');
 			
-				$this->load->model('quizzes_model');
+				
 				$quiz = $this->quizzes_model->view();
 				return $quiz;
 			break;
@@ -150,6 +156,9 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'reports':
+				if($this->session->userdata('usertype') == 3){
+					redirect('../class_loader/view/class_home');
+				}
 				$this->load->model('classusers_model');
 				$students = $this->classusers_model->class_users();
 				return $students;
@@ -157,6 +166,9 @@ class class_loader extends ci_Controller{
 			
 			case 'teachers':
 				//invited students
+				if($this->session->userdata('usertype') == 3){
+					redirect('../class_loader/view/class_home');
+				}
 				$classes['invited'] = array();
 				$classes['modules'] = array();
 				$this->load->model('classusers_model');

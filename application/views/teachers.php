@@ -64,7 +64,7 @@ if(!empty($invites)){
 		<tr>
 			<td><?php echo $row['id']; ?></td>
 			<td><?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']) .' '. ucwords($row['mname']); ?></td>
-			<td><img src="/zenoir/img/decline.png" class="icons" data-removename="<?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']); ?>" data-removeid="<?php echo $row['id']; ?>"/></td>
+			<td><a href="#"><img src="/zenoir/img/decline.png" class="icons" data-removename="<?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']); ?>" data-removeid="<?php echo $row['id']; ?>"/></a></td>
 		</tr>
 	<?php } ?>
 	</tbody>

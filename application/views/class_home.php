@@ -33,9 +33,7 @@ $unread = $table;
 				<td><a href="/zenoir/index.php/class_loader/view/handouts"><button class="large red">Handouts(<?php echo $unread['handout'];  ?>)</button></a></td>
 				<td><a href="/zenoir/index.php/class_loader/view/land"><button class="large pink">Dashboard</button></a></td>
 				<td>
-				<?php if($user_type == 1){ ?>
-				<a href=""><button class="large">Admin</button></a>
-				<?php } ?>
+			
 				</td><!--admin accessible-->
 			</tr>
 			

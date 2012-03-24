@@ -244,8 +244,29 @@ $(function(){
 	});
 	
 	$('#submit_quiz').live('click', function(){
-		var answers 	= $('.answers').serializeArray();
-		$.post('/zenoir/index.php/quizzes/submit', {'answers' : answers}, function(data){console.log(data);});
+		
+		var quiz_items 	= $('select').length;
+		var answered_all= 1;
+		$('select').each(function(){
+			if($(this).val() == '--'){
+				answered_all = 0;
+			}
+		});
+		
+		if(answered_all == 1){
+			var answers 	= $('.answers').serializeArray();
+			var x			= confirm('Are you sure of your answers?');
+			if(x){
+				$.post('/zenoir/index.php/quizzes/submit', {'answers' : answers}, 
+						function(){
+							window.location = "/zenoir/index.php/class_loader/view/quizzes";
+						}
+				);
+			}
+		}else{
+			alert('Please answer all of the items!');
+		}
+		
 	});
 	
 	$('#create_group').live('click', function(){
@@ -348,6 +369,17 @@ $(function(){
 		}
 	});
 	
+	$('img[data-decline]').live('click', function(){
+		var student_id 	= $(this).data('decline');
+		var class_id	= $(this).data('classid');
+		var answer = confirm('Are you sure you want to decline the invitation to join this class?');
+		if(answer){
+			$.post('/zenoir/index.php/classrooms/decline', {'student_id' : student_id, 'class_id' : class_id}, function(){
+				alert('You have declined the request to join the classroom!');
+			});
+		}
+	});
+	
 	$('#enter_session').live('click', function(){
 		var masked_name = $.trim($('#alias').val());
 		if(masked_name != ''){//for masked session
@@ -369,18 +401,26 @@ $(function(){
 	
 	$('#btn_export').live('click', function(){
 		var export_class = $('#export_to').val();
-		$('#export_group input[type=checkbox]').each(function(index){
-			if($(this).attr('checked')){
-				
-				$.post('/zenoir/index.php/classrooms/export', {'export_class' : export_class, 'export_type' : index});
-			}
-		});
+		var x = confirm('This process cannot be undone are you sure you want to continue?');
+		if(x){
+			$('#export_group input[type=checkbox]').each(function(index){
+				if($(this).attr('checked')){
+					
+					$.post('/zenoir/index.php/classrooms/export', {'export_class' : export_class, 'export_type' : index}, 
+							function(){
+								alert('Successfully exported!');
+							}
+					);
+				}
+			});
+		}
 		
 	});
 	
 	$('img[data-removename]').live('click', function(){
-		var student_id = $.trim($(this).data('removeid'));
-		var x = confirm('Are you sure you want to remove this student from this class?');
+		var student_id 	= $.trim($(this).data('removeid'));
+		var student		= $.trim($(this).data('removename'));
+		var x = confirm('Are you sure you want to remove '+ student +' from this class?');
 		if(x){
 			$.post('/zenoir/index.php/classrooms/remove', {'student_id' : student_id},
 				function(){

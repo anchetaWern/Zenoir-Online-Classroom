@@ -184,5 +184,23 @@ class quizzes_model extends ci_Model{
 		return $quiz_results;
 	}
 
+	function check(){//checks if the quiz can already be taken by the student
+		$user_id = $this->session->userdata('user_id');
+		$quiz_id = $this->session->userdata('current_id');
+		$post_quiz_id = 'QZ'.$quiz_id;
+		$not_taken	= 1;
+		//checks if the student has already opened the quiz
+		$query = $this->db->query("SELECT status FROM tbl_poststatus WHERE post_id='$post_quiz_id' AND post_to='$user_id' AND status = 1");
+		$not_taken = $query->num_rows();
+		
+		
+		//checks if the current time is within the range of start_time and end time of the selected quiz
+		$query = $this->db->query("SELECT quiz_id FROM tbl_quiz WHERE quiz_id='$quiz_id' AND NOW() BETWEEN start_time AND end_time");
+		if($query->num_rows() == 1 && $not_taken == 1){
+			return 1;//can take the quiz
+		}else{
+			return 0;//cannot take the quiz
+		}
+	}
 }
 ?>

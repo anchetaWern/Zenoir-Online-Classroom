@@ -188,6 +188,7 @@ class classrooms_model extends ci_Model{
 	
 	function export(){//exports class data to other classes (Eg. handout, student)
 		//all handouts and students are being exported
+		$teacher_id	= $this->session->userdata('user_id'); //the teacher
 		$class_id	= $this->session->userdata('current_class');
 		$exp_class	= $this->input->post('export_class'); //class id to export to
 		$exp_type	= $this->input->post('export_type');
@@ -202,7 +203,10 @@ class classrooms_model extends ci_Model{
 					foreach($query_student->result() as $row){
 						
 						$user_id = $row->user_id;
+						if($user_id != $teacher_id){
+						//exporting of students should be done when the teacher is the only person in the class
 						$transfer_students = $this->db->query("INSERT INTO tbl_classpeople SET user_id='$user_id', class_id='$exp_class'");
+						}
 					}
 				}
 			}

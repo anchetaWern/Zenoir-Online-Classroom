@@ -54,6 +54,7 @@ $old_classes=$table['old_classes'];
 			<th>Description</th>
 			<th>Teacher</th>
 			<th>Accept</th>
+			<th>Decline</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -63,6 +64,7 @@ $old_classes=$table['old_classes'];
 			<td><?php echo $row['class_description']; ?></td>
 			<td><?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']);  ?></td>
 			<td><a href="#"><img src="/zenoir/img/confirm.gif" class="icons" data-studentid="<?php echo $row['student_id']; ?>" data-classid="<?php echo $row['class_id']; ?>"/></a></td>
+			<td><a href="#"><img src="/zenoir/img/decline.png" class="icons" data-decline="<?php echo $row['student_id']; ?>" data-classid="<?php echo $row['class_id']; ?>"/></a></td>
 		</tr>
 	<?php } ?>
 	</tbody>

@@ -26,6 +26,7 @@ $submit	= array(
 <tr>
 	<td>
 	<select name="answer" class="answers">
+	<option value="--">--</option>
 	<?php foreach($choices as $choice){ ?>
 	<option value="<?php echo $choice; ?>"><?php echo $choice; ?></option>
 	<?php } ?>

@@ -186,6 +186,7 @@ class ajax_loader extends ci_Controller{
 			
 			case 'join_session':
 				$this->load->model('sessions_model');
+				
 				$session = $this->sessions_model->view($_GET['sesid']);
 				return $session;
 			break;		

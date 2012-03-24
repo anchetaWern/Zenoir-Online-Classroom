@@ -116,9 +116,17 @@ class sessions_model extends ci_Model{
 		return $session_info;
 	}
 	
-	function is_valid(){//checks if the selected session is still valid returns 1 if valid 2 if invalid
+	function check($session_id){
+		//if infinite can access everytime
+		$limited = $this->db->query("SELECT infinite FROM tbl_sessions WHERE session_id=? AND infinite=0 AND NOW() BETWEEN time_from AND time_to", $session_id);
 		
-	
+		$infinite = $this->db->query("SELECT infinite FROM tbl_sessions WHERE session_id=? AND infinite=1", $session_id);
+		
+		if($limited->num_rows() == 1 || $infinite->num_rows() == 1){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 }
 ?>

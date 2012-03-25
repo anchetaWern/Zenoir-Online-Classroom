@@ -20,6 +20,7 @@ $old_classes=$table['old_classes'];
 </ul>
 
 <div id="classes" class="tab-content">
+<?php if(!empty($classes)){ ?>
 <table>
 	<thead>
 		<tr>
@@ -42,6 +43,7 @@ $old_classes=$table['old_classes'];
 		<?php } ?>
 	</tbody>
 </table>
+<?php } ?>
 </div><!--end of classes-->
 
 <?php if($user_type == 3){ ?>

@@ -105,9 +105,9 @@ class post extends ci_Model{
 	function post_title($post_type, $post_id){//returns the post title from the post_type id and post_id
 		$post_id_len	= strlen($post_id);
 		$post_id		= substr($post_id, 2, $post_id_len);
-		$tables 		= array('tbl_assignment', 'tbl_handouts', 'tbl_assignmentresponse', 'tbl_quiz', 'tbl_messages', 'tbl_sessions');
-		$fields_id 		= array('assignment_id', 'handout_id', 'asresponse_id', 'quiz_id', 'message_id', 'session_id');
-		$fields_title	= array('as_title', 'ho_title', 'res_title', 'qz_title', 'msg_title', 'ses_title');
+		$tables 		= array('tbl_assignment', 'tbl_handouts', 'tbl_assignmentresponse', 'tbl_quiz', 'tbl_messages', 'tbl_sessions', 'tbl_quizresult');
+		$fields_id 		= array('assignment_id', 'handout_id', 'asresponse_id', 'quiz_id', 'message_id', 'session_id', 'quizresult_id');
+		$fields_title	= array('as_title', 'ho_title', 'res_title', 'qz_title', 'msg_title', 'ses_title', 'quiz_id');
 		
 		$table			= $tables[$post_type - 1];
 		$field_base		= $fields_id[$post_type - 1];

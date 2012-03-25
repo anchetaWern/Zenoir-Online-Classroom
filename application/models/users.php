@@ -154,7 +154,7 @@ class users extends ci_Model{
 		$user_id = $this->session->userdata('user_id');
 		$unreads = $this->db->query("SELECT class_code, class_description, post_type, post_id FROM tbl_poststatus 
 									LEFT JOIN tbl_classes ON tbl_poststatus.class_id = tbl_classes.class_id
-									WHERE post_to='$user_id' AND tbl_poststatus.status=1");
+									WHERE post_to='$user_id' AND tbl_poststatus.status=1 AND post_type != 7");
 		$this->load->model('post');
 		$unread_r = array();
 		if($unreads->num_rows() > 0){

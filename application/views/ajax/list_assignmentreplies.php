@@ -33,7 +33,7 @@ $back	= array(
 			<span class="red_star">*</span>
 			<?php } ?>
 			</td>
-			<td><?php echo $row['res_date']; ?></td>
+			<td><?php echo date('Y-m-d g:i:s A', strtotime($row['res_date'])); ?></td>
 			<td><?php echo $row['sender']; ?></td>
 			<td><a href="/zenoir/index.php/ajax_loader/view/view_assignmentreply" data-id="<?php echo $row['res_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		</tr>

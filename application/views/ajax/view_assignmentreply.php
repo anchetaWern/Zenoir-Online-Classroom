@@ -20,7 +20,7 @@ Sent by: <?php echo $response['sender']; ?>
 </div>
 
 <div id="datetime">
-Date: <?php echo $response['res_date']; ?>
+Date: <?php echo date('Y-m-d g:i:s A', strtotime($response['res_date'])); ?>
 </div>
 
 <div id="response_body">

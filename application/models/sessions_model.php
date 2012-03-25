@@ -128,5 +128,20 @@ class sessions_model extends ci_Model{
 			return 0;
 		}
 	}
+	
+	function content(){//loads all the content of a specific content 
+		$session_id 	= $_SESSION['ses']['id']; 
+		$session_content= array();
+		$conversation	= $this->db->query("SELECT mask_name, message, time_sent FROM tbl_sessioncontent WHERE session_id=?", $session_id);
+		if($conversation->num_rows() > 0){
+			foreach($conversation->result() as $row){
+				$mask_name	= $row->mask_name;
+				$message	= $row->message;
+				$time		= $row->time_sent;
+				$session_content[] = array('mask'=>$mask_name, 'msg'=>$message, 'time'=>$time);
+			}
+		}
+		return $session_content;
+	}
 }
 ?>

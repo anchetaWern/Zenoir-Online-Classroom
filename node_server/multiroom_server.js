@@ -53,7 +53,8 @@ everyone.now.changeRoom = function(newRoom){
     var newGroup = nowjs.getGroup(newRoom);
     newGroup.addUser(this.user.clientId);
     
-	//load previous messages here
+	//load previous messages here - not cool coz everytime someone joins this also loads to the other people who are in the session
+	/*
 	client.query(
 	  'SELECT message, mask_name FROM tbl_sessioncontent WHERE session_id=' + newRoom,
 		  function selectCb(err, results, fields){
@@ -68,10 +69,11 @@ everyone.now.changeRoom = function(newRoom){
 			
 		  }
 	);
+	*/
 	
 	
 	// Tell everyone he joined
-    //newGroup.now.receiveMessage(this.now.name , ' has joined the session');
+    newGroup.now.receiveMessage(this.now.name , ' has joined the session');
 
     this.now.serverRoom = newRoom;
 };

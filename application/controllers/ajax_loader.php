@@ -204,6 +204,11 @@ class ajax_loader extends ci_Controller{
 				return $user;
 			break;
 			
+			case 'session':
+				$this->load->model('sessions_model');
+				$content = $this->sessions_model->content();
+				return $content;
+			break;
 		}
 	}
 }

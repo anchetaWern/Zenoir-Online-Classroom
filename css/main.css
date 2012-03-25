@@ -82,3 +82,8 @@ a{
 #export_group{
 	margin-top: 20px;
 }
+
+.image_container{
+	width: 700px;
+	height: 500px;
+}

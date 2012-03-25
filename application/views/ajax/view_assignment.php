@@ -40,7 +40,7 @@ Deadline : <?php echo $assignment['deadline']; ?>
 <div id="files">
 
 <?php foreach($files as $row){ ?>
-	<li><a href="/zenoir/assets/downloader/" data-dl="<?php echo $row['file_id']; ?>"><?php echo $row['filename']; ?></a></li>
+	<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
 <?php } ?>
 </div>
 

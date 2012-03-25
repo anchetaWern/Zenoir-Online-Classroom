@@ -159,12 +159,15 @@ class assignments_model extends ci_Model{
 				$row = $reply_details->row();
 				
 				$assignment_id=$row->assignment_id;
+				$file_as_id =   'AR'.$reply_id;
 				$res_title	= $row->res_title;
 				$res_body	= $row->res_body;
 				$res_date	= $row->response_datetime;
 				$sender		= $row->sender;
-			
-				$reply = array('as_id'=>$assignment_id, 'res_title'=>$res_title, 'res_date'=>$res_date, 'res_body'=>$res_body, 'sender'=>$sender);
+				
+				$this->load->model('files');
+				$reply['files'] = $this->files->view($file_as_id);
+				$reply['reply'] = array('as_id'=>$assignment_id, 'res_title'=>$res_title, 'res_date'=>$res_date, 'res_body'=>$res_body, 'sender'=>$sender);
 			}
 			return $reply;
 		}

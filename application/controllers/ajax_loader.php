@@ -85,6 +85,9 @@ class ajax_loader extends ci_Controller{
 			
 				$this->load->model('messages_model');
 				$message = $this->messages_model->view();
+				
+				$_SESSION['page']= $_SERVER['REQUEST_URI'];
+				
 				return $message;
 			break;
 			
@@ -110,6 +113,8 @@ class ajax_loader extends ci_Controller{
 			
 				$this->load->model('handouts_model');
 				$handout = $this->handouts_model->view();
+				
+				$_SESSION['page']= $_SERVER['REQUEST_URI'];
 				return $handout;
 			break;
 			
@@ -122,6 +127,8 @@ class ajax_loader extends ci_Controller{
 			
 				$this->load->model('assignments_model');
 				$assignment = $this->assignments_model->view();
+				
+				$_SESSION['page']= $_SERVER['REQUEST_URI'];
 				return $assignment;
 			break;
 			
@@ -134,6 +141,8 @@ class ajax_loader extends ci_Controller{
 			
 				$this->load->model('assignments_model');
 				$assignment = $this->assignments_model->view_reply();
+				
+				$_SESSION['page']= $_SERVER['REQUEST_URI'];
 				return $assignment;
 			break;
 			
@@ -208,6 +217,18 @@ class ajax_loader extends ci_Controller{
 				$this->load->model('sessions_model');
 				$content = $this->sessions_model->content();
 				return $content;
+			break;
+			
+			case 'view_file':
+				$this->load->model('files');
+				$filedata = $this->files->data($_GET['fid']);
+				return $filedata;
+			break;
+			
+			case 'dl_file':
+				$this->load->model('files');
+				$filedata = $this->files->data($_GET['fid']);
+				return $filedata;
 			break;
 		}
 	}

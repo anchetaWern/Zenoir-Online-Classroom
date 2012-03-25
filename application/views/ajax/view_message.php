@@ -56,7 +56,7 @@ Date: <?php echo date('Y-m-d g:i:s A', strtotime($message['date'])); ?>
 <?php if(!empty($message_files)){ ?>
 Attached Files:
 <?php foreach($message_files as $files){ ?>
-	<li><a href="/zenoir/assets/downloader.php?fid=<?php echo $files['file_id']; ?>"><?php echo $files['filename']; ?></a></li>
+	<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $files['file_id']; ?>" class="lightbox"><?php echo $files['filename']; ?></a></li>
 <?php } ?>
 <?php } ?>
 

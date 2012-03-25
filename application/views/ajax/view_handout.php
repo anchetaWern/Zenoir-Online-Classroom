@@ -21,7 +21,7 @@ $handout = $page;
 	<div id="handout_files">
 		Attached Files:
 		<?php foreach($handout['handout_files'] as $row){ ?>
-			<li><a href="/zenoir/assets/downloader?id=<?php echo $row['file_id']; ?>"><?php echo $row['filename']; ?></a></li>
+			<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
 		<?php } ?>
 	</div>
 </div><!--end of container-->

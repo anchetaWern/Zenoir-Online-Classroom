@@ -325,6 +325,7 @@ $(function(){
 			
 		noty(	
 		{
+			modal : true,
 			text: 'Are you sure of your answers?',
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
@@ -442,6 +443,7 @@ $(function(){
 		var invite_name = $(this).data('invitename');
 		noty(	
 		{
+			modal : true,
 			text: 'Are you sure you want to invite ' + invite_name + ' into this class?',
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
@@ -474,6 +476,7 @@ $(function(){
 		
 		noty(	
 		{
+			modal : true,
 			text: 'Are you sure you want to join this class?',
 			buttons: [
 			  {type: 'button green', text: 'Yes', 
@@ -505,6 +508,7 @@ $(function(){
 		
 		noty(	
 		{
+			modal : true,
 			text: 'Are you sure you want to decline the invitation to join this class?',
 			buttons: [
 			  {type: 'button green', text: 'Yes', 
@@ -555,6 +559,7 @@ $(function(){
 
 		noty(	
 		{
+			modal : true,
 			text: 'This process cannot be undone are you sure you want to continue?',
 			buttons: [
 			  {type: 'button green', text: 'Yes', 
@@ -589,6 +594,7 @@ $(function(){
 	
 		noty(	
 		{
+			modal : true,
 			text: 'Are you sure you want to remove '+ student +' from this class?',
 			buttons: [
 			  {type: 'button green', text: 'Yes', 

@@ -11,12 +11,14 @@ class login extends ci_Controller{
 		if($user_exists){
 		$usertype = $this->users->usertype($user_id);
 		$user_name = $this->users->user_name($user_id);
+		$image_id	= $this->users->user_img($user_id);
 		
 			$user_data = array(
 				'user_id'=>$this->input->post('user_id'), 
 				'user_name'=>$user_name,
 				'usertype'=>$usertype,
-				'logged_in'=>true
+				'logged_in'=>true,
+				'image_id'=>$image_id
 			);
 			
 			$this->session->set_userdata($user_data);

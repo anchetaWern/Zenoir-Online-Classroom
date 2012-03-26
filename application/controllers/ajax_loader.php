@@ -17,6 +17,9 @@ class ajax_loader extends ci_Controller{
 	
 	function selector($page){
 		switch($page){
+		
+						
+			
 			case 'new_class':
 				$this->load->model('subjects_model');
 				$subjects = $this->subjects_model->select_subjects();
@@ -174,6 +177,13 @@ class ajax_loader extends ci_Controller{
 				$groups = $this->groups_model->list_all();
 				return $groups;
 			break;
+			
+			case 'edit_group':
+				$this->load->model('groups_model');
+				$group = $this->groups_model->view();
+				return $group;
+			break;
+			
 			
 			case 'new_classsession':
 				$session_type = $this->session->userdata('session_type');

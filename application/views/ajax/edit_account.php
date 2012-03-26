@@ -17,6 +17,7 @@ $('.ui-button-text span').text('Select Photo');
 
 
 <div class="container">
+<?php $file_id = $this->session->userdata('image_id'); ?>
 <p>
 <form action="/zenoir/index.php/upload/do_upload" method="post" enctype="multipart/form-data">
 <input type="file" name="userfile" class="fileUpload">
@@ -26,6 +27,9 @@ $('.ui-button-text span').text('Select Photo');
 		</div>
 </form>
 </p>
+<div id="pic">
+<img width="200px" height="200px" src="/zenoir/index.php/ajax_loader/view/dl_file?fid=<?php echo $file_id; ?>"/>
+</div>
 <label for="password">Password</label>
 <input type="password" id="password" name="password"/>
 

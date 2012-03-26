@@ -16,6 +16,7 @@ $groups 	= $page;
 		<tr>
 			<th>Group Name</th>
 			<th>Creator</th>
+			<th>Update</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,6 +24,7 @@ $groups 	= $page;
 		<tr>
 			<td><?php echo $row['name']; ?></td>
 			<td><?php echo $row['creator']; ?></td>
+			<td><a href="/zenoir/index.php/ajax_loader/view/edit_group" class="lightbox" data-id="<?php echo $row['group_id']; ?>"><img src="/zenoir/img/update.png" class="icons"/></a></td>
 		</tr>
 	<?php } ?>
 	</tbody>

@@ -359,15 +359,81 @@ $(function(){
 	});
 	
 	$('#create_group').live('click', function(){
-		
+		var member_length 	= $('#class_users :selected').length;
 		var group_name 		= $.trim($('#group_name').val());
-		var group_members 	= $('#class_users').serializeArray();
-		$.post('/zenoir/index.php/groups/create', {'group_name' : group_name, 'members' : group_members},
-				function(){
-					noty(noty_success);
-					$('#fancybox-close').click();
-				}
+		
+		if(group_name != ''){
+			if(member_length > 0){
+					
+					var group_members 	= $('#class_users').serializeArray();
+					$.post('/zenoir/index.php/groups/create', {'group_name' : group_name, 'members' : group_members},
+							function(){
+								noty(noty_success);
+								$('#fancybox-close').click();
+							}
+					);
+			}else{
+				noty_err.text = 'Please select atleast one co-member!';
+				noty(noty_err);
+			}
+		}else{
+			noty_err.text = 'Please enter a group name!';
+			noty(noty_err);
+		}
+	});
+	
+	$('img[data-delmember]').live('click', function(){
+		var member_id 	= $.trim($(this).data('delmember'));
+		var member		= $.trim($(this).data('delmembername'));
+		noty(	
+		{
+			modal : true,
+			text: 'Are you sure you want to remove ' + member + ' from the group?',
+			buttons: [
+			  {type: 'button green', text: 'Ok', 
+					click: function(){
+						$.post('/zenoir/index.php/groups/delmember', {'member_id' : member_id}, 
+						function(){
+							noty_success.text = 'Group member successfully removed!';
+							noty(noty_success);
+							setTimeout($.noty.close(), 1000)
+						}
+						);
+					}
+			  },
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
+		}
 		);
+	});
+	
+	$('#update_group').live('click', function(){
+		var member_length 	= $('#class_users :selected').length;
+		var group_name 		= $.trim($('#group_name').val());
+		
+		if(group_name != ''){
+			if(member_length > 0){
+					
+					var group_members 	= $('#class_users').serializeArray();
+					$.post('/zenoir/index.php/groups/update', {'group_name' : group_name, 'members' : group_members},
+							function(){
+								noty_success.text = "Group successfully updated!";
+								noty(noty_success);
+								$('#fancybox-close').click();
+							}
+					);
+			}else{
+				noty_err.text = 'Please select atleast one co-member!';
+				noty(noty_err);
+			}
+		}else{
+			noty_err.text = 'Please enter a group name!';
+			noty(noty_err);
+		}
 	});
 	
 	$('#ses_validity').live('click', function(){

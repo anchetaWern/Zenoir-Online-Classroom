@@ -179,6 +179,21 @@ class users extends ci_Model{
 		$user_id = $this->session->userdata('current_id');
 	}
 	
+	function user_img($user_id){
+		$user_img_id = 'UI'.$user_id;
+		$file_id = 0;
+		$query = $this->db->query("SELECT tbl_files.file_id 
+									FROM tbl_files 
+									LEFT JOIN tbl_filepost ON tbl_files.file_id = tbl_filepost.file_id 
+									WHERE post_id='$user_img_id'");
+									
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$file_id = $row->file_id; 
+		}
+		return $file_id;
+	}
+	
 	
 	
 }

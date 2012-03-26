@@ -4,7 +4,8 @@
 <link rel="stylesheet" href="/zenoir/libs/dataTables/css/demo_page.css"/><!--table styles-->
 <link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/><!--ui style-->
 <link rel="stylesheet" href="/zenoir/css/fileUploader.css"/><!--fileuploader style-->
-
+<link rel="stylesheet" href="/zenoir/libs/noty/css/jquery.noty.css"/><!--notifications-->
+<link rel="stylesheet" href="/zenoir/libs/noty/css/noty_theme_default.css"/><!--notifications-->
 
 <script src="/zenoir/js/jquery171.js"></script><!--core-->
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
@@ -13,11 +14,39 @@
 <script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script><!--ui script-->
 <script src="/zenoir/js/jquery.fileUploader.js"></script><!--file uploader script-->
 <script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
-
+<script src="/zenoir/libs/noty/js/jquery.noty.js"></script><!--notifications-->
 
 
 <script>
 $(function(){
+	var noty_success = {
+			"text":"Operation was successfully completed!",
+			"layout":"top",
+			"type":"success",
+			"textAlign":"center",
+			"easing":"swing",
+			"animateOpen":{"height":"toggle"},
+			"animateClose":{"height":"toggle"},
+			"speed":500,
+			"timeout":5000,
+			"closable":true,
+			"closeOnSelfClick":true
+	}
+	
+	var noty_err = {
+			"text":"An error occured, please try again",
+			"layout":"top",
+			"type":"error",
+			"textAlign":"center",
+			"easing":"swing",
+			"animateOpen":{"height":"toggle"},
+			"animateClose":{"height":"toggle"},
+			"speed":500,
+			"timeout":5000,
+			"closable":true,
+			"closeOnSelfClick":true
+	}
+	
 	
 	
 	$('.time_picker').datetimepicker({
@@ -48,16 +77,32 @@ $(function(){
 	});
 	
 	$('#btn_update_account').live('click',function(){
+		var updates	= 1;
 		var password = $.trim($('#password').val()); 
 		var fname = $.trim($('#fname').val());
 		var mname = $.trim($('#mname').val());
 		var lname = $.trim($('#lname').val());
 		var auto_biography = $.trim($('#autobiography').val());
-		$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
-			function(){
-				$('#px-submit').click();
+		
+		var account_data = [fname, mname, lname];
+		for(var x in account_data){
+			if(account_data[x] == ''){
+				updates = 0;
 			}
-		);
+		}
+		
+		if(updates==1){
+			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
+				function(){
+					$('#px-submit').click();
+					noty_success.text = 'Account was successfully updated!';
+					noty(noty_success);
+				}
+			);
+		}else{
+			noty_err.text = 'Firstname, Middlename and Lastname are required!';
+			noty(noty_err);
+		}
 	});
 	
 	$('#create_assignment').live('click', function(){
@@ -79,11 +124,13 @@ $(function(){
 				function(){
 					$('#px-submit').click();
 					$('#as_title, #as_body, #deadline').val('');
-					$('#tbl_view').load('/zenoir/index.php/class_loader/view/assignments');
+					noty_success.text = 'Assignment was successfully created!';
+					noty(noty_success);
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 
@@ -104,10 +151,13 @@ $(function(){
 				function(){
 					$('#px-submit').click();
 					$('#ho_title, #ho_body').val('');
+					noty_success.text = 'Handout was successfully created!';
+					noty(noty_success);
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -131,10 +181,13 @@ $(function(){
 				function(data){
 					$('#px-submit').click();
 					$('#receivers, #msg_title, #msg_body').val('');
+					noty_success.text = 'Message Sent!';
+					noty(noty_success);
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -156,10 +209,13 @@ $(function(){
 				function(data){
 					$('#px-submit').click();
 					$('#msg_title, #msg_body').val('');
+					noty_success.text = 'Message sent!';
+					noty(noty_success);
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -182,10 +238,13 @@ $(function(){
 				function(){
 					$('#px-submit').click();
 					$('#as_title, #as_body').val('');
+					noty_success.text = 'Reply was successfully submitted!';
+					noty(noty_success);
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -208,11 +267,13 @@ $(function(){
 			//put the general quiz info on the session
 			$.post('/zenoir/index.php/quizzes/cache', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
 				function(){
+					
 					window.location = "/zenoir/index.php/class_loader/view/quiz_items";
 				}
 			);
 		}else{
-			alert('All fields are required');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -235,11 +296,17 @@ $(function(){
 		
 			$.post('/zenoir/index.php/quizzes/create', {'questions' : questions, 'a' : a, 'b' : b, 'c' : c, 'd' : d, 'answers' : answers},
 				function(data){
-					window.location = "/zenoir/index.php/class_loader/view/quizzes";
+					noty_success.text = 'Quiz was successfully created!';
+					noty(noty_success);
+					setTimeout(function(){
+						window.location = "/zenoir/index.php/class_loader/view/quizzes"
+					}, 1000);
+					
 			});
 		
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -255,27 +322,49 @@ $(function(){
 		
 		if(answered_all == 1){
 			var answers 	= $('.answers').serializeArray();
-			var x			= confirm('Are you sure of your answers?');
-			if(x){
-				$.post('/zenoir/index.php/quizzes/submit', {'answers' : answers}, 
+			
+		noty(	
+		{
+			text: 'Are you sure of your answers?',
+			buttons: [
+			  {type: 'button green', text: 'Ok', 
+					click: function(){
+						$.post('/zenoir/index.php/quizzes/submit', {'answers' : answers}, 
 						function(){
-							window.location = "/zenoir/index.php/class_loader/view/quizzes";
+							noty_success.text = 'Answers was successfully submitted!';
+							noty(noty_success);
+							 
+							setTimeout(function(){
+								window.location = "/zenoir/index.php/class_loader/view/quizzes";
+							}, 1000);
 						}
-				);
-			}
+						);
+					}
+			  },
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
+		}
+		);
+			
 		}else{
-			alert('Please answer all of the items!');
+			noty_err.text = 'Please answer all of the quiz items!';
+			noty(noty_err);
 		}
 		
 	});
 	
 	$('#create_group').live('click', function(){
-		console.log('created group');
+		
 		var group_name 		= $.trim($('#group_name').val());
 		var group_members 	= $('#class_users').serializeArray();
 		$.post('/zenoir/index.php/groups/create', {'group_name' : group_name, 'members' : group_members},
 				function(){
-				
+					noty(noty_success);
+					$('#fancybox-close').click();
 				}
 		);
 	});
@@ -339,10 +428,11 @@ $(function(){
 															'time_from' : time_from, 'time_to' : time_to, 'members' : members},
 															function(data){
 																$('#fancybox-close').click();
-																
+																noty(noty_success);
 															});
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -350,34 +440,95 @@ $(function(){
 	$('img[data-inviteid]').live('click', function(){//teacher invites student
 		var invite_id	= $(this).data('inviteid');
 		var invite_name = $(this).data('invitename');
-		var answer = confirm('Are you sure you want to invite ' + invite_name + ' into this class?');
-		if(answer){
-			$.post('/zenoir/index.php/classrooms/invites', {'student_id' : invite_id}, function(){
-				alert('Student successfully invited to the classroom!');
-			});
+		noty(	
+		{
+			text: 'Are you sure you want to invite ' + invite_name + ' into this class?',
+			buttons: [
+			  {type: 'button green', text: 'Ok', 
+					click: function(){
+						$.post('/zenoir/index.php/classrooms/invites', {'student_id' : invite_id}, function(){
+							$.noty.close();
+							noty_success.text = 'Student was successfully invited to the classroom!';
+							noty.force = true;
+							noty(noty_success);
+							setTimeout(function(){
+								location.reload();
+							},1000);
+						});
+					}
+			  },
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
 		}
+		);
+
 	});
 	
 	$('img[data-studentid]').live('click', function(){//student accepts teacher invite
 		var student_id	= $(this).data('studentid');
 		var class_id	= $(this).data('classid');
-		var answer = confirm('Are you sure you want to join this class?');
-		if(answer){
-			$.post('/zenoir/index.php/classrooms/accept', {'student_id' : student_id, 'class_id' : class_id}, function(){
-				alert('You can now enter the classroom!');
-			});
+		
+		noty(	
+		{
+			text: 'Are you sure you want to join this class?',
+			buttons: [
+			  {type: 'button green', text: 'Yes', 
+					click: function(){
+						$.post('/zenoir/index.php/classrooms/accept', {'student_id' : student_id, 'class_id' : class_id}, function(){
+							$.noty.close();
+							noty_success.text = 'You can now login to this classroom!';
+							noty.force = true;
+							noty(noty_success);
+							setTimeout(function(){
+								location.reload();
+							},1000);
+						});
+					}
+			  },
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
 		}
+		);
 	});
 	
 	$('img[data-decline]').live('click', function(){
 		var student_id 	= $(this).data('decline');
 		var class_id	= $(this).data('classid');
-		var answer = confirm('Are you sure you want to decline the invitation to join this class?');
-		if(answer){
-			$.post('/zenoir/index.php/classrooms/decline', {'student_id' : student_id, 'class_id' : class_id}, function(){
-				alert('You have declined the request to join the classroom!');
-			});
+		
+		noty(	
+		{
+			text: 'Are you sure you want to decline the invitation to join this class?',
+			buttons: [
+			  {type: 'button green', text: 'Yes', 
+					click: function(){
+						$.post('/zenoir/index.php/classrooms/decline', {'student_id' : student_id, 'class_id' : class_id}, function(){
+							$.noty.close();
+							noty_success.text = 'You have declined the request to join this classroom!';
+							noty.force = true;
+							noty(noty_success);
+							setTimeout(function(){
+								location.reload();
+							},1000);
+						});
+					}
+			  },
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
 		}
+		);
+	
 	});
 	
 	$('#enter_session').live('click', function(){
@@ -390,7 +541,7 @@ $(function(){
 	});
 	
 	$('.endis_module').live('click', function(){
-		console.log($(this).data('classmoduleid'));
+		
 		var classmodule_id = $(this).data('classmoduleid');
 		if($(this).attr('checked')){
 			$.post('/zenoir/index.php/classrooms/enable', {'cm_id' : classmodule_id}, function(data){console.log(data);});
@@ -401,33 +552,70 @@ $(function(){
 	
 	$('#btn_export').live('click', function(){
 		var export_class = $('#export_to').val();
-		var x = confirm('This process cannot be undone are you sure you want to continue?');
-		if(x){
-			$('#export_group input[type=checkbox]').each(function(index){
-				if($(this).attr('checked')){
-					
-					$.post('/zenoir/index.php/classrooms/export', {'export_class' : export_class, 'export_type' : index}, 
+
+		noty(	
+		{
+			text: 'This process cannot be undone are you sure you want to continue?',
+			buttons: [
+			  {type: 'button green', text: 'Yes', 
+					click: function(){
+					$('#export_group input[type=checkbox]').each(function(index){
+						if($(this).attr('checked')){
+							$.post('/zenoir/index.php/classrooms/export', {'export_class' : export_class, 'export_type' : index}, 
 							function(){
-								alert('Successfully exported!');
-							}
-					);
-				}
-			});
+								$.noty.close();
+								noty_success.text = 'Classroom data was successfully exported!';
+								noty.force = true;
+								noty(noty_success);
+								
+							});
+						}
+					});
+			  }},
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
 		}
-		
+		);
+
 	});
 	
 	$('img[data-removename]').live('click', function(){
 		var student_id 	= $.trim($(this).data('removeid'));
 		var student		= $.trim($(this).data('removename'));
-		var x = confirm('Are you sure you want to remove '+ student +' from this class?');
-		if(x){
-			$.post('/zenoir/index.php/classrooms/remove', {'student_id' : student_id},
-				function(){
-					$(this).parents('tr').remove();
-				}
-			);
+	
+		noty(	
+		{
+			text: 'Are you sure you want to remove '+ student +' from this class?',
+			buttons: [
+			  {type: 'button green', text: 'Yes', 
+					click: function(){
+							$.post('/zenoir/index.php/classrooms/remove', {'student_id' : student_id},
+							function(){
+								$.noty.close();
+								noty_success.text = 'Student successfully removed from the classroom!';
+								noty.force = true;
+								noty(noty_success);
+								setTimeout(function(){
+								location.reload();
+								},1000);
+								
+							});
+					
+			  }},
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
 		}
+		);
+	
+		
 	});
 	
 

@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/><!--ui style-->
 <link rel="stylesheet" href="/zenoir/css/fileUploader.css"/><!--fileuploader style-->
 <link rel="stylesheet" href="/zenoir/libs/wysihtml5/src/bootstrap-wysihtml5.css"/><!--text formatting style-->
+<link rel="stylesheet" href="/zenoir/libs/noty/css/noty_theme_default.css"/><!--notifications-->
 
 <script src="/zenoir/js/jquery171.js"></script><!--core-->
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
@@ -14,12 +15,40 @@
 <script src="/zenoir/js/jquery.fileUploader.js"></script><!--file uploader script-->
 <script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
 <script src="/zenoir/libs/wysihtml5/src/bootstrap-wysihtml5.js"></script><!--text formatting script-->
-
+<script src="/zenoir/libs/noty/jquery.noty.js"></script><!--notifications-->
+<script src="/zenoir/libs/noty/js/jquery.noty.js"></script><!--notifications-->
 
 <script>
 $(function(){
 	$('.tbl_classes').dataTable();
 	
+	var noty_success = {
+			"text":"Operation was successfully completed!",
+			"layout":"top",
+			"type":"success",
+			"textAlign":"center",
+			"easing":"swing",
+			"animateOpen":{"height":"toggle"},
+			"animateClose":{"height":"toggle"},
+			"speed":500,
+			"timeout":5000,
+			"closable":true,
+			"closeOnSelfClick":true
+	}
+	
+	var noty_err = {
+		"text":"An error occured, please try again",
+			"layout":"top",
+			"type":"error",
+			"textAlign":"center",
+			"easing":"swing",
+			"animateOpen":{"height":"toggle"},
+			"animateClose":{"height":"toggle"},
+			"speed":500,
+			"timeout":5000,
+			"closable":true,
+			"closeOnSelfClick":true
+	}
 	
 	
 	$('a[data-classid]').live('hover', function(){//creates a session for the class
@@ -29,15 +58,32 @@ $(function(){
 	});
 	
 	$('#btn_update_account').live('click',function(){
+		var updates	= 1;
 		var password = $.trim($('#password').val()); 
 		var fname = $.trim($('#fname').val());
 		var mname = $.trim($('#mname').val());
 		var lname = $.trim($('#lname').val());
 		var auto_biography = $.trim($('#autobiography').val());
-		$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
-			function(){
-				$('#fancybox-close').click();
-			});
+		
+		var account_data = [fname, mname, lname];
+		for(var x in account_data){
+			if(account_data[x] == ''){
+				updates = 0;
+			}
+		}
+		
+		if(updates==1){
+			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
+				function(){
+					$('#px-submit').click();
+					noty_success.text = 'Account was successfully updated!';
+					noty(noty_success);
+				}
+			);
+		}else{
+			noty_err.text = 'Firstname, Middlename and Lastname are required!';
+			noty(noty_err);
+		}
 	});
 	
 	$('#create_user').live('click', function(){
@@ -58,11 +104,14 @@ $(function(){
 		if(create == 1){
 			$.post('/zenoir/index.php/usert/create_user', {'user_id' : user_id, 'user_type' : user_type, 'fname' : fname, 'mname' : mname, 'lname' : lname}, 
 				function(){
+					noty_success.text = 'User was successfully created!';
+					noty(noty_success);
 					$('#fancybox-close').click();
 				}
 			);
 		}else{
-			alert('All fields are required');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -81,11 +130,14 @@ $(function(){
 		if(create == 1){
 			$.post('/zenoir/index.php/subjects/create_subject', {'subject_code' : subject_code, 'description' : description},
 				function(){
+					noty_success.text = 'Subject was successfully created!';
+					noty(noty_success);
 					$('#fancybox-close').click();
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -104,11 +156,14 @@ $(function(){
 		if(create == 1){
 			$.post('/zenoir/index.php/courses/create_course', {'course_code' : course_code, 'course_desc' : description},
 				function(){
+					noty_success.text = 'Course was successfully created!';
+					noty(noty_success);
 					$('#fancybox-close').click();
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -170,11 +225,14 @@ $(function(){
 				{'class_code' : class_code, 'subject_id' : subject_id, 'teacher_id' : teacher_id, 'course_id' : course_id,
 				'class_desc' : class_desc, 'date_created' : date_created, 'date_to' : date_lock, 'details' : addl_details},
 				function(){
+					noty_success.text = 'Class was successfully created!';
+					noty(noty_success);
 					$('#fancybox-close').click();
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -185,14 +243,7 @@ $(function(){
 		
 	});
 	
-	$('#add_people').live('click', function(){
-		var user_ids = $('#user_ids').val();
-		$.post('/zenoir/index.php/classrooms/add_people', {'user_id' : user_ids}, 
-			function(data){
-				$('#fancybox-close').click();
-			}
-		);
-	});
+
 	
 	$('#update_subject').live('click', function(){
 		var update		= 1;
@@ -209,11 +260,14 @@ $(function(){
 		if(update == 1){
 			$.post('/zenoir/index.php/subjects/update_subject', {'subj_code' : subj_code, 'subj_desc' : subj_desc}, 
 				function(){
+					noty_success.text = 'Subject was successfully created!';
+					noty(noty_success);
 					$('#fancybox-close').click();
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 	
@@ -232,11 +286,14 @@ $(function(){
 		if(update == 1){
 			$.post('/zenoir/index.php/courses/update_course', {'course_code' : course_code, 'course_desc' : course_desc},
 				function(){
+					noty_success.text = 'Course was successfully created!';
+					noty(noty_success);
 					$('#fancybox-close').click();
 				}
 			);
 		}else{
-			alert('All fields are required!');
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
 		}
 	});
 

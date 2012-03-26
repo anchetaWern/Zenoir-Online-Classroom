@@ -2,9 +2,9 @@
 <script>
 $(".date_picker").datepicker({ dateFormat: 'yy-mm-dd' });
 $('.fileUpload').fileUploader({
-			allowedExtension: 'jpg|jpeg|gif|png|zip|avi',
+			allowedExtension: 'gif|jpg|png|zip|avi|rar|7z|mp3|pdf|jpeg|pdf|ogv|mp4|ogg|webm|html|htm|ppt|pptx|doc|docx|xls|xlsx',
 			afterEachUpload: function(data, status, formContainer){
-				$jsonData = $.parseJSON( $(data).find('#upload_data').text() );
+				$jsonData = $.parseJSON($(data).find('#upload_data').text());
 			}
 });
 

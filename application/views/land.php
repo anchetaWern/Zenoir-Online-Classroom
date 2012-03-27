@@ -27,7 +27,6 @@ $old_classes=$table['old_classes'];
 	<thead>
 		<tr>
 			<th>Class Code</th>
-			<th>Description</th>
 			<th>Subject</th>
 			<th>Course</th>
 			<th>Status</th>
@@ -36,8 +35,7 @@ $old_classes=$table['old_classes'];
 	<tbody>
 		<?php foreach($classes as $v){ ?>
 		<tr>
-			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0]; ?></a></td><!--enter class-->
-			<td><?php echo $v[1]; ?></td>
+			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0] .' - '.$v[1]; ?></a></td><!--enter class-->
 			<td><?php echo $v[2]; ?></td>
 			<td><?php echo $v[3]; ?></td>
 			<td><?php echo $v[4]; ?></td>
@@ -54,8 +52,7 @@ $old_classes=$table['old_classes'];
 <table>
 	<thead>
 		<tr>
-			<th>Class Code</th>
-			<th>Description</th>
+			<th>Class</th>
 			<th>Teacher</th>
 			<th>Accept</th>
 			<th>Decline</th>
@@ -64,8 +61,7 @@ $old_classes=$table['old_classes'];
 	<tbody>
 	<?php foreach($invites as $row){ ?>
 		<tr>
-			<td><?php echo $row['class_code']; ?></td>
-			<td><?php echo $row['class_description']; ?></td>
+			<td><?php echo $row['class_code'] .' - '. $row['class_description']; ?></td>
 			<td><?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']);  ?></td>
 			<td><a href="#"><img src="/zenoir/img/confirm.gif" class="icons" data-studentid="<?php echo $row['student_id']; ?>" data-classid="<?php echo $row['class_id']; ?>"/></a></td>
 			<td><a href="#"><img src="/zenoir/img/decline.png" class="icons" data-decline="<?php echo $row['student_id']; ?>" data-classid="<?php echo $row['class_id']; ?>"/></a></td>
@@ -83,8 +79,7 @@ $old_classes=$table['old_classes'];
 		<thead>
 			<tr>
 				<th>Fullname</th>
-				<th>Class Code</th>
-				<th>Description</th>
+				<th>Class</th>
 				<th>View</th>
 			</tr>
 		</thead>
@@ -92,9 +87,8 @@ $old_classes=$table['old_classes'];
 		<?php foreach($people as $row){ ?>
 			<tr>
 				<td><?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']) . ' ' . ucwords($row['mname']);  ?></td>
-				<td><?php echo $row['class_code']; ?></td>
-				<td><?php echo $row['class_description']; ?></td>
-				<td><a href="#" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+				<td><?php echo $row['class_code'] .' - '. $row['class_description'];  ?></td>
+				<td><a href="/zenoir/index.php/ajax_loader/view/view_user" class="lightbox" data-id="<?php echo $row['id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 			</tr>
 		<?php } ?>
 		</tbody>
@@ -110,8 +104,7 @@ $old_classes=$table['old_classes'];
 			<tr>
 				<th>Title</th>
 				<th>Post Type</th>
-				<th>Class Code</th>
-				<th>Description</th>
+				<th>Class</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -119,8 +112,8 @@ $old_classes=$table['old_classes'];
 			<tr>
 				<td><?php echo $row['post_title']; ?></td>
 				<td><?php echo $row['post_type']; ?></td>
-				<td><?php echo $row['class_code']; ?></td>
-				<td><?php echo $row['class_description']; ?></td>
+				<td><?php echo $row['class_code'] .' - '. $row['class_description']; ?></td>
+				
 			</tr>
 		<?php } ?>
 		</tbody>
@@ -135,8 +128,7 @@ $old_classes=$table['old_classes'];
 <table>
 	<thead>
 		<tr>
-			<th>Class Code</th>
-			<th>Description</th>
+			<th>Class</th>
 			<th>Subject</th>
 			<th>Course</th>
 			<th>Status</th>
@@ -145,8 +137,7 @@ $old_classes=$table['old_classes'];
 	<tbody>
 		<?php foreach($old_classes as $v){ ?>
 		<tr>
-			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0]; ?></a></td><!--enter class-->
-			<td><?php echo $v[1]; ?></td>
+			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0] .' - '. $v[1]; ?></a></td><!--enter class-->
 			<td><?php echo $v[2]; ?></td>
 			<td><?php echo $v[3]; ?></td>
 			<td><?php echo $v[4]; ?></td>

@@ -27,6 +27,33 @@ class class_loader extends ci_Controller{
 		}
 	}
 	
+	function access($user_type, $strict){//returns true of the current user can access the page, 
+		//if this returns false user will be redirected to login page
+		//because links are already hidden if users does not have the privilege
+		//its most likely that the user is malicious if the user type validation springs into action
+		//thats why the user is redirected to login page
+		$current_type = $this->session->userdata('usertype');
+		$ret = false;
+		/*
+		user types:
+		1-admin
+		2-teacher
+		3-student
+		1-strict - the specified usertype is the only one who can access it
+		0-non-strict - users who are higher than the specified user type can also access it
+		*/
+		if($strict == 0){
+			if($current_type <= $user_type){
+				$ret = true;
+			}
+		}else if($strict == 1){
+			if($current_type == $user_type){
+				$ret = true;
+			}
+		}
+		return $ret;
+	}
+	
 
 	
 	function destroy_userdata(){
@@ -43,13 +70,16 @@ class class_loader extends ci_Controller{
 				return $unread;
 			break;
 		
-			case 'subjects':
+			case 'subjects'://admin only
+				if($this->access(1, 1) == false){
+					redirect('../loader/view/login_form');
+				}
 				$this->load->model('subjects_model');
 				$subjects = $this->subjects_model->select_subjects();
 				return $subjects;
 			break;
 			
-			case 'land':
+			case 'land'://teacher + student
 				$user['classes'] = array();
 				$user['invites'] = array();
 				$user['unreads'] = array();
@@ -66,7 +96,7 @@ class class_loader extends ci_Controller{
 				return $user;
 			break;
 			
-			case 'assignments':
+			case 'assignments'://teacher + student
 				$this->load->model('classrooms_model');
 				if($this->classrooms_model->module_status(1) == 0){
 					redirect('../class_loader/view/class_home');
@@ -77,7 +107,7 @@ class class_loader extends ci_Controller{
 				return $assignments;
 			break;
 			
-			case 'handouts':
+			case 'handouts'://teacher + student
 				$this->load->model('classrooms_model');
 				if($this->classrooms_model->module_status(3) == 0){
 					redirect('../class_loader/view/class_home');
@@ -88,7 +118,7 @@ class class_loader extends ci_Controller{
 				return $handouts;
 			break;
 			
-			case 'messages':
+			case 'messages'://teacher + student
 				$this->load->model('classrooms_model');
 				if($this->classrooms_model->module_status(4) == 0){
 					redirect('../class_loader/view/class_home');
@@ -99,7 +129,7 @@ class class_loader extends ci_Controller{
 				return $messages;
 			break;
 			
-			case 'quizzes':
+			case 'quizzes'://teacher + student
 				$this->load->model('classrooms_model');
 				if($this->classrooms_model->module_status(2) == 0){
 					redirect('../class_loader/view/class_home');
@@ -110,7 +140,10 @@ class class_loader extends ci_Controller{
 				return $quizzes;
 			break;
 			
-			case 'view_quiz':
+			case 'view_quiz'://teacher
+				if($this->access(2, 1) == false){
+					redirect('../loader/view/login_form');
+				}
 				$this->load->model('logs_model');
 				$this->logs_model->lag(5, 'QZ');
 			
@@ -119,7 +152,10 @@ class class_loader extends ci_Controller{
 				return $quiz;
 			break;
 			
-			case 'take_quiz':
+			case 'take_quiz'://student
+				if($this->access(3, 1) == false){
+					redirect('../loader/view/login_form');
+				}
 				$this->load->model('quizzes_model');
 				$take = $this->quizzes_model->check();
 				if($take == 0){
@@ -137,7 +173,10 @@ class class_loader extends ci_Controller{
 				return $quiz;
 			break;
 			
-			case 'view_scores':
+			case 'view_scores'://teacher
+				if($this->access(2, 1) == false){
+					redirect('../loader/view/login_form');
+				}
 				$this->load->model('post');
 				$this->post->unset_all('QR');
 			
@@ -146,7 +185,7 @@ class class_loader extends ci_Controller{
 				return $scores;
 			break;
 			
-			case 'sessions':
+			case 'sessions'://teacher + student
 				$this->load->model('classrooms_model');
 				if($this->classrooms_model->module_status(5) == 0){
 					redirect('../class_loader/view/class_home');
@@ -157,7 +196,8 @@ class class_loader extends ci_Controller{
 				return $sessions;
 			break;
 			
-			case 'reports':
+			case 'reports'://teacher
+				
 				if($this->session->userdata('usertype') == 3){
 					redirect('../class_loader/view/class_home');
 				}
@@ -166,7 +206,7 @@ class class_loader extends ci_Controller{
 				return $students;
 			break;
 			
-			case 'teachers':
+			case 'teachers'://teacher
 				//invited students
 				if($this->session->userdata('usertype') == 3){
 					redirect('../class_loader/view/class_home');
@@ -189,7 +229,10 @@ class class_loader extends ci_Controller{
 			break;
 			
 			
-			case 'session':
+			case 'session'://teacher + student
+				if($this->access(3, 0) == false){
+					redirect('../loader/view/login_form');
+				}
 				$this->load->model('sessions_model');
 				$join 	 = $this->sessions_model->check($_GET['sid']);
 				if($join == 0){

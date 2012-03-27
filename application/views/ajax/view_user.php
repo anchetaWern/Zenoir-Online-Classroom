@@ -25,8 +25,9 @@ $logs	= array(
 
 
 <!--CLASSES HANDLED(IF TEACHER)-->
-
+<?php if($this->session->userdata('usertype') != 3){ ?>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/user_logs" data-id="<?php echo $page[4]; ?>" class="lightbox"><?php echo form_button($logs); ?></a>
 </p>
+<?php } ?>
 </div>

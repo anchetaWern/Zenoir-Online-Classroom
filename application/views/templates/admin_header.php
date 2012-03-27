@@ -239,8 +239,8 @@ $(function(){
 	$('a[data-id]').live('hover', function(){
 		
 		var current_id = $(this).data('id');
-		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
-		
+	
+		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id}, function(data){console.log(data);});
 	});
 	
 
@@ -260,7 +260,7 @@ $(function(){
 		if(update == 1){
 			$.post('/zenoir/index.php/subjects/update_subject', {'subj_code' : subj_code, 'subj_desc' : subj_desc}, 
 				function(){
-					noty_success.text = 'Subject was successfully created!';
+					noty_success.text = 'Subject was successfully updated!';
 					noty(noty_success);
 					$('#fancybox-close').click();
 				}

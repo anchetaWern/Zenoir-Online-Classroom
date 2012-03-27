@@ -45,7 +45,7 @@ class Upload extends CI_Controller {
 			$file_data = mysql_real_escape_string(file_get_contents($data['upload_data']['full_path']));
 			
 			$this->load->model('files');
-			$this->files->saves($filename, $file_data, 'DUD');
+			$this->files->saves($filename, $file_data);
 			echo $data['upload_data']['full_path'];
 		}
 	}

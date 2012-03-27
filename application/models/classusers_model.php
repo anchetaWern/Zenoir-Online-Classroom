@@ -74,11 +74,21 @@ class classusers_model extends ci_Model{
 		$class_id	= $this->session->userdata('current_class');
 		
 		
+		
 		$log_info	= array();
-		$logs		= $this->db->query("SELECT act_datetime, activity, activity_details
-										FROM tbl_activitylog 
-										LEFT JOIN tbl_activities ON tbl_activitylog.activity_id = tbl_activities.activity_id
-										WHERE class_id='$class_id' AND user_id='$user_id'");
+		
+		if($this->session->userdata('usertype') == 1){//admin -all classes
+			$logs		= $this->db->query("SELECT act_datetime, activity, activity_details
+											FROM tbl_activitylog 
+											LEFT JOIN tbl_activities ON tbl_activitylog.activity_id = tbl_activities.activity_id
+											WHERE user_id='$user_id'");
+		}else{//teacher -class limited
+			$logs		= $this->db->query("SELECT act_datetime, activity, activity_details
+											FROM tbl_activitylog 
+											LEFT JOIN tbl_activities ON tbl_activitylog.activity_id = tbl_activities.activity_id
+											WHERE class_id='$class_id' AND user_id='$user_id'");
+										
+		}
 		
 		if($logs->num_rows() > 0){
 			foreach($logs->result() as $row){

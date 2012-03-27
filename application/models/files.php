@@ -5,7 +5,13 @@ class files extends ci_Model{
 		$this->db->query("INSERT INTO tbl_files SET file_data='$filedata', filename='$filename'");
 		$file_id = $this->db->insert_id();
 		
+		$prefix = substr($post_id, 0, 2);
+		if($prefix == 'UI'){
+			$this->db->query("DELETE FROM tbl_filepost WHERE post_id='$post_id'");
+			$this->session->set_userdata('image_id', $file_id);
+		}
 		$this->db->query("INSERT INTO tbl_filepost SET post_id='$post_id', file_id='$file_id'");
+		
 	}
 	
 	function view($post_id){//view files associated to a specific post

@@ -4,6 +4,10 @@
 <p>
 <a id="nc" href="" class="lightbox">Create New</a>
 </p>
+<?php
+$img = array('unlock.png', 'lock.png');
+$act = array('data-unlock', 'data-lock');
+?>
 
 <table class="tbl_classes">
 	<thead>
@@ -12,6 +16,7 @@
 			<th>Description</th>
 			<th>Subject</th>
 			<th>Teacher</th>
+			<th>Unlock/Lock</th>
 			<th>View</th>
 		</tr>
 	</thead>
@@ -22,6 +27,11 @@
 			<td><?php echo $v[3]; ?></td>
 			<td><?php echo $v[5]; ?></td>
 			<td><?php echo strtoupper($v[2]) .',  '. ucwords($v[0]) . ' ' . ucwords($v[1]); ?></td>
+			<td>
+			<a href="#">
+			<img src="/zenoir/img/<?php echo $img[$v[7]]; ?>" <?php echo $act[$v[7]]; ?>="<?php echo $v[6]; ?>">
+			</a>
+			</td>
 			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[6]; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td>
 			
 		</tr>

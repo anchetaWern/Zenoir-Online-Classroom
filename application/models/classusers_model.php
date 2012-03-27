@@ -208,6 +208,24 @@ class classusers_model extends ci_Model{
 		}
 		return $stat;
 	}
+	
+	function expired_classes(){//returns all the classes handled by the current teacher which are already beyond their lock date
+		$user_id = $this->session->userdata('user_id');
+		$query = $this->db->query("SELECT class_code, class_description, date_lock, tbl_classes.class_id FROM tbl_classes
+									LEFT JOIN tbl_classteachers ON tbl_classes.class_id = tbl_classteachers.class_id
+									WHERE teacher_id = '$user_id' AND date_lock < CURDATE() AND status = 1");
+		$expired_classes = array();
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$class_code			= $row->class_code;
+				$class_description	= $row->class_description;
+				$date_lock			= $row->date_lock;
+				$class_id			= $row->class_id;
+				$expired_classes[] = array("class_code"=>$class_code, 'class_description'=>$class_description, 'date_lock'=>$date_lock, 'class_id'=>$class_id);
+			}
+		}
+		return $expired_classes;
+	}
 
 }
 ?>

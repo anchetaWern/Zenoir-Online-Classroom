@@ -7,15 +7,14 @@ $user_type 	= $this->session->userdata('usertype');
 $classes 	= $table['classes'];
 $people		= $table['people'];
 $invites	= $table['invites'];
+$expired	= $table['expired'];
 $unreads	= $table['unreads'];
 $old_classes=$table['old_classes'];
 ?>
 
 <ul class="tabs left">
 	<li><a href="#classes">Classes</a></li>
-	<?php if($user_type == 3){ ?>
-	<li><a href="#notifications">Invites</a></li>
-	<?php } ?>
+	<li><a href="#notifications">Notifications</a></li>
 	<li><a href="#people">People</a></li>
 	<li><a href="#unreads">Unread Posts</a></li>
 	<li><a href="#previous">Previous Classes</a></li>
@@ -46,8 +45,9 @@ $old_classes=$table['old_classes'];
 <?php } ?>
 </div><!--end of classes-->
 
-<?php if($user_type == 3){ ?>
+
 <div id="notifications" class="tab-content">
+<!--for the student-->
 <?php if(!empty($invites)){ ?>
 <table>
 	<thead>
@@ -70,8 +70,29 @@ $old_classes=$table['old_classes'];
 	</tbody>
 </table>
 <?php } ?>
-</div><!--end of notifications-->
+<!--for the teacher-->
+<?php if(!empty($expired)){ ?>
+<table>
+	<thead>
+		<tr>
+			<th>Class</th>
+			<th>Lock Date</th>
+			<th>Lock</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($expired as $row){ ?>
+		<tr>
+			<td><?php echo $row['class_code'] .' - '.$row['class_description']; ?></td>
+			<td><?php echo $row['date_lock']; ?></td>
+			<td><a href="#"><img src="/zenoir/img/lock.png" data-lock="<?php echo $row['class_id']; ?>"></a></td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>
 <?php } ?>
+</div><!--end of notifications-->
+
 
 <div id="people" class="tab-content"><!--list of all people from all the classes that you are part of previously or currently-->
 <?php if(!empty($people)){ ?>

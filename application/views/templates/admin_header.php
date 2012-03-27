@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/zenoir/libs/dataTables/css/demo_page.css"/><!--table styles-->
 <link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/><!--ui style-->
 <link rel="stylesheet" href="/zenoir/css/fileUploader.css"/><!--fileuploader style-->
-<link rel="stylesheet" href="/zenoir/libs/wysihtml5/src/bootstrap-wysihtml5.css"/><!--text formatting style-->
+<link rel="stylesheet" href="/zenoir/libs/noty/css/jquery.noty.css"/><!--notifications-->
 <link rel="stylesheet" href="/zenoir/libs/noty/css/noty_theme_default.css"/><!--notifications-->
 
 <script src="/zenoir/js/jquery171.js"></script><!--core-->
@@ -14,13 +14,13 @@
 <script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script><!--ui script-->
 <script src="/zenoir/js/jquery.fileUploader.js"></script><!--file uploader script-->
 <script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
-<script src="/zenoir/libs/wysihtml5/src/bootstrap-wysihtml5.js"></script><!--text formatting script-->
-<script src="/zenoir/libs/noty/jquery.noty.js"></script><!--notifications-->
+
 <script src="/zenoir/libs/noty/js/jquery.noty.js"></script><!--notifications-->
+
 
 <script>
 $(function(){
-	$('.tbl_classes').dataTable();
+	
 	
 	var noty_success = {
 			"text":"Operation was successfully completed!",
@@ -50,6 +50,7 @@ $(function(){
 			"closeOnSelfClick":true
 	}
 	
+	$('.tbl_classes').dataTable();
 	
 	$('a[data-classid]').live('hover', function(){//creates a session for the class
 		var class_id = $.trim($(this).data('classid'));
@@ -75,6 +76,7 @@ $(function(){
 		if(updates==1){
 			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
 				function(){
+					
 					$('#px-submit').click();
 					noty_success.text = 'Account was successfully updated!';
 					noty(noty_success);
@@ -107,6 +109,9 @@ $(function(){
 					noty_success.text = 'User was successfully created!';
 					noty(noty_success);
 					$('#fancybox-close').click();
+					setTimeout(function(){
+						location.reload()
+					}, 1000);
 				}
 			);
 		}else{
@@ -133,6 +138,9 @@ $(function(){
 					noty_success.text = 'Subject was successfully created!';
 					noty(noty_success);
 					$('#fancybox-close').click();
+					setTimeout(function(){
+						location.reload()
+					}, 1000);
 				}
 			);
 		}else{
@@ -159,6 +167,9 @@ $(function(){
 					noty_success.text = 'Course was successfully created!';
 					noty(noty_success);
 					$('#fancybox-close').click();
+					setTimeout(function(){
+						location.reload()
+					}, 1000);
 				}
 			);
 		}else{
@@ -228,6 +239,9 @@ $(function(){
 					noty_success.text = 'Class was successfully created!';
 					noty(noty_success);
 					$('#fancybox-close').click();
+					setTimeout(function(){
+						location.reload()
+					}, 1000);
 				}
 			);
 		}else{
@@ -263,6 +277,9 @@ $(function(){
 					noty_success.text = 'Subject was successfully updated!';
 					noty(noty_success);
 					$('#fancybox-close').click();
+					setTimeout(function(){
+						location.reload()
+					}, 1000);
 				}
 			);
 		}else{
@@ -286,15 +303,34 @@ $(function(){
 		if(update == 1){
 			$.post('/zenoir/index.php/courses/update_course', {'course_code' : course_code, 'course_desc' : course_desc},
 				function(){
-					noty_success.text = 'Course was successfully created!';
+					noty_success.text = 'Course was successfully updated!';
 					noty(noty_success);
 					$('#fancybox-close').click();
+					setTimeout(function(){
+						location.reload()
+					}, 1000);
 				}
 			);
 		}else{
 			noty_err.text = 'All fields are required!';
 			noty(noty_err);
 		}
+	});
+	
+	$('img[data-lock]').live('click', function(e){
+		e.preventDefault();
+		var class_id = $(this).data('lock');
+		$(this).attr('src', '/zenoir/img/unlock.png');
+		$.post('/zenoir/index.php/classrooms/lock', {'class_id' : class_id});
+		
+	});
+	
+	$('img[data-unlock]').live('click', function(e){
+		e.preventDefault();
+		var class_id = $(this).data('unlock');
+		$(this).attr('src', '/zenoir/img/lock.png');	
+		$.post('/zenoir/index.php/classrooms/unlock', {'class_id' : class_id});
+		
 	});
 
 });

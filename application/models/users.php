@@ -69,15 +69,15 @@ class users extends ci_Model{
 		$lname = $this->input->post('lname');
 		
 		$user_name = $fname . ' ' . $lname;
+		$password = $this->input->post('pword');
 		
-		$password = md5($this->input->post('pword'));
 		$autobiography = $this->input->post('autobiography');
 		
 		
 		$user_data = array($fname, $mname, $lname, $autobiography, $user_id);
 		
 		if(!empty($password)){
-			
+			$password = md5($this->input->post('pword'));
 			$password = array($password, $user_id);
 			
 			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);

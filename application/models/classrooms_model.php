@@ -46,9 +46,9 @@ class classrooms_model extends ci_Model{
 	}
 	
 	
-	function select_classes(){
+	function select_classes(){//returns all the classes in the system -both active and inactive
 		$classes_array = array();
-		$this->db->select("class_code, class_description, subject_description, fname, mname, lname, tbl_classes.class_id");
+		$this->db->select("class_code, class_description, subject_description, fname, mname, lname, tbl_classes.class_id, status");
 		$this->db->from("tbl_classes");
 		$this->db->join("tbl_subject", "tbl_classes.subject_id = tbl_subject.subject_id");
 		$this->db->join("tbl_classteachers", "tbl_classes.class_id = tbl_classteachers.class_id");
@@ -58,7 +58,7 @@ class classrooms_model extends ci_Model{
 		
 		if($classes->num_rows > 0){
 			foreach($classes->result() as $row){
-				$classes_array[] = array($row->fname, $row->mname, $row->lname, $row->class_description, $row->class_code, $row->subject_description, $row->class_id);
+				$classes_array[] = array($row->fname, $row->mname, $row->lname, $row->class_description, $row->class_code, $row->subject_description, $row->class_id, $row->status);
 			}
 		}
 		return $classes_array;	
@@ -249,6 +249,17 @@ class classrooms_model extends ci_Model{
 		}else{
 			return 0;
 		}
+	}
+	
+	function lock(){//locks a classroom
+		$class_id = $this->input->post('class_id');
+		$this->db->query("UPDATE tbl_classes SET status=0 WHERE class_id='$class_id'");
+	}
+	
+	function unlock(){//unlocks a classroom
+		$class_id = $this->input->post('class_id');
+		$this->db->query("UPDATE tbl_classes SET status=1 WHERE class_id='$class_id'");
+		echo 'boobs';
 	}
 }
 ?>

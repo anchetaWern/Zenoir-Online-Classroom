@@ -52,5 +52,15 @@ class classrooms extends ci_Controller{
 		$this->load->model('classusers_model');
 		$this->classusers_model->remove();
 	}
+	
+	function lock(){
+		$this->load->model('classrooms_model');
+		$this->classrooms_model->lock();
+	}
+	
+	function unlock(){
+		$this->load->model('classrooms_model');
+		$this->classrooms_model->unlock();
+	}
 }
 ?>

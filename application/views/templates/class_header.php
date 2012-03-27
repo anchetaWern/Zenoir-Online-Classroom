@@ -687,6 +687,17 @@ $(function(){
 		
 	});
 	
+	$('img[data-lock]').live('click', function(e){
+		e.preventDefault();
+		var class_id = $(this).data('lock');
+		$.post('/zenoir/index.php/classrooms/lock', {'class_id' : class_id}, 
+				function(){
+					location.reload();
+				}
+		);
+		
+	});
+	
 
 });
 </script>

@@ -37,6 +37,8 @@ class adminloader extends ci_Controller{
 	}
 	
 	function destroy_userdata(){
+		$this->load->model('users');
+		$this->users->logout();//sets log in status to 0
 		$this->session->sess_destroy();
 		redirect('../loader/view/login_form');
 	}

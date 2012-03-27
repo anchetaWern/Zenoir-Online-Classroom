@@ -4,7 +4,8 @@ class users extends ci_Model{
 	function validate($user_id, $password){
 		
 		$user_credentials = array($user_id, $password);
-		$exists = $this->db->query("SELECT user_id FROM tbl_users WHERE user_id=? AND hashed_password=?", $user_credentials);
+		//user cannot log in if he is already logged in somewhere else
+		$exists = $this->db->query("SELECT user_id FROM tbl_users WHERE user_id=? AND hashed_password=? AND logged_in=0", $user_credentials);
 		if($exists->num_rows == 1){
 			return true;
 		}
@@ -234,6 +235,16 @@ class users extends ci_Model{
 			
 		}
 		return $class_r;
+	}
+	
+	function login(){
+		$user_id = $this->session->userdata('user_id');
+		$this->db->query("UPDATE tbl_users SET logged_in=1 WHERE user_id='$user_id'");
+	}
+	
+	function logout(){
+		$user_id = $this->session->userdata('user_id');
+		$this->db->query("UPDATE tbl_users SET logged_in=0 WHERE user_id='$user_id'");
 	}
 	
 	

@@ -12,11 +12,17 @@ $logs	= array(
 <h4>View User Information - <?php echo strtoupper($page[2]) .', '. ucwords($page[0]) . ' ' . ucwords($page[1]);  ?></h4>
 </div>
 <div class="container">
-
+<div id="pic">
+<img width="200px" height="200px" src="/zenoir/index.php/ajax_loader/view/dl_file?fid=<?php echo $page[5]; ?>"/>
+</div>
 <!--USER INFO-->
+<p>
 <pre>
 <?php echo $page[3]; ?>
 </pre>
+</p>
+
+
 
 <!--CLASSES HANDLED(IF TEACHER)-->
 

@@ -412,11 +412,11 @@ $(function(){
 	});
 	
 	$('#update_group').live('click', function(){
-		var member_length 	= $('#class_users :selected').length;
+		
 		var group_name 		= $.trim($('#group_name').val());
 		
 		if(group_name != ''){
-			if(member_length > 0){
+			
 					
 					var group_members 	= $('#class_users').serializeArray();
 					$.post('/zenoir/index.php/groups/update', {'group_name' : group_name, 'members' : group_members},
@@ -426,10 +426,7 @@ $(function(){
 								$('#fancybox-close').click();
 							}
 					);
-			}else{
-				noty_err.text = 'Please select atleast one co-member!';
-				noty(noty_err);
-			}
+			
 		}else{
 			noty_err.text = 'Please enter a group name!';
 			noty(noty_err);

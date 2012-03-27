@@ -18,7 +18,7 @@ class groups extends ci_Controller{
 	}
 	
 	function current_id(){
-		echo $this->session->userdata('current_id');
+		echo $this->session->userdata('image_id');
 	}
 	
 	function update(){

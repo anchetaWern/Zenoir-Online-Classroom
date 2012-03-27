@@ -144,7 +144,8 @@ class users extends ci_Model{
 			$mname		= $row->mname;
 			$lname		= $row->lname;
 			$auto_bio	= $row->autobiography;
-			$userinfo_array = array($fname, $mname, $lname, $auto_bio, $user_id);
+			$image_id = $this->users->user_img($user_id);
+			$userinfo_array = array($fname, $mname, $lname, $auto_bio, $user_id, $image_id);
 		}
 		return $userinfo_array;
 	}
@@ -192,6 +193,47 @@ class users extends ci_Model{
 			$file_id = $row->file_id; 
 		}
 		return $file_id;
+	}
+	
+	
+	function people(){//selects all the people from all the classes from which the user belongs
+		$classes= $this->classes();
+		$people	= array();
+		if(!empty($classes)){
+			foreach($classes as $row){
+				$class_id = $row['class_id'];
+				$query = $this->db->query("SELECT DISTINCT fname, lname, mname, class_code, class_description, tbl_classpeople.user_id FROM tbl_classpeople
+										LEFT JOIN tbl_userinfo ON tbl_classpeople.user_id = tbl_userinfo.user_id
+										LEFT JOIN tbl_classes ON tbl_classpeople.class_id = tbl_classes.class_id
+										WHERE tbl_classpeople.class_id='$class_id'");
+				if($query->num_rows() > 0){
+					foreach($query->result() as $in_row){
+						$fname	= $in_row->fname;
+						$mname	= $in_row->mname;		
+						$lname	= $in_row->lname;
+						$id		= $in_row->user_id;
+						$class_code			= $in_row->class_code;
+						$class_description	= $in_row->class_description;
+						$people[]=array('fname'=>$fname,'mname'=>$mname,'lname'=>$lname,'id'=>$id,'class_code'=>$class_code,'class_description'=>$class_description,'class_id'=>$class_id);
+					}
+				}
+			}
+		}
+		return $people;
+	}
+	
+	function classes(){//selects all the classes from which the current user belongs
+		$user_id = $this->session->userdata('user_id');
+		$class_r = array();
+		$query = $this->db->query("SELECT class_id FROM tbl_classpeople WHERE user_id='$user_id'");
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$class_id = $row->class_id;
+				$class_r[] = array('class_id'=>$class_id);
+			}
+			
+		}
+		return $class_r;
 	}
 	
 	

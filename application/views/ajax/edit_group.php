@@ -8,7 +8,7 @@ $group_name	= $group_data['group_name'];
 
 ?>
 <div id="modal_header">
-<h4>Update Group - </h4>
+<h4>Update Group</h4>
 </div>
 <?php
 $group	= array(

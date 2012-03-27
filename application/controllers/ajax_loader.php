@@ -49,6 +49,7 @@ class ajax_loader extends ci_Controller{
 			
 			case 'view_user':
 				$this->load->model('users');
+				
 				$user_info = $this->users->user_information();
 				return $user_info;
 			break;

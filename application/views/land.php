@@ -5,6 +5,7 @@
 <?php
 $user_type 	= $this->session->userdata('usertype');
 $classes 	= $table['classes'];
+$people		= $table['people'];
 $invites	= $table['invites'];
 $unreads	= $table['unreads'];
 $old_classes=$table['old_classes'];
@@ -15,6 +16,7 @@ $old_classes=$table['old_classes'];
 	<?php if($user_type == 3){ ?>
 	<li><a href="#notifications">Invites</a></li>
 	<?php } ?>
+	<li><a href="#people">People</a></li>
 	<li><a href="#unreads">Unread Posts</a></li>
 	<li><a href="#previous">Previous Classes</a></li>
 </ul>
@@ -75,25 +77,50 @@ $old_classes=$table['old_classes'];
 </div><!--end of notifications-->
 <?php } ?>
 
+<div id="people" class="tab-content"><!--list of all people from all the classes that you are part of previously or currently-->
+<?php if(!empty($people)){ ?>
+	<table class="tbl_classes">
+		<thead>
+			<tr>
+				<th>Fullname</th>
+				<th>Class Code</th>
+				<th>Description</th>
+				<th>View</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach($people as $row){ ?>
+			<tr>
+				<td><?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']) . ' ' . ucwords($row['mname']);  ?></td>
+				<td><?php echo $row['class_code']; ?></td>
+				<td><?php echo $row['class_description']; ?></td>
+				<td><a href="#" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+			</tr>
+		<?php } ?>
+		</tbody>
+	</table>
+<?php } ?>
+</div><!--end of people-->
+
 <div id="unreads" class="tab-content">
 
 <?php if(!empty($unreads)){ ?>
 	<table>
 		<thead>
 			<tr>
+				<th>Title</th>
+				<th>Post Type</th>
 				<th>Class Code</th>
 				<th>Description</th>
-				<th>Post Type</th>
-				<th>Title</th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php foreach($unreads as $row){ ?>
 			<tr>
+				<td><?php echo $row['post_title']; ?></td>
+				<td><?php echo $row['post_type']; ?></td>
 				<td><?php echo $row['class_code']; ?></td>
 				<td><?php echo $row['class_description']; ?></td>
-				<td><?php echo $row['post_type']; ?></td>
-				<td><?php echo $row['post_title']; ?></td>
 			</tr>
 		<?php } ?>
 		</tbody>

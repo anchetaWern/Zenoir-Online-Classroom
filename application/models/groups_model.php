@@ -45,8 +45,10 @@ class groups_model extends ci_Model{
 		$user_id	= $this->session->userdata('user_id');
 		
 		$groups_r 	= array();
-		$users_group=$this->db->query("SELECT group_id, group_name, CONCAT_WS(', ', UPPER(lname), fname) AS creator FROM tbl_groups 
-										LEFT JOIN tbl_userinfo ON tbl_groups.group_creator = tbl_userinfo.user_id");
+		$users_group=$this->db->query("SELECT tbl_groups.group_id, group_name, CONCAT_WS(', ', UPPER(lname), fname) AS creator FROM tbl_groups 
+										LEFT JOIN tbl_userinfo ON tbl_groups.group_creator = tbl_userinfo.user_id
+										LEFT JOIN tbl_grouppeople ON tbl_groups.group_id = tbl_grouppeople.group_id
+										WHERE tbl_grouppeople.user_id='$user_id'");
 		if($users_group->num_rows() > 0){
 			foreach($users_group->result() as $row){
 				$group_id	= $row->group_id;
@@ -56,6 +58,17 @@ class groups_model extends ci_Model{
 			}
 		}
 		return $groups_r;
+	}
+	
+	function group_owner(){//returns the id of the group owner of the current group
+		$group_id = $this->session->userdata('current_id');
+		$creator_id = 0;
+		$query = $this->db->query("SELECT group_creator FROM tbl_groups WHERE group_id='$group_id'");
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$creator_id = $row->group_creator;
+		}
+		return $creator_id;
 	}
 	
 	function view(){

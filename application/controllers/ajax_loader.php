@@ -257,6 +257,12 @@ class ajax_loader extends ci_Controller{
 			
 			case 'edit_group'://group creator
 				$this->load->model('groups_model');
+				$group_owner = $this->groups_model->group_owner();
+				
+				if($this->session->userdata('user_id') != $group_owner){
+					redirect('../ajax_loader/view/groups');
+				}
+				
 				$group = $this->groups_model->view();
 				return $group;
 			break;

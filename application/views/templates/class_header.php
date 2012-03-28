@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/zenoir/libs/noty/css/jquery.noty.css"/><!--notifications-->
 <link rel="stylesheet" href="/zenoir/libs/noty/css/noty_theme_default.css"/><!--notifications-->
 
+<link rel="stylesheet" href="/zenoir/libs/jscrollpane/style/jquery.jscrollpane.css"  media="all"/><!--scrollbars-->
+
 <script src="/zenoir/js/jquery171.js"></script><!--core-->
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
 <script src="/zenoir/libs/kickstart/js/prettify.js"></script>
@@ -16,6 +18,8 @@
 <script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
 <script src="/zenoir/libs/noty/js/jquery.noty.js"></script><!--notifications-->
 
+<script type="text/javascript" src="/zenoir/libs/jscrollpane/script/jquery.mousewheel.js"></script><!-- the mousewheel plugin -->
+<script type="text/javascript" src="/zenoir/libs/jscrollpane/script/jquery.jscrollpane.min.js"></script><!--scrollbars-->
 
 <script>
 $(function(){

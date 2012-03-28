@@ -22,6 +22,7 @@ class classrooms_model extends ci_Model{
 		//class teacher
 		$data_teacher	= array($teacher_id, $class_id);
 		$class_teacher 	= $this->db->query("INSERT INTO tbl_classteachers SET teacher_id=?, class_id=?", $data_teacher);
+		$class_people	= $this->db->query("INSERT INTO tbl_classpeople SET user_id=?, class_id=?, status=1", $data_teacher);
 		
 		//class modules - all modules in the class are enabled by default
 		$modules		= $this->db->query("SELECT module_id FROM tbl_modules");

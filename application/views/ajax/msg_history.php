@@ -14,6 +14,8 @@ $back		= array(
 <h4>Conversation History</h4>
 </div>
 <div class="container">
+<div id="msghistory">
+<p>
 <?php foreach($history as $row){ ?>
 	<div id="msg_title">
 		<?php echo $row['msg_title']; ?>
@@ -35,7 +37,12 @@ $back		= array(
 	</pre>
 	</div>
 <?php } ?>
+</p>
+</div>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/view_message" class="lightbox"><?php echo form_button($back); ?></a>
 </p>
 </div><!--end of container-->
+<script>
+$('#msghistory').jScrollPane({autoReinitialise: true});
+</script>

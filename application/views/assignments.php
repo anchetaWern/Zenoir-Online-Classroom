@@ -30,8 +30,24 @@ $assignments = $table;
 			$combined_status = $row['student_status'];
 			?>
 			<?php if($combined_status >= 1){ ?>
-			<span class="red_star" id="<?php echo $row['assignment_id']; ?>">*</span>
+			
 			<?php } ?>
+			<?php 
+			if($this->session->userdata('usertype') == 3){//student
+				if($row['student_status'] == 1){
+			?>
+				<span class="red_star" id="<?php echo $row['assignment_id']; ?>">*</span>
+			<?php
+				}
+			}else if($this->session->userdata('usertype') == 2){//teacher
+				if($row['teacher_status'] == 1){
+			?>		
+				<span class="red_star" id="<?php echo $row['assignment_id']; ?>">*</span>	
+			<?php		
+				}
+			}
+			?>
+			
 			</td>
 			<td><?php echo $row['date']; ?></td>
 			<td><?php echo $row['deadline']; ?></td>

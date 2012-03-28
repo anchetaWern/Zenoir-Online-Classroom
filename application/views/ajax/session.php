@@ -4,6 +4,8 @@ $conversation = $page;
 if(!empty($conversation)){ 
 ?>
 <h4><?php echo $_SESSION['ses']['title']; ?></h4>
+<div id="conversation">
+<p>
 <table>
 	<tbody>
 	<?php foreach($conversation as $row){ ?>
@@ -14,11 +16,12 @@ if(!empty($conversation)){
 	<?php } ?>
 	</tbody>
 </table>
+</p>
+</div>
 <?php }else{ ?>
 No conversation history yet
 <?php } ?>
 <script>
-
 $('tr:even').addClass('alt');
-
+$('#conversation').jScrollPane({autoReinitialise: true});
 </script>

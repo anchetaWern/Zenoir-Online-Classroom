@@ -51,9 +51,14 @@ echo "To:      ".$time_to."<br/>";
 <input type="hidden" id="session_room" value="<?php echo $_GET['sid']; ?>"/><!--session room-->
 
 <div id="chatbox">
-	<table class="striped" id="tbl_messages"></table>
+<p>
+<table class="striped" id="tbl_messages"></table>
+</p>
 </div><!--end of chatbox-->
 <div id="message_box">
 	<input type="text" id="text-input" class="col_12">
 	<input type="button" value="Send" disabled id="send-button">
 </div>
+<script>
+$('#chatbox').jScrollPane({autoReinitialise: true});
+</script>

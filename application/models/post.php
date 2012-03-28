@@ -108,7 +108,7 @@ class post extends ci_Model{
 		$tables 		= array('tbl_assignment', 'tbl_handouts', 'tbl_assignmentresponse', 'tbl_quiz', 'tbl_messages', 'tbl_sessions', 'tbl_quizresult');
 		$fields_id 		= array('assignment_id', 'handout_id', 'asresponse_id', 'quiz_id', 'message_id', 'session_id', 'quizresult_id');
 		$fields_title	= array('as_title', 'ho_title', 'res_title', 'qz_title', 'msg_title', 'ses_title', 'quiz_id');
-		
+		$field 			= '';
 		$table			= $tables[$post_type - 1];
 		$field_base		= $fields_id[$post_type - 1];
 		$field_get		= $fields_title[$post_type - 1];

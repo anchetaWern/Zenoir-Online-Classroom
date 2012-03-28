@@ -1,7 +1,8 @@
 <!--home page for teacher and students-->
 <?php
 $user_type = $this->session->userdata('usertype');
-$unread = $table;
+$unread = $table['posts'];
+$active_sessions = $table['sessions'];//number of active sessions
 ?>
 
 <ul class="tabs left">
@@ -22,7 +23,7 @@ $unread = $table;
 			</tr>
 			<tr>
 				<td><a href="/zenoir/index.php/class_loader/view/quizzes"><button class="large green">Quizzes(<?php echo $unread['quiz'] + $unread['quiz_response'];  ?>)</button></a></td>
-				<td><a href="/zenoir/index.php/class_loader/view/sessions"><button class="large">Sessions(<?php echo $unread['session'];  ?>)</button></a></td>
+				<td><a href="/zenoir/index.php/class_loader/view/sessions"><button class="large">Sessions(<?php echo $active_sessions;  ?>)</button></a></td>
 				<td>
 				<?php if($user_type == 2 || $user_type == 1){?>
 				<a href="/zenoir/index.php/class_loader/view/teachers"><button class="large">Settings</button></a>

@@ -144,5 +144,12 @@ class sessions_model extends ci_Model{
 		}
 		return $session_content;
 	}
+	
+	
+	function session_count(){//returns the number of active sessions for the current class
+		$class_id 	= $this->session->userdata('current_class');
+		$query		= $this->db->query("SELECT session_id FROM tbl_sessions WHERE class_id='3' AND (time_to >= NOW() OR infinite = 1)");
+		return $query->num_rows();
+	}
 }
 ?>

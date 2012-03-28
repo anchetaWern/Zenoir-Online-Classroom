@@ -31,7 +31,7 @@ $outbox	= $table['outbox'];
 			<td>
 			<?php echo $row['msg_title']; ?>
 			<?php if($row['status'] == 1){ ?>
-			<span class="red_star">*</span>
+			<span class="red_star" id="<?php echo $row['msg_id']; ?>">*</span>
 			<?php } ?>
 			</td>
 			<td><?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']); ?></td>

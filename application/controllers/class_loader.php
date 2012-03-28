@@ -68,7 +68,9 @@ class class_loader extends ci_Controller{
 			case 'class_home':
 				//load class info - number of unread stuff, etc.
 				$this->load->model('post');
-				$unread =  $this->post->unread_posts();
+				$this->load->model('sessions_model');
+				$unread['posts'] =  $this->post->unread_posts();
+				$unread['sessions'] = $this->sessions_model->session_count(); 
 				return $unread;
 			break;
 		

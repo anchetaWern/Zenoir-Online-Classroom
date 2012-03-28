@@ -30,7 +30,7 @@ $assignments = $table;
 			$combined_status = $row['student_status'];
 			?>
 			<?php if($combined_status >= 1){ ?>
-			<span class="red_star">*</span>
+			<span class="red_star" id="<?php echo $row['assignment_id']; ?>">*</span>
 			<?php } ?>
 			</td>
 			<td><?php echo $row['date']; ?></td>

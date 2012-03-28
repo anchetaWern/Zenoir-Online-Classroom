@@ -748,6 +748,12 @@ $(function(){
 		}
 	});
 	
+	
+	$('img[src="/zenoir/img/view.png"]').live('dblclick', function(){
+		var id = $(this).parents('a').data('id');
+		console.log(id);
+		$('#'+id).remove();
+	});
 
 
 });

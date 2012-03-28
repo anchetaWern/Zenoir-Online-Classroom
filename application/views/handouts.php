@@ -26,7 +26,7 @@ $handouts = $table;
 			<td>
 			<?php echo $row['ho_title']; ?>
 			<?php if($row['status'] == 1){ ?>
-			<span class="red_star">*</span>
+			<span class="red_star" id="<?php echo $row['handout_id']; ?>">*</span>
 			<?php } ?>
 			</td>
 			<td><?php echo $row['date_posted']; ?></td>

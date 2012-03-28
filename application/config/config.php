@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost:8080/zenoir/index.php';
+$config['base_url']	= 'http://'.$_SERVER['HTTP_HOST'].'/zenoir/index.php';
 
 /*
 |--------------------------------------------------------------------------

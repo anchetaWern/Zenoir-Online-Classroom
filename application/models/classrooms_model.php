@@ -259,7 +259,7 @@ class classrooms_model extends ci_Model{
 	function unlock(){//unlocks a classroom
 		$class_id = $this->input->post('class_id');
 		$this->db->query("UPDATE tbl_classes SET status=1 WHERE class_id='$class_id'");
-		echo 'boobs';
+		
 	}
 }
 ?>

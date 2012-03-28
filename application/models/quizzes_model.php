@@ -7,7 +7,7 @@ class quizzes_model extends ci_Model{
 		//the second time the student views the quiz its only viewable but not answerable
 		$class_id = $this->session->userdata('current_class');
 		$query = $this->db->query("SELECT quiz_id, DATE(start_time) AS qz_date, qz_title, start_time, end_time 
-								FROM tbl_quiz WHERE class_id='$class_id' AND status=1 ORDER BY date_created");
+								FROM tbl_quiz WHERE class_id='$class_id' AND status=1 ORDER BY qz_date DESC");
 		
 		$this->load->model('post');
 		

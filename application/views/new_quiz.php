@@ -27,14 +27,16 @@ $quiz_body	= array(
 $start_time = array(
 				'id'=>'start_time',
 				'name'=>'start_time',
-				'class'=>'time_picker'
+				'class'=>'time_picker',
+				'readonly'=>'readonly'
 				
 			);
 
 $end_time = array(
 				'id'=>'end_time',
 				'name'=>'end_time',
-				'class'=>'time_picker'
+				'class'=>'time_picker',
+				'readonly'=>'readonly'
 			);
 		
 $next		= array(

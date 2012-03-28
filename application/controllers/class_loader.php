@@ -245,6 +245,7 @@ class class_loader extends ci_Controller{
 				$user_id = $this->session->userdata('user_id');
 				$_SESSION['user_id']		= $user_id;
 				$_SESSION['session_id']		= $_GET['sid'];
+				$_SESSION['user_name']		= $this->session->userdata('user_name');
 			break;
 			
 		}

@@ -31,7 +31,7 @@ class assignments_model extends ci_Model{
 			$class_id	= $this->session->userdata('current_class');
 			//even teachers and admins cannot see assignments that are deleted
 			$assignments = array();
-			$query = $this->db->query("SELECT assignment_id, as_title, as_body, date, deadline FROM tbl_assignment WHERE class_id='$class_id' AND status=1"); 
+			$query = $this->db->query("SELECT assignment_id, as_title, as_body, date, deadline FROM tbl_assignment WHERE class_id='$class_id' AND status=1 ORDER BY date DESC"); 
 			
 			$this->load->model('post');
 

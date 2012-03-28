@@ -69,7 +69,7 @@ class classusers_model extends ci_Model{
 	}
 	
 	
-	function user_logs(){//lists all the activities performed of the selected student
+	function user_logs(){//lists all the activities performed of the selected student on the current class
 		$user_id	= $this->session->userdata('current_id');
 		$class_id	= $this->session->userdata('current_class');
 		
@@ -78,15 +78,15 @@ class classusers_model extends ci_Model{
 		$log_info	= array();
 		
 		if($this->session->userdata('usertype') == 1){//admin -all classes
-			$logs		= $this->db->query("SELECT act_datetime, activity, activity_details
+			$logs		= $this->db->query("SELECT DATE(act_datetime) AS date, act_datetime, activity, activity_details
 											FROM tbl_activitylog 
 											LEFT JOIN tbl_activities ON tbl_activitylog.activity_id = tbl_activities.activity_id
-											WHERE user_id='$user_id'");
+											WHERE user_id='$user_id' ORDER BY date DESC");
 		}else{//teacher -class limited
-			$logs		= $this->db->query("SELECT act_datetime, activity, activity_details
+			$logs		= $this->db->query("SELECT DATE(act_datetime) AS date, act_datetime, activity, activity_details
 											FROM tbl_activitylog 
 											LEFT JOIN tbl_activities ON tbl_activitylog.activity_id = tbl_activities.activity_id
-											WHERE class_id='$class_id' AND user_id='$user_id'");
+											WHERE class_id='$class_id' AND user_id='$user_id' ORDER BY date DESC");
 										
 		}
 		

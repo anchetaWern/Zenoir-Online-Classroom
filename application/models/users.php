@@ -247,6 +247,11 @@ class users extends ci_Model{
 		$this->db->query("UPDATE tbl_users SET logged_in=0 WHERE user_id='$user_id'");
 	}
 	
+	function enable(){//enable accounts which cannot logged in because they forgot to logout
+		$user_id = $this->input->post('user_id');
+		$this->db->query("UPDATE tbl_users SET logged_in=0 WHERE user_id='$user_id'");
+	}
+	
 	
 	
 }

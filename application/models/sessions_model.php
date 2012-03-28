@@ -75,7 +75,8 @@ class sessions_model extends ci_Model{
 						DATE(time_from) AS date, time_from, time_to, ses_type, infinite 
 						FROM tbl_sessions
 						LEFT JOIN tbl_sessionspeople ON tbl_sessions.session_id = tbl_sessionspeople.session_id
-						WHERE tbl_sessionspeople.user_id='$user_id' AND class_id='$class_id'");
+						WHERE tbl_sessionspeople.user_id='$user_id' AND class_id='$class_id'
+						ORDER BY date DESC");
 		if($query->num_rows() > 0){
 			foreach($query->result() as $row){
 				$id				= $row->session_id;

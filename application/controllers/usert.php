@@ -10,5 +10,10 @@ class usert extends ci_Controller{
 		$this->load->model('users');
 		$this->users->create_user();
 	}
+	
+	function enable(){
+		$this->load->model('users');
+		$this->users->enable();
+	}
 }
 ?>

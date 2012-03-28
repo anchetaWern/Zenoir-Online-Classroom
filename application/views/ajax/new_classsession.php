@@ -31,13 +31,15 @@ $infinite= array(
 $time_from= array(
 			'name'=>'time_from',
 			'id'=>'time_from',
-			'class'=>'time_picker'
+			'class'=>'time_picker',
+			'readonly'=>'readonly'
 		);
 		
 $time_to= array(
 			'name'=>'time_to',
 			'id'=>'time_to',
-			'class'=>'time_picker'
+			'class'=>'time_picker',
+			'readonly'=>'readonly'
 		);
 
 $create	= array(

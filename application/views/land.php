@@ -85,7 +85,7 @@ $old_classes=$table['old_classes'];
 		<tr>
 			<td><?php echo $row['class_code'] .' - '.$row['class_description']; ?></td>
 			<td><?php echo $row['date_lock']; ?></td>
-			<td><a href="#"><img src="/zenoir/img/lock.png" data-lock="<?php echo $row['class_id']; ?>"></a></td>
+			<td><a href="#"><img src="/zenoir/img/unlock.png" data-lock="<?php echo $row['class_id']; ?>"></a></td>
 		</tr>
 	<?php } ?>
 	</tbody>

@@ -321,7 +321,12 @@ $(function(){
 		e.preventDefault();
 		var class_id = $(this).data('lock');
 		$(this).attr('src', '/zenoir/img/unlock.png');
-		$.post('/zenoir/index.php/classrooms/lock', {'class_id' : class_id});
+		$.post('/zenoir/index.php/classrooms/unlock', {'class_id' : class_id},
+			function(){
+				noty_success.text = 'Class was successfully unlocked!';
+				noty(noty_success);
+			}
+		);
 		
 	});
 	
@@ -329,8 +334,24 @@ $(function(){
 		e.preventDefault();
 		var class_id = $(this).data('unlock');
 		$(this).attr('src', '/zenoir/img/lock.png');	
-		$.post('/zenoir/index.php/classrooms/unlock', {'class_id' : class_id});
+		$.post('/zenoir/index.php/classrooms/lock', {'class_id' : class_id},
+			function(){
+				noty_success.text = 'Class was successfully locked!';
+				noty(noty_success);
+			}
+		);
 		
+	});
+	
+	$('img[data-enable]').live('click', function(e){
+		e.preventDefault();
+		var user_id = $(this).data('enable');
+		$.post('/zenoir/index.php/usert/enable', {'user_id' : user_id},
+			function(){
+				noty_success.text = 'Successfully enabled account!';
+				noty(noty_success);
+			}
+		);
 	});
 
 });

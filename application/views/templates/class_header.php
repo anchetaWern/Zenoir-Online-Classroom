@@ -54,7 +54,7 @@ $(function(){
 		dateFormat: 'yy-mm-dd'
 	});
 	
-	$('.tbl_classes').dataTable();
+	$('.tbl_classes').dataTable({aaSorting: []});
 	
 	$('a[data-classid]').live('hover', function(){//creates a session for the class
 		var class_id = $.trim($(this).data('classid'));
@@ -368,6 +368,7 @@ $(function(){
 					var group_members 	= $('#class_users').serializeArray();
 					$.post('/zenoir/index.php/groups/create', {'group_name' : group_name, 'members' : group_members},
 							function(){
+								noty_success.text = 'Group successfully created!';
 								noty(noty_success);
 								$('#fancybox-close').click();
 							}
@@ -492,7 +493,12 @@ $(function(){
 															'time_from' : time_from, 'time_to' : time_to, 'members' : members},
 															function(data){
 																$('#fancybox-close').click();
+																noty_success.text = 'Session successfully created!';
 																noty(noty_success);
+																setTimeout(function(){
+																	location.reload();
+																},
+																1000);
 															});
 		}else{
 			noty_err.text = 'All fields are required!';
@@ -619,7 +625,8 @@ $(function(){
 	
 	$('#btn_export').live('click', function(){
 		var export_class = $('#export_to').val();
-
+		var export_numbers = $('.exports:checked').length;
+		
 		noty(	
 		{
 			modal : true,
@@ -627,18 +634,32 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Yes', 
 					click: function(){
-					$('#export_group input[type=checkbox]').each(function(index){
-						if($(this).attr('checked')){
-							$.post('/zenoir/index.php/classrooms/export', {'export_class' : export_class, 'export_type' : index}, 
-							function(){
-								$.noty.close();
-								noty_success.text = 'Classroom data was successfully exported!';
-								noty.force = true;
-								noty(noty_success);
-								
+					if(export_class != null){
+						if(export_numbers != 0){
+							$('#export_group input[type=checkbox]').each(function(index){
+								if($(this).attr('checked')){
+									$.post('/zenoir/index.php/classrooms/export', {'export_class' : export_class, 'export_type' : index}, 
+									function(){
+										$.noty.close();
+										noty_success.text = 'Classroom data was successfully exported!';
+										noty.force = true;
+										noty(noty_success);
+										
+									});
+								}
 							});
+						}else{
+							$.noty.close();
+							noty_err.text = 'Please select atleast one export type!';
+							noty.force = true;
+							noty(noty_err);
 						}
-					});
+					}else{
+						$.noty.close();
+						noty_err.text = 'Please select a class to export to!';
+						noty.force = true;
+						noty(noty_err);
+					}
 			  }},
 			  {type: 'button pink', text: 'Cancel', click: function(){
 					$.noty.close(); 
@@ -692,12 +713,42 @@ $(function(){
 		var class_id = $(this).data('lock');
 		$.post('/zenoir/index.php/classrooms/lock', {'class_id' : class_id}, 
 				function(){
-					location.reload();
+					noty_success.text = 'Class was successfully locked!';
+					noty(noty_success);
+					
+					setTimeout(function(){
+						location.reload()
+					},1000);
+				
 				}
 		);
 		
 	});
 	
+	$('#time_to').live('blur', function(){
+		var time_from 	= Date.parse($('#time_from').val());
+		var time_to		= Date.parse($('#time_to').val());
+		
+		if(time_to <= time_from){
+			noty_err.text = "End time should be greater than start time!";
+			noty(noty_err);
+			
+		}
+	});
+	
+	
+	$('#end_time').live('blur', function(){
+		var start_time	= Date.parse($('#start_time').val());
+		var end_time	= Date.parse($('#end_time').val());
+		
+		if(end_time <= start_time){
+			noty_err.text = "End time should be greater than start time!";
+			noty(noty_err);
+			
+		}
+	});
+	
+
 
 });
 </script>

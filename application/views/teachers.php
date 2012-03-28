@@ -106,11 +106,11 @@ if(!empty($invites)){
 	<div id="export_group">
 		<span class="export_type">
 			<label for="exp_student">Student</label>
-			<input type="checkbox" name="exp_student" id="exp_student"/>
+			<input type="checkbox" name="exp_student" id="exp_student" class="exports"/>
 		</span>
 		<span class="export_type">
 			<label for="exp_handout">Handout</label>
-			<input type="checkbox" name="exp_handout" id="exp_handout"/>
+			<input type="checkbox" name="exp_handout" id="exp_handout" class="exports"/>
 		</span>
 	</div>
 	

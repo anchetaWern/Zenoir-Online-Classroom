@@ -5,8 +5,8 @@
 <a id="nc" href="" class="lightbox">Create New</a>
 </p>
 <?php
-$img = array('unlock.png', 'lock.png');
-$act = array('data-unlock', 'data-lock');
+$img = array('lock.png', 'unlock.png');
+$act = array('data-lock', 'data-unlock');
 ?>
 
 <table class="tbl_classes">

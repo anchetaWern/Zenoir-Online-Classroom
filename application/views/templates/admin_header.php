@@ -356,6 +356,16 @@ $(function(){
 			}
 		);
 	});
+	
+	$('#date_to').live('change', function(){
+		var date_from 	= Date.parse($('#date_created').val());
+		var date_to		= Date.parse($('#date_to').val());
+		if(date_to < date_from){
+			noty_err.text = 'Lock date should be greater than start date!';
+			noty(noty_err);
+		}
+		
+	});
 
 });
 </script>

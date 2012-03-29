@@ -43,12 +43,13 @@ class groups_model extends ci_Model{
 	
 	function list_all(){//lists all the groups where the current user belongs
 		$user_id	= $this->session->userdata('user_id');
+		$class_id	= $_SESSION['current_class'];
 		
 		$groups_r 	= array();
 		$users_group=$this->db->query("SELECT tbl_groups.group_id, group_name, CONCAT_WS(', ', UPPER(lname), fname) AS creator FROM tbl_groups 
 										LEFT JOIN tbl_userinfo ON tbl_groups.group_creator = tbl_userinfo.user_id
 										LEFT JOIN tbl_grouppeople ON tbl_groups.group_id = tbl_grouppeople.group_id
-										WHERE tbl_grouppeople.user_id='$user_id'");
+										WHERE tbl_grouppeople.user_id='$user_id' AND class_id='$class_id'");
 		if($users_group->num_rows() > 0){
 			foreach($users_group->result() as $row){
 				$group_id	= $row->group_id;

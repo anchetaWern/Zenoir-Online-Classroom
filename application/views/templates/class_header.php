@@ -758,6 +758,15 @@ $(function(){
 		console.log(id);
 		$('#'+id).remove();
 	});
+	
+	$('#deadline').live('change', function(){
+		var deadline = Date.parse($(this).val());
+		var current_date = Date.parse($('#current_date').val());
+		if(deadline < current_date){
+			noty_err.text = 'Deadline should be greater than current date!';
+			noty(noty_err);
+		}
+	});
 
 
 });
@@ -771,6 +780,7 @@ $teacher	= ucwords($class_info['fname'] . ' ' .$class_info['lname']);
 $notes		= $class_info['notes'];
 ?>
 <title><?php echo $title; ?></title>
+<input type="hidden" id="current_date" value="<?php echo date('Y-m-d'); ?>"/>
 <!--user id-->
 <span class="spacer">
 <a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $_SESSION['user_name']; ?></a>

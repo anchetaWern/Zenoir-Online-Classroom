@@ -16,6 +16,8 @@ class login extends ci_Controller{
 		$user_name = $this->users->user_name($user_id);
 		$image_id	= $this->users->user_img($user_id);
 		
+		$_SESSION['user_name'] = $user_name;
+		
 			$user_data = array(
 				'user_id'=>$this->input->post('user_id'), 
 				'user_name'=>$user_name,

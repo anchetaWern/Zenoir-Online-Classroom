@@ -9,8 +9,8 @@ class sessions_model extends ci_Model{
 		2- Class	
 		3- Team
 		*/
-		$class_id	= $this->session->userdata('current_class');
-		$ses_type 	= $this->session->userdata('session_type');
+		$class_id	= $_SESSION['current_class'];
+		$ses_type 	= $_SESSION['session_type'];
 		
 		$ses_title	= $this->input->post('ses_title');
 		$ses_desc	= $this->input->post('ses_body');
@@ -69,7 +69,7 @@ class sessions_model extends ci_Model{
 	function list_all(){//list all the sessions where the current user has been invited or participated
 		
 		$user_id	= $this->session->userdata('user_id');
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		$sessions	= array();
 		$query 		= $this->db->query("SELECT tbl_sessions.session_id, ses_title, ses_description, 
 						DATE(time_from) AS date, time_from, time_to, ses_type, infinite 
@@ -147,7 +147,7 @@ class sessions_model extends ci_Model{
 	
 	
 	function session_count(){//returns the number of active sessions for the current class
-		$class_id 	= $this->session->userdata('current_class');
+		$class_id 	= $_SESSION['current_class'];
 		$query		= $this->db->query("SELECT session_id FROM tbl_sessions WHERE class_id='3' AND (time_to >= NOW() OR infinite = 1)");
 		return $query->num_rows();
 	}

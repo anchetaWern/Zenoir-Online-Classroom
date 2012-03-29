@@ -9,7 +9,7 @@ class subjects_model extends ci_Model{
 	}
 	
 	function update_subject(){
-		$subject_id		= $this->session->userdata('current_id');
+		$subject_id		= $_SESSION['current_id'];
 		$subject_code	= $this->input->post('subj_code');
 		$description	= $this->input->post('subj_desc');
 		$data 			= array($subject_code, $description, $subject_id);
@@ -19,7 +19,7 @@ class subjects_model extends ci_Model{
 	
 	function get_subject(){
 		$subject_info = array();
-		$subject_id	  = $this->session->userdata('current_id');
+		$subject_id	  = $_SESSION['current_id'];
 		$subject = $this->db->query("SELECT * FROM tbl_subject WHERE subject_id='$subject_id'");
 		if($subject->num_rows > 0){
 			$row = $subject->row();

@@ -85,17 +85,17 @@ class users extends ci_Model{
 			$update_password = $this->db->query("UPDATE tbl_users SET hashed_password=? WHERE user_id=?", $password);
 			
 			$user_id = 'UI'.$user_id;
-			$this->session->set_userdata('post_id', $user_id);
+			$_SESSION['post_id'] =  $user_id;
 		}else{
 		
 			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
 			
 			
 			$user_id = 'UI'.$user_id;
-			$this->session->set_userdata('post_id', $user_id);
+			$_SESSION['post_id'] = $user_id;
 		}
 		
-		$this->session->set_userdata('user_name', $user_name);
+		$_SESSION['user_name'] = $user_name;
 		
 		
 	}
@@ -135,10 +135,10 @@ class users extends ci_Model{
 	
 	
 	function user_information(){
-		$user_id = $this->session->userdata('current_id');
-		$user = array($this->session->userdata('current_id'));
+		$user_id = $_SESSION['current_id'];
+		
 		$userinfo_array = array();
-		$query = $this->db->query("SELECT * FROM tbl_userinfo WHERE user_id=?", $user);
+		$query = $this->db->query("SELECT * FROM tbl_userinfo WHERE user_id=?", $user_id);
 		if($query->num_rows > 0){
 			$row = $query->row();
 			$fname		= $row->fname;
@@ -174,11 +174,11 @@ class users extends ci_Model{
 	}
 	
 	function recent_activities(){//selects all the activities from all the classes in the past  week - SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK) 
-		$user_id = $this->session->userdata('current_id');
+		$user_id = $_SESSION['current_id'];
 	} 
 	
 	function previous_classes(){//selects all the previous classes attended by the current user
-		$user_id = $this->session->userdata('current_id');
+		$user_id = $_SESSION['current_id'];
 	}
 	
 	function user_img($user_id){

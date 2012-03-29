@@ -268,8 +268,8 @@ class ajax_loader extends ci_Controller{
 			break;
 			
 			
-			case 'new_classsession':
-				$session_type = $this->session->userdata('session_type');
+			case 'new_classsession': 
+				$session_type = $_SESSION['session_type'];
 				$session['title'] = '';
 				if($session_type == 1){//masked - teacher only
 					if($this->access(2, 1) == false){
@@ -303,6 +303,7 @@ class ajax_loader extends ci_Controller{
 			break;		
 			
 			case 'user_logs'://teacher 
+			
 				if($this->session->userdata('usertype') == 3){//student cannot view logs
 					redirect('../ajax_loader/view/view_user');
 				}

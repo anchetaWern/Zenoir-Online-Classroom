@@ -5,7 +5,7 @@ class assignments_model extends ci_Model{
 		
 		function create(){
 			
-			$class_id	= $this->session->userdata('current_class');
+			$class_id	= $_SESSION['current_class'];
 			$title		= $this->input->post('as_title');
 			$body		= $this->input->post('as_body');
 			$deadline	= $this->input->post('as_deadline');
@@ -15,7 +15,7 @@ class assignments_model extends ci_Model{
 			
 			$assignment_id = $this->db->insert_id();
 			$assignment_id = 'AS'.$assignment_id;
-			$this->session->set_userdata('post_id', $assignment_id);
+			$_SESSION['post_id'] = $assignment_id;
 			
 			//set assignment read status to all of the students in the class
 			$this->load->model('post');
@@ -28,7 +28,7 @@ class assignments_model extends ci_Model{
 		}
 		
 		function list_all(){
-			$class_id	= $this->session->userdata('current_class');
+			$class_id	= $_SESSION['current_class'];
 			//even teachers and admins cannot see assignments that are deleted
 			$assignments = array();
 			$query = $this->db->query("SELECT assignment_id, as_title, as_body, date, deadline FROM tbl_assignment WHERE class_id='$class_id' AND status=1 ORDER BY date DESC"); 
@@ -47,7 +47,7 @@ class assignments_model extends ci_Model{
 		
 		
 		function view(){//view a single assignment
-			$assignment_id = $this->session->userdata('current_id');
+			$assignment_id = $_SESSION['current_id'];
 			$assignment_details['assignment'] = array();
 			$assignment_details['files'] = array();
 			$assignment = $this->db->query("SELECT * FROM tbl_assignment WHERE assignment_id='$assignment_id'");
@@ -68,7 +68,7 @@ class assignments_model extends ci_Model{
 		}
 		
 		function reply_details(){//get the details needed when replying to an assignment: title of the assignment you're replying to and assignment_id
-			$assignment_id = $this->session->userdata('current_id');
+			$assignment_id = $_SESSION['current_id'];
 			$assignment_details = array();
 			$assignment = $this->db->query("SELECT as_title, as_body FROM tbl_assignment WHERE assignment_id = '$assignment_id'");
 			
@@ -83,7 +83,7 @@ class assignments_model extends ci_Model{
 		
 		function reply(){
 			$user_id		= $this->session->userdata('user_id');
-			$assignment_id 	= $this->session->userdata('current_id'); //assignment you're replying to
+			$assignment_id = $_SESSION['current_id']; //assignment you're replying to
 			$reply_title	= $this->input->post('reply_title');
 			$reply_body		= $this->input->post('reply_body');
 			
@@ -95,11 +95,11 @@ class assignments_model extends ci_Model{
 			
 			
 			
-			$this->session->set_userdata('post_id', $reply_id);
+			$_SESSION['post_id'] =  $reply_id;
 			
 			
 			//fetch teacher for the current class
-			$class_id 		= $this->session->userdata('current_class');
+			$class_id 		= $_SESSION['current_class'];
 			$query			= $this->db->query("SELECT teacher_id FROM tbl_classteachers WHERE class_id='$class_id'");
 			if($query->num_rows() > 0){
 				$row = $query->row();
@@ -114,7 +114,7 @@ class assignments_model extends ci_Model{
 		}
 		
 		function list_replies(){//loads the replies to a specific assignment
-			$assignment_id 	= $this->session->userdata('current_id');
+			$assignment_id 	= $_SESSION['current_id'];
 			$replies_r['replies'] 		= array();
 			$replies_r['as_title']		= array();
 			$replies 		= $this->db->query("SELECT asresponse_id, CONCAT_WS(', ', UPPER(lname), fname) AS sender, res_title, response_datetime
@@ -147,7 +147,7 @@ class assignments_model extends ci_Model{
 		
 		function view_reply(){//view a specific reply to an assignment
 		
-			$reply_id = $this->session->userdata('current_id');
+			$reply_id = $_SESSION['current_id'];
 			$reply = array();
 			$reply_details = $this->db->query("SELECT tbl_assignmentresponse.assignment_id, CONCAT_WS(UPPER(lname), fname) AS sender, res_title, res_body, response_datetime
 											FROM tbl_assignmentresponse 
@@ -175,7 +175,7 @@ class assignments_model extends ci_Model{
 		function check(){
 		//checks if student can still reply to an assignment 
 		//once the deadline becomes less than the current date the student cannot reply to the assignment anymore
-			$assignment_id = $this->session->userdata('current_id');
+			$assignment_id = $_SESSION['current_id'];
 			$query = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id='$assignment_id' AND deadline >= CURDATE()");
 			
 			return $query->num_rows();

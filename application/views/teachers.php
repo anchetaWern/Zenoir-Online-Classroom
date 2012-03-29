@@ -118,7 +118,7 @@ if(!empty($invites)){
 	<?php if(!empty($exports)){ ?>
 	<select name="export_to" id="export_to">
 		<?php foreach($exports as $row){ ?>
-			<?php if($row[5] != $this->session->userdata('current_class')){ ?>
+			<?php if($row[5] != $_SESSION['current_class']){ ?>
 			<option value="<?php echo $row[5]; ?>"><?php echo $row[2]; ?></option>
 			<?php } ?>
 		<?php } ?>

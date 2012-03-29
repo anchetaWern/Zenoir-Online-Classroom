@@ -9,7 +9,7 @@ class courses_model extends ci_Model{
 	}
 	
 	function update_course(){
-		$course_id		= $this->session->userdata('current_id');
+		$course_id		= $_SESSION['current_id'];
 		$course_code	= $this->input->post('course_code');
 		$description	= $this->input->post('course_desc');
 		
@@ -20,7 +20,7 @@ class courses_model extends ci_Model{
 	
 	function get_course(){
 		$course_info	= array();
-		$course_id 		= $this->session->userdata('current_id');
+		$course_id 		= $_SESSION['current_id'];
 		$course 		= $this->db->query("SELECT * FROM tbl_courses WHERE course_id='$course_id'");
 		if($course->num_rows() > 0){
 			$row 			= $course->row();

@@ -37,7 +37,7 @@ class classrooms_model extends ci_Model{
 	
 	
 	function add_people(){//adds people to the selected class
-		$class_id 	= $this->session->userdata('current_id');
+		$class_id 	= $_SESSION['current_id'];
 		$user_id	= $this->input->post('user_id');
 		
 		foreach($user_id as $v){
@@ -75,7 +75,7 @@ class classrooms_model extends ci_Model{
 		$this->db->join("tbl_userinfo", "tbl_classteachers.teacher_id = tbl_userinfo.user_id");
 		
 	
-			$subject_id = $this->session->userdata('current_id');
+			$subject_id = $_SESSION['current_id'];
 			$this->db->where('tbl_classes.subject_id', $subject_id);
 			
 			
@@ -91,7 +91,7 @@ class classrooms_model extends ci_Model{
 
 	function select_classcourse(){//selects the courses associated with the selected class
 			$classes_array = array();
-			$course_id = $this->session->userdata('current_id');
+			$course_id = $_SESSION['current_id'];
 			$course = array($course_id);
 			$classes = $this->db->query("SELECT class_code, class_description, subject_description, fname, mname, lname
 										FROM tbl_classes 
@@ -111,7 +111,7 @@ class classrooms_model extends ci_Model{
 	
 	function select_coursecode(){
 		$code = 0;
-		$class_id = $this->session->userdata('current_id');
+		$class_id = $_SESSION['current_id'];
 		$query = $this->db->query("SELECT class_code FROM tbl_classes WHERE class_id='$class_id'");
 		if($query->num_rows > 0){
 			$row = $query->row();
@@ -122,7 +122,7 @@ class classrooms_model extends ci_Model{
 	
 	function select_classinfo(){
 		$class_info = array();
-		$class_id = $this->session->userdata('current_class');
+		$class_id = $_SESSION['current_class'];
 		//only 1 teacher per class but a teacher can have many classes
 		$query = $this->db->query("SELECT class_code, class_description, fname, mname, lname, addl_notes
 								FROM tbl_classes
@@ -146,7 +146,7 @@ class classrooms_model extends ci_Model{
 	
 	
 	function class_modules(){//lists all the modules in the class
-		$class_id 	= $this->session->userdata('current_class');
+		$class_id 	= $_SESSION['current_class'];
 		$modules 	= $this->db->query("SELECT classmodule_id, mod_title, mod_description, status FROM tbl_classmodules 
 										LEFT JOIN tbl_modules ON tbl_classmodules.module_id = tbl_modules.module_id
 										WHERE class_id='$class_id'");
@@ -177,7 +177,7 @@ class classrooms_model extends ci_Model{
 	}
 	
 	function module_status($module_id){//returns the status of a module whether enabled or disabled
-		$class_id 	= $this->session->userdata('current_class');
+		$class_id 	= $_SESSION['current_class'];
 		
 		$query = $this->db->query("SELECT status FROM tbl_classmodules WHERE module_id='$module_id' AND class_id='$class_id'");
 		if($query->num_rows() > 0){
@@ -190,7 +190,7 @@ class classrooms_model extends ci_Model{
 	function export(){//exports class data to other classes (Eg. handout, student)
 		//all handouts and students are being exported
 		$teacher_id	= $this->session->userdata('user_id'); //the teacher
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		$exp_class	= $this->input->post('export_class'); //class id to export to
 		$exp_type	= $this->input->post('export_type');
 		if($exp_type == 0){//student

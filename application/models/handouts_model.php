@@ -3,7 +3,7 @@ class handouts_model extends ci_Model{
 		
 		
 	function create(){
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		$ho_title	= $this->input->post('ho_title');
 		$ho_body	= $this->input->post('ho_body');
 		
@@ -12,14 +12,14 @@ class handouts_model extends ci_Model{
 	
 		$handout_id = $this->db->insert_id();
 		$handout_id = 'HO'.$handout_id;
-		$this->session->set_userdata('post_id', $handout_id);
+		$_SESSION['post_id'] = $handout_id;
 		
 		$this->load->model('post');
 		$this->post->class_post($handout_id , 2);
 	}
 	
 	function list_all(){
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		$handouts_r = array();
 		$this->load->model('post');
 		$handouts = $this->db->query("SELECT handout_id, ho_title, date_posted FROM tbl_handouts WHERE class_id='$class_id' AND status = 1 ORDER BY date_posted DESC");
@@ -37,7 +37,7 @@ class handouts_model extends ci_Model{
 	}
 	
 	function view(){//view the contents of a single handout
-		$handout_id = $this->session->userdata('current_id');
+		$handout_id = $_SESSION['current_id'];
 		$handout_details['handout'] = array();
 		$handout_details['handout_files'] = array();
 		

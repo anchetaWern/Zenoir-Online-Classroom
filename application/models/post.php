@@ -4,7 +4,7 @@ class post extends ci_Model{
 
 	function message_post($post_id, $post_type, $receivers){//set message status for each receiver
 		$post_from	= $this->session->userdata('user_id');
-		$class_id 	= $this->session->userdata('current_class');
+		$class_id 	= $_SESSION['current_class'];
 		
 		
 		if(is_array($receivers)){
@@ -34,7 +34,7 @@ class post extends ci_Model{
 	
 	
 		$post_from	= $this->session->userdata('user_id');
-		$class_id 	= $this->session->userdata('current_class');
+		$class_id 	= $_SESSION['current_class'];
 		
 		//select all people that belong to the specific class
 		$people		= $this->db->query("SELECT * FROM tbl_classpeople WHERE class_id='$class_id'");
@@ -67,7 +67,7 @@ class post extends ci_Model{
 	
 	function unread_posts(){//loads the count of unread items per module
 		$user_id 	= $this->session->userdata('user_id');
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		$post_types = array('assignment', 'handout', 'assignment_response', 'quiz', 'message', 'session', 'quiz_response');
 		$module_unread = array();
 		
@@ -85,15 +85,15 @@ class post extends ci_Model{
 	
 	function unset_post($prefix){//unsets the read status of the post to the student
 		$user_id 	= $this->session->userdata('user_id');
-		$class_id	= $this->session->userdata('current_class');
-		$post_id	= $prefix.$this->session->userdata('current_id');
+		$class_id	= $_SESSION['current_class'];
+		$post_id	= $prefix.$_SESSION['current_id'];
 		
 		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_id='$post_id' AND post_to='$user_id'");
 		
 	}
 	
 	function unset_all($prefix){//unsets all the status of scores of students in a quiz 
-		$post_id	= $prefix.$this->session->userdata('current_id');
+		$post_id	= $prefix.$_SESSION['current_id'];
 		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_id='$post_id'");
 	}
 	

@@ -49,7 +49,7 @@ Always Accessible:
 
 <div class="container">
 <?php 
-if($this->session->userdata('session_type') == 1){
+if($_SESSION['session_type'] == 1){
 echo form_label('Alias', 'alias'); 
 echo form_input($alias);
 }

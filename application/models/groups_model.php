@@ -3,7 +3,7 @@ class groups_model extends ci_Model{
 	
 	function create(){
 		$user_id	= $this->session->userdata('user_id');
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		
 		$group_name	= $this->input->post('group_name');
 		$members 	= $this->input->post('members');
@@ -26,7 +26,7 @@ class groups_model extends ci_Model{
 	
 	function update(){
 		$user_id	= $this->session->userdata('user_id');
-		$group_id	= $this->session->userdata('current_id');
+		$group_id	= $_SESSION['current_id'];
 		
 		$group_name	= $this->input->post('group_name');
 		$members 	= $this->input->post('members');
@@ -61,7 +61,7 @@ class groups_model extends ci_Model{
 	}
 	
 	function group_owner(){//returns the id of the group owner of the current group
-		$group_id = $this->session->userdata('current_id');
+		$group_id = $_SESSION['current_id'];
 		$creator_id = 0;
 		$query = $this->db->query("SELECT group_creator FROM tbl_groups WHERE group_id='$group_id'");
 		if($query->num_rows() > 0){
@@ -72,7 +72,7 @@ class groups_model extends ci_Model{
 	}
 	
 	function view(){
-		$group_id = $this->session->userdata('current_id');
+		$group_id = $_SESSION['current_id'];
 		$group = $this->db->query("SELECT group_people_id, group_name , tbl_grouppeople.user_id, fname, mname, lname
 									FROM tbl_groups
 									LEFT JOIN tbl_grouppeople ON tbl_groups.group_id = tbl_grouppeople.group_id
@@ -119,7 +119,7 @@ class groups_model extends ci_Model{
 	}
 	
 	function non_members($group_id){//select members of the class who are not members of the group yet
-		$class_id = $this->session->userdata('current_class');
+		$class_id = $_SESSION['current_class'];
 		$group_members = $this->group_members($group_id);
 		$invite_members = array();
 		$query = $this->db->query("SELECT tbl_classpeople.user_id, fname, lname FROM tbl_classpeople 

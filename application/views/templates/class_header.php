@@ -764,7 +764,7 @@ $(function(){
 </script>
 <?php
 //classroom information
-$class_info = $this->session->userdata('classroom_info');
+$class_info = $_SESSION['classroom_info'];
 $class_code = $class_info['class_code'];
 $class_desc = $class_info['class_desc'];
 $teacher	= ucwords($class_info['fname'] . ' ' .$class_info['lname']);
@@ -773,7 +773,7 @@ $notes		= $class_info['notes'];
 <title><?php echo $title; ?></title>
 <!--user id-->
 <span class="spacer">
-<a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $this->session->userdata('user_name'); ?></a>
+<a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $_SESSION['user_name']; ?></a>
 </span>
 <span class="spacer">
 <a href="/zenoir/index.php/ajax_loader/view/groups" class="lightbox">Groups</a>

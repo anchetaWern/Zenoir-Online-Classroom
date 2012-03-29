@@ -50,7 +50,7 @@ class classusers_model extends ci_Model{
 	
 	function class_users(){//returns users in a specific class
 		$current_user = $this->session->userdata('user_id');
-		$class_id = $this->session->userdata('current_class');
+		$class_id = $_SESSION['current_class'];
 		$class_user_r = array();
 		$query = $this->db->query("SELECT tbl_userinfo.user_id, fname, mname, lname FROM tbl_userinfo
 								LEFT JOIN tbl_classpeople ON tbl_userinfo.user_id = tbl_classpeople.user_id
@@ -70,8 +70,8 @@ class classusers_model extends ci_Model{
 	
 	
 	function user_logs(){//lists all the activities performed of the selected student on the current class
-		$user_id	= $this->session->userdata('current_id');
-		$class_id	= $this->session->userdata('current_class');
+		$user_id	= $_SESSION['current_id'];
+		$class_id	= $_SESSION['current_class'];
 		
 		
 		
@@ -105,7 +105,7 @@ class classusers_model extends ci_Model{
 	
 	
 	function list_invited_students(){//list of all students which are not already enrolled in the current class
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		$query 		= $this->db->query("SELECT tbl_userinfo.user_id, fname, mname, lname FROM tbl_users
 									LEFT JOIN tbl_userinfo ON tbl_users.user_id = tbl_userinfo.user_id
 									WHERE tbl_users.user_id NOT IN(SELECT user_id FROM tbl_classpeople WHERE class_id = '$class_id') AND user_type != 1 AND user_type != 2");
@@ -127,7 +127,7 @@ class classusers_model extends ci_Model{
 	}
 	
 	function invites(){//invites the student into the current class. Status of the student in the classroom is equal to 0 until student confirms invitation
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		$student_id	= $this->input->post('student_id');
 		$this->db->query("INSERT INTO tbl_classpeople SET status=0, class_id='$class_id', user_id='$student_id'");
 	}
@@ -190,7 +190,7 @@ class classusers_model extends ci_Model{
 	
 	function remove(){//removes a student from a class
 		$student_id = $this->input->post('student_id');
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		/*
 		status:
 		1-active

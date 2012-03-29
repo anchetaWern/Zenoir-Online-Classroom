@@ -9,7 +9,7 @@ class quizzes extends ci_Controller{
 		
 		$quiz_data = array('title'=>$title,'body'=>$body,'start_time'=>$start_time, 'end_time'=>$end_time);
 		
-		$this->session->set_userdata('quiz', $quiz_data);
+		$_SESSION['quiz'] = $quiz_data;
 	}
 	
 	function create(){

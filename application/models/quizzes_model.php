@@ -5,7 +5,7 @@ class quizzes_model extends ci_Model{
 		//quizzes that has expired can still be viewed but cannot be taken
 		//quizzes can only be opened for the first time , once its viewed student shoud take the quiz
 		//the second time the student views the quiz its only viewable but not answerable
-		$class_id = $this->session->userdata('current_class');
+		$class_id = $_SESSION['current_class'];
 		$query = $this->db->query("SELECT quiz_id, DATE(start_time) AS qz_date, qz_title, start_time, end_time 
 								FROM tbl_quiz WHERE class_id='$class_id' AND status=1 ORDER BY qz_date DESC");
 		
@@ -30,8 +30,8 @@ class quizzes_model extends ci_Model{
 	}
 	
 	function create(){
-		$class_id 	= $this->session->userdata('current_class');
-		$quiz = $this->session->userdata('quiz');
+		$class_id 	= $_SESSION['current_class'];
+		$quiz = $_SESSION['quiz'];
 					
 		$title		= $quiz['title'];
 		$body		= $quiz['body'];
@@ -72,7 +72,7 @@ class quizzes_model extends ci_Model{
 	}
 	
 	function view(){//returns quiz details and quiz items
-		$quiz_id = $this->session->userdata('current_id');
+		$quiz_id = $_SESSION['current_id'];
 		$quiz['quiz'] = array();
 		$quiz['quiz_items'] = array();
 		
@@ -110,8 +110,8 @@ class quizzes_model extends ci_Model{
 	
 	function submit(){//for submitting answers for a particular quiz
 		$user_id	= $this->session->userdata('user_id');
-		$class_id	= $this->session->userdata('current_class');
-		$quiz_id	= $this->session->userdata('current_id');
+		$class_id	= $_SESSION['current_class'];
+		$quiz_id	= $_SESSION['current_id'];
 		
 		$answers	= $this->input->post('answers');
 		$score		= 0;
@@ -139,7 +139,7 @@ class quizzes_model extends ci_Model{
 		$quizresponse_id = $this->db->insert_id();
 		
 		//fetch teacher for the current class
-		$class_id 		= $this->session->userdata('current_class');
+		$class_id 		= $_SESSION['current_class'];
 		$query			= $this->db->query("SELECT teacher_id FROM tbl_classteachers WHERE class_id='$class_id'");
 		if($query->num_rows() > 0){
 			$row = $query->row();
@@ -155,7 +155,7 @@ class quizzes_model extends ci_Model{
 	function scores(){
 		$quiz_results['details'] = array();
 		$quiz_results['result'] = array();
-		$quiz_id	= $this->session->userdata('current_id');
+		$quiz_id	= $_SESSION['current_id'];
 		$quiz = $this->db->query("SELECT qz_title, DATE(start_time) AS quiz_date FROM tbl_quiz WHERE quiz_id='$quiz_id'");
 		if($quiz->num_rows() > 0){
 			$row = $quiz->row();
@@ -186,7 +186,7 @@ class quizzes_model extends ci_Model{
 
 	function check(){//checks if the quiz can already be taken by the student
 		$user_id = $this->session->userdata('user_id');
-		$quiz_id = $this->session->userdata('current_id');
+		$quiz_id = $_SESSION['current_id'];
 		$post_quiz_id = 'QZ'.$quiz_id;
 		$not_taken	= 1;
 		//checks if the student has already opened the quiz

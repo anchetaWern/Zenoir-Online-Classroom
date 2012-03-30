@@ -10,6 +10,14 @@ $back	= array(
 			'content'=>'Back to Replies',
 			'class'=>'medium blue'
 		);
+		
+$view	= array(
+			'id'=>'view',
+			'name'=>'view',
+			'value'=>'Back to Assignment',
+			'content'=>'Back to Assignment',
+			'class'=>'medium blue'
+		);
 ?>
 <div id="modal_header">
 <h4>Assignment Response - <?php echo $response['res_title']; ?></h4>
@@ -38,11 +46,17 @@ Attached Files:
 <?php } ?>
 <?php } ?>
 
+<?php if($this->session->userdata('usertype') == 2){ ?>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/list_assignmentreplies" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
-<?php
-echo form_button($back);
-?>
+<?php echo form_button($back); ?>
 </a>
+<?php }else if($this->session->userdata('usertype') == 3){ ?>
+<p>
+<a href="/zenoir/index.php/ajax_loader/view/view_assignment" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
+<?php echo form_button($view); ?>
+</a>
+</p>
+<?php } ?>
 </p>
 </div><!--end of container-->

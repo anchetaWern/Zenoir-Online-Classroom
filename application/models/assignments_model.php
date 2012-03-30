@@ -117,10 +117,11 @@ class assignments_model extends ci_Model{
 			$assignment_id 	= $_SESSION['current_id'];
 			$replies_r['replies'] 		= array();
 			$replies_r['as_title']		= array();
-			$replies 		= $this->db->query("SELECT asresponse_id, CONCAT_WS(', ', UPPER(lname), fname) AS sender, res_title, response_datetime
+			$replies 		= $this->db->query("SELECT tbl_assignmentresponse.user_id, asresponse_id, CONCAT_WS(', ', UPPER(lname), fname) AS sender, res_title, response_datetime
 											FROM tbl_assignmentresponse 
 											LEFT JOIN tbl_userinfo ON tbl_assignmentresponse.user_id = tbl_userinfo.user_id
 											WHERE assignment_id='$assignment_id'");
+											
 			$assignment		= $this->db->query("SELECT assignment_id, as_title FROM tbl_assignment WHERE assignment_id='$assignment_id'");
 			if($assignment->num_rows() > 0){
 				$row = $assignment->row();
@@ -132,14 +133,17 @@ class assignments_model extends ci_Model{
 			
 			if($replies->num_rows() > 0){
 				foreach($replies->result() as $row){
+					$post_from	= $row->user_id;
 					$res_id		= $row->asresponse_id;
 					$res_title	= $row->res_title;
 					$res_date	= $row->response_datetime;
 					$sender		= $row->sender;
 					
-					$post_status = $this->post->status('AR'.$res_id);
+					$post_status 	= $this->post->assignmentreply_status('AR'.$assignment_id, $post_from);
 					
-					$replies_r['replies'][] = array('status'=>$post_status, 'res_id'=>$res_id, 'res_title'=>$res_title, 'res_date'=>$res_date, 'sender'=>$sender);
+					$status_id		= $this->post->status_id('AR'.$assignment_id, $post_from);
+					
+					$replies_r['replies'][] = array('status_id'=>$status_id, 'as_id'=>$assignment_id, 'status'=>$post_status, 'res_id'=>$res_id, 'res_title'=>$res_title, 'res_date'=>$res_date, 'sender'=>$sender);
 				}
 			}
 			return $replies_r;
@@ -170,6 +174,22 @@ class assignments_model extends ci_Model{
 				$reply['reply'] = array('as_id'=>$assignment_id, 'res_title'=>$res_title, 'res_date'=>$res_date, 'res_body'=>$res_body, 'sender'=>$sender);
 			}
 			return $reply;
+		}
+		
+		
+		function response_id(){
+		//check the reply of the current student for the currently viewed assignment. returns 0 if nothing has been returned, and returns the response id for the
+		//specific assignment if the student has already replied to the assignment
+			$user_id		= $this->session->userdata('user_id');
+			$assignment_id 	= $_SESSION['current_id'];
+			
+			$query = $this->db->query("SELECT asresponse_id FROM tbl_assignmentresponse WHERE user_id='$user_id' AND assignment_id='$assignment_id'");
+			if($query->num_rows() == 0){
+				return 0;
+			}else if($query->num_rows() > 0){
+				$row = $query->row();
+				return $row->asresponse_id;
+			}
 		}
 		
 		function check(){

@@ -72,7 +72,12 @@ $(function(){
 		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id}, function(data){console.log(data);});
 	});
 	
-
+	$('a[data-sid]').live('hover', function(){
+		
+		var current_id = $(this).data('sid');
+		console.log(current_id);
+		$.post('/zenoir/index.php/data_setter/set_sid', {'sid' : current_id}, function(data){console.log(data);});
+	});
 	
 	
 	$('a[data-msgid]').live('hover', function(){

@@ -38,6 +38,10 @@ class data_setter extends ci_Controller{
 		
 	}
 	
+	function set_sid(){//fix for assignment replies
+		$_SESSION['sid'] = $this->input->post('sid');
+	}
+	
 	function current_class(){
 		return $_SESSION['current_class'];
 	}

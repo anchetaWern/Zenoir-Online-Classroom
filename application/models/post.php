@@ -64,6 +64,15 @@ class post extends ci_Model{
 		return $state;
 	}
 	
+	function assignmentreply_status($post_id, $post_from){//quick fix refactor later
+		$query = $this->db->query("SELECT status FROM tbl_poststatus WHERE post_id='$post_id' AND post_from='$post_from'");
+		if($query->num_rows() > 0){
+			$row 	= $query->row();
+			$state	= $row->status;
+		}
+		return $state;
+	}
+	
 	
 	function unread_posts(){//loads the count of unread items per module
 		$user_id 	= $this->session->userdata('user_id');
@@ -90,6 +99,19 @@ class post extends ci_Model{
 		
 		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_id='$post_id' AND post_to='$user_id'");
 		
+	}
+	
+	function unset_assignmentreply(){
+		$post_status_id = $_SESSION['sid'];
+		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_status_id='$post_status_id'");
+	}
+	
+	function status_id($post_id, $post_from){
+		$query = $this->db->query("SELECT post_status_id FROM tbl_poststatus WHERE post_id='$post_id' AND post_from='$post_from'");
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			return $row->post_status_id;
+		}
 	}
 	
 	function unset_all($prefix){//unsets all the status of scores of students in a quiz 

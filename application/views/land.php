@@ -28,7 +28,7 @@ $old_classes=$table['old_classes'];
 			<th>Class Code</th>
 			<th>Subject</th>
 			<th>Course</th>
-			<th>Status</th>
+			
 		</tr>
 	</thead>
 	<tbody>
@@ -37,7 +37,7 @@ $old_classes=$table['old_classes'];
 			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0] .' - '.$v[1]; ?></a></td><!--enter class-->
 			<td><?php echo $v[2]; ?></td>
 			<td><?php echo $v[3]; ?></td>
-			<td><?php echo $v[4]; ?></td>
+			
 		</tr>
 		<?php } ?>
 	</tbody>

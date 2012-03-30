@@ -192,18 +192,19 @@ class ajax_loader extends ci_Controller{
 				$this->logs_model->lag(4, 'AS');
 			
 				$this->load->model('assignments_model');
-				$assignment = $this->assignments_model->view();
+				$assignment['details'] = $this->assignments_model->view();
+				$assignment['response'] = $this->assignments_model->response_id();
 				
 				$_SESSION['page']= $_SERVER['REQUEST_URI'];
 				return $assignment;
 			break;
 			
-			case 'view_assignmentreply'://teacher
-				if($this->access(2, 1) == false){
+			case 'view_assignmentreply'://teacher + student
+				if($this->access(3, 0) == false){
 					redirect('../loader/view/login_form');
 				}
 				$this->load->model('post');
-				$this->post->unset_post('AR');
+				$this->post->unset_assignmentreply();
 				
 				$this->load->model('logs_model');
 				$this->logs_model->lag(14, 'AR');

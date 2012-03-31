@@ -74,6 +74,11 @@ class post extends ci_Model{
 		return $state;
 	}
 	
+	function assignmentreply_count($post_id){//returns 0 if there are no unread responses to a specific assignment and 1 if there is an unread response
+		$query = $this->db->query("SELECT status FROM tbl_poststatus WHERE post_id='$post_id' AND status=1");
+		return $query->num_rows();
+	}
+	
 	
 	function unread_posts(){//loads the count of unread items per module
 		$user_id 	= $this->session->userdata('user_id');

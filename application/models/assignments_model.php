@@ -38,7 +38,7 @@ class assignments_model extends ci_Model{
 			if($query->num_rows() > 0){
 				foreach($query->result() as $row){
 					$student_status = $this->post->status('AS'.$row->assignment_id);
-					$teacher_status = $this->post->status('AR'.$row->assignment_id);
+					$teacher_status = $this->post->assignmentreply_count('AR'.$row->assignment_id);
 					$assignments[] = array('teacher_status'=>$teacher_status, 'student_status'=>$student_status, 'assignment_id'=>$row->assignment_id, 'title'=>$row->as_title, 'date'=>$row->date, 'deadline'=>$row->deadline);
 				}
 			}

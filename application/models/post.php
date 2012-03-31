@@ -65,7 +65,8 @@ class post extends ci_Model{
 	}
 	
 	function assignmentreply_status($post_id, $post_from){//quick fix refactor later
-		$query = $this->db->query("SELECT status FROM tbl_poststatus WHERE post_id='$post_id' AND post_from='$post_from'");
+		$query = $this->db->query("SELECT status FROM tbl_poststatus WHERE post_id='$post_id' AND post_from='$post_from' AND status =1");
+		$state = 0;
 		if($query->num_rows() > 0){
 			$row 	= $query->row();
 			$state	= $row->status;

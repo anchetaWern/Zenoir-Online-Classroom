@@ -15,6 +15,8 @@ $back	= array(
 </div>
 <div class="container">
 <?php if(!empty($replies['replies'])){ ?>
+<div id="reply_list">
+<p>
 <table class="tbl_classes">
 	<thead>
 		<tr>
@@ -28,6 +30,7 @@ $back	= array(
 	<?php foreach($replies['replies'] as $row){ ?>
 		<tr>
 			<td>
+			
 			<?php echo $row['res_title']; ?>
 			<?php if($row['status']){ ?>
 			<span class="red_star" id="<?php echo $row['res_id']; ?>">*</span>
@@ -40,6 +43,8 @@ $back	= array(
 	<?php } ?>
 	</tbody>
 </table>
+</p>
+</div>
 <?php } ?>
 <p>
 <a href="/zenoir/index.php/ajax_loader/view/view_assignment" data-id="<?php echo $replies['as_id']; ?>" class="lightbox">
@@ -49,3 +54,6 @@ echo form_button($back);
 </a>
 </p>
 </div>
+<script>
+$('#reply_list').jScrollPane({autoReinitialise: true});
+</script>

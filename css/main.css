@@ -93,7 +93,7 @@ a{
 	height:200px;
 }
 
-#scrolls, #chatbox, #conversation, #msghistory{
+#scrolls, #chatbox, #conversation, #msghistory, #reply_list{
 	
 	width: 500px;
 	height:500px;

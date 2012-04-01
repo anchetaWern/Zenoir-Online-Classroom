@@ -26,12 +26,7 @@ $assignments = $table;
 		<tr>
 			<td>
 			<?php echo $row['title']; ?>
-			<?php
-			$combined_status = $row['student_status'];
-			?>
-			<?php if($combined_status >= 1){ ?>
-			
-			<?php } ?>
+	
 			<?php 
 			if($this->session->userdata('usertype') == 3){//student
 				if($row['student_status'] == 1){
@@ -40,7 +35,7 @@ $assignments = $table;
 			<?php
 				}
 			}else if($this->session->userdata('usertype') == 2){//teacher
-				if($row['teacher_status'] == 1){
+				if($row['teacher_status'] > 0){
 			?>		
 				<span class="red_star" id="<?php echo $row['assignment_id']; ?>">*</span>	
 			<?php		

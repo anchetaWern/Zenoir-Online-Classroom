@@ -6,7 +6,7 @@ $(document).ready(function(){
 	
 	now.receiveMessage = function(name, message){
 		
-		$("#tbl_messages").append("<tr><td>" + name + ": " + message +"</td></tr>");
+		$("#tbl_messages").append("<tr><td>" + "<strong>" + name + "</strong>" + ": " + message +"</td></tr>");
 		$('#tbl_messages tr:even').addClass('alt');
 	}
 

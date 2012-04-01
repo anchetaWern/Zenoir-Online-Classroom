@@ -192,6 +192,16 @@ class assignments_model extends ci_Model{
 			}
 		}
 		
+		function responseid($user_id, $assignment_id){//quick fix; returns the response id for a specific assignment
+			$query = $this->db->query("SELECT asresponse_id FROM tbl_assignmentresponse WHERE user_id='$user_id' AND assignment_id='$assignment_id'");
+			$responseid = 0;
+			if($query->num_rows() >0){
+				$row = $query->row();
+				$responseid = $row->asresponse_id;
+			}
+			return $responseid;
+		}
+		
 		function check(){
 		//checks if student can still reply to an assignment 
 		//once the deadline becomes less than the current date the student cannot reply to the assignment anymore

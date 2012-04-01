@@ -204,8 +204,9 @@ class ajax_loader extends ci_Controller{
 					redirect('../loader/view/login_form');
 				}
 				$this->load->model('post');
-				$this->post->unset_assignmentreply();
-				
+				if($this->session->userdata('usertype') == 2){
+					$this->post->unset_assignmentreply();
+				}
 				$this->load->model('logs_model');
 				$this->logs_model->lag(14, 'AR');
 			
@@ -272,13 +273,13 @@ class ajax_loader extends ci_Controller{
 			case 'new_classsession': 
 				$session_type = $_SESSION['session_type'];
 				$session['title'] = '';
-				if($session_type == 1){//masked - teacher only
+				if($session_type == 2){//masked - teacher only
 					if($this->access(2, 1) == false){
 						redirect('../loader/view/login_form');
 					}
 					$session['title'] = 'Masked';
 					
-				}else if($session_type == 2){//class - teacher only
+				}else if($session_type == 1){//class - teacher only
 					if($this->access(2, 1) == false){
 						redirect('../loader/view/login_form');
 					}

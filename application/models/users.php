@@ -154,10 +154,12 @@ class users extends ci_Model{
 	
 	function unread_post(){//selects all the unread post from all the classes
 		$user_id = $this->session->userdata('user_id');
-		$unreads = $this->db->query("SELECT class_code, class_description, post_type, post_id FROM tbl_poststatus 
+		$unreads = $this->db->query("SELECT post_from, class_code, class_description, post_type, post_id FROM tbl_poststatus 
 									LEFT JOIN tbl_classes ON tbl_poststatus.class_id = tbl_classes.class_id
 									WHERE post_to='$user_id' AND tbl_poststatus.status=1 AND post_type != 7");
 		$this->load->model('post');
+		$this->load->model('assignments_model');
+		
 		$unread_r = array();
 		if($unreads->num_rows() > 0){
 			foreach($unreads->result() as $row){
@@ -165,9 +167,15 @@ class users extends ci_Model{
 				$class_description	= $row->class_description;
 				$post_type_id		= $row->post_type;
 				$post_id			= $row->post_id;
+				$post_from			= $row->post_from;
 				$post_type 			= $this->post->post_type($post_type_id);
+				
+				if($post_type_id == 3){//assignment response
+					$post_id = $this->assignments_model->responseid($row->post_from, substr($post_id, 2, strlen($post_id)));
+				}
+				
 				$post_title			= $this->post->post_title($post_type_id, $post_id);
-				$unread_r[]			= array('class_code'=>$class_code,'class_description'=>$class_description,'post_type'=>$post_type, 'post_title'=>$post_title);
+				$unread_r[]			= array('type_id'=>$post_type_id,'post_id'=>$post_id, 'class_code'=>$class_code,'class_description'=>$class_description,'post_type'=>$post_type, 'post_title'=>$post_title);
 			}
 		}
 		return $unread_r;

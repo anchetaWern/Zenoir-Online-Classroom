@@ -31,6 +31,16 @@ class courses_model extends ci_Model{
 		return $course_info;
 	}
 	
+	function course_code($course_id){
+		$query = $this->db->query("SELECT course_code FROM tbl_courses WHERE course_id='$course_id'");
+		$course_code = 0;
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$course_code = $row->course_code;
+		}
+		return $course_code;
+	}
+	
 	function select_courses(){
 		$courses_array = array();
 		$courses = $this->db->get("tbl_courses");

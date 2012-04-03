@@ -2,21 +2,32 @@
 class classrooms_model extends ci_Model{
 	
 	function create_class(){
-		$class_code		= $this->input->post('class_code');	
+		$this->load->model('courses_model');
+		$this->load->model('subjects_model');
+		
+		
 		$class_desc 	= $this->input->post('class_desc');
 		$subject_id	    = $this->input->post('subject_id');
+		$subject_code	= $this->subjects_model->subject_code($subject_id);
 		$teacher_id     = $this->input->post('teacher_id');	
 		$course_id		= $this->input->post('course_id');
+		$course_code	= $this->courses_model->course_code($course_id);
+		
+		
+		$yr				= $this->input->post('yr');//lock year
+		$year			= $this->input->post('year'); //1st yr, 2nd yr, 3rd yr, etc..
+		$section		= $this->input->post('section');
 		
 		//additional details
 		$date_created	= $this->input->post('date_created');
 		$date_lock		= $this->input->post('date_to');
 		$details		= $this->input->post('details');
 		
-		$data_class 	= array($subject_id, $course_id, $class_code, $class_desc, $date_created, $date_lock, $details);
+		$class_code		= $yr . "/" . $subject_code . "/" . $course_code . "/" . $year . "-" . $section;
+		$data_class 	= array($subject_id, $course_id, $year, $section, $class_code, $class_desc, $date_created, $date_lock, $details);
 		
 		
-		$class_info = $this->db->query("INSERT INTO tbl_classes SET subject_id=?, course_id=?, class_code=?, class_description=?, date_created=?, date_lock=?, addl_notes=?", $data_class);
+		$class_info = $this->db->query("INSERT INTO tbl_classes SET subject_id=?, course_id=?, year=?, section=?, class_code=?, class_description=?, date_created=?, date_lock=?, addl_notes=?", $data_class);
 		$class_id	= $this->db->insert_id();
 		
 		//class teacher
@@ -49,9 +60,10 @@ class classrooms_model extends ci_Model{
 	
 	function select_classes(){//returns all the classes in the system -both active and inactive
 		$classes_array = array();
-		$this->db->select("class_code, class_description, subject_description, fname, mname, lname, tbl_classes.class_id, status");
+		$this->db->select("class_code, class_description, subject_description, course_description, year, section,  fname, mname, lname, tbl_classes.class_id, status");
 		$this->db->from("tbl_classes");
 		$this->db->join("tbl_subject", "tbl_classes.subject_id = tbl_subject.subject_id");
+		$this->db->join("tbl_courses", "tbl_classes.course_id = tbl_courses.course_id");
 		$this->db->join("tbl_classteachers", "tbl_classes.class_id = tbl_classteachers.class_id");
 		$this->db->join("tbl_userinfo", "tbl_classteachers.teacher_id = tbl_userinfo.user_id");
 		$classes = $this->db->get();
@@ -59,7 +71,17 @@ class classrooms_model extends ci_Model{
 		
 		if($classes->num_rows > 0){
 			foreach($classes->result() as $row){
-				$classes_array[] = array($row->fname, $row->mname, $row->lname, $row->class_description, $row->class_code, $row->subject_description, $row->class_id, $row->status);
+				$course_year_section 	= $row->course_description . ' ' . $row->year . '-' . $row->section;
+				$fname					= $row->fname;
+				$mname					= $row->mname;
+				$lname					= $row->lname;
+				$description			= $row->class_description;
+				$class_code				= $row->class_code;
+				$subject_description	= $row->subject_description;
+				$class_id				= $row->class_id;
+				$status					= $row->status;
+				$classes_array[] = array('course_yr_section'=>$course_year_section, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname, 'description'=>$description, 
+											'class_code'=>$class_code, 'subject_description'=>$subject_description, 'class_id'=>$class_id, 'status'=>$status);
 			}
 		}
 		return $classes_array;	

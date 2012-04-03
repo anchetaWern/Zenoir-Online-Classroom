@@ -30,6 +30,16 @@ class subjects_model extends ci_Model{
 		return $subject_info;
 	}
 	
+	function subject_code($subject_id){
+		$query = $this->db->query("SELECT subject_code FROM tbl_subject WHERE subject_id='$subject_id'");
+		$subj_code = 0;
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$subj_code = $row->subject_code;
+		}
+		return $subj_code;
+	}
+	
 	function select_subjects(){
 		$subject_array = array();
 		$subjects = $this->db->get("tbl_subject");

@@ -6,7 +6,7 @@ class classusers_model extends ci_Model{
 		
 		$user_id = $this->session->userdata('user_id');
 		$classes_array = array();
-		$query = $this->db->query("SELECT class_code, course_description, subject_description, class_description, tbl_classpeople.status, tbl_classes.class_id
+		$query = $this->db->query("SELECT class_code, course_description, year, section, subject_description, class_description, tbl_classpeople.status, tbl_classes.class_id
 								FROM tbl_classpeople 
 								LEFT JOIN tbl_classes ON tbl_classpeople.class_id = tbl_classes.class_id
 								LEFT JOIN tbl_subject ON tbl_classes.subject_id = tbl_subject.subject_id
@@ -17,7 +17,8 @@ class classusers_model extends ci_Model{
 		if($query->num_rows > 0){
 			foreach($query->result() as $row){
 				$status = $this->class_status($row->status);
-				$classes_array[] = array($row->class_code, $row->class_description, $row->subject_description, $row->course_description, $status, $row->class_id);
+				$course_yr_section = $row->course_description . ' ' . $row->year . '-' . $row->section;
+				$classes_array[] = array($row->class_code, $row->class_description, $row->subject_description, $course_yr_section , $status, $row->class_id);
 			}
 		}
 		return $classes_array;

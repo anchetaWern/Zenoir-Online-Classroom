@@ -184,15 +184,19 @@ $(function(){
 	$('#create_class').live('click', function(){
 		
 		var create			= 1;
-		var class_code 		= $.trim($('#class_code').val());
 		var class_desc 		= $.trim($('#class_desc').val());
 		var teacher			= $.trim($('#teacher').val());
 		var subject			= $.trim($('#subject').val());
 		var course			= $.trim($('#course').val());
+		var year			= $.trim($('#year').val());
+		var section			= $.trim($('#section').val());
 		
 		//additional details
 		var date_created	= $.trim($('#date_created').val());
+		
 		var date_lock		= $.trim($('#date_to').val());
+		var yr_date			= new Date(date_lock);
+		var yr				= yr_date.getFullYear();	
 		var addl_details	= $.trim($('#addl_details').val());
 		
 		var teacher_id		= $.trim($('#teacher').val());
@@ -226,7 +230,8 @@ $(function(){
 			}
 		});
 		
-		var class_data 		= [class_code, class_desc, teacher, subject, course, date_created, date_lock, addl_details, teacher_id, subject_id, course_id];
+		
+		var class_data 		= [class_desc, teacher, subject, course, year , section, date_created, date_lock, addl_details, teacher_id, subject_id, course_id];
 		
 		for(var x in class_data){
 			if(class_data[x] == ''){
@@ -236,7 +241,7 @@ $(function(){
 		
 		if(create == 1){
 			$.post('/zenoir/index.php/classrooms/create_class', 
-				{'class_code' : class_code, 'subject_id' : subject_id, 'teacher_id' : teacher_id, 'course_id' : course_id,
+				{'yr' : yr, 'year': year, 'section' : section, 'subject_id' : subject_id, 'teacher_id' : teacher_id, 'course_id' : course_id,
 				'class_desc' : class_desc, 'date_created' : date_created, 'date_to' : date_lock, 'details' : addl_details},
 				function(){
 					noty_success.text = 'Class was successfully created!';

@@ -125,6 +125,7 @@ $old_classes=$table['old_classes'];
 			<tr>
 				<th>Title</th>
 				<th>Post Type</th>
+				<th>Timestamp</th>
 				<th>Class</th>
 			</tr>
 		</thead>
@@ -133,6 +134,7 @@ $old_classes=$table['old_classes'];
 			<tr>
 				<td><?php echo $row['post_title']; ?></td>
 				<td><?php echo $row['post_type']; ?></td>
+				<td><?php echo date('Y-m-d', strtotime($row['post_time'])) . ' ' . date('g:i:s A', strtotime($row['post_time'])); ?></td>
 				<td><?php echo $row['class_code'] .' - '. $row['class_description']; ?></td>
 				
 			</tr>

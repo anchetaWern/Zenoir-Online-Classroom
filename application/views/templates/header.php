@@ -1,6 +1,7 @@
 <!--header for anonymous users-->
 <link rel="stylesheet" href="/zenoir/libs/kickstart/css/kickstart.css"/>
 <link rel="stylesheet" href="/zenoir/css/main.css"/>
+<link rel="zenoir icon" href="/zenoir/img/zenoir.ico">
 <script src="/zenoir/js/jquery171.js"></script>
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script>
 <script src="/zenoir/libs/kickstart/js/prettify.js"></script>

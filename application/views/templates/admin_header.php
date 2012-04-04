@@ -19,7 +19,7 @@
 
 <script type="text/javascript" src="/zenoir/libs/jscrollpane/script/jquery.mousewheel.js"></script><!-- the mousewheel plugin -->
 <script type="text/javascript" src="/zenoir/libs/jscrollpane/script/jquery.jscrollpane.min.js"></script><!--scrollbars-->
-
+<link rel="zenoir icon" href="/zenoir/img/zenoir.ico">
 
 <script>
 $(function(){
@@ -322,6 +322,72 @@ $(function(){
 		}else{
 			noty_err.text = 'All fields are required!';
 			noty(noty_err);
+		}
+	});
+	
+	
+	$('#subject').live('blur', function(){
+		if($('#subject').is('input')){
+			var subject_id = 0;
+			var subject = $.trim($(this).val());
+			
+			$('#subjects option').each(function(){
+				var current_subject = $(this).val();
+				var current_subjectid = $(this).data('subjectid');
+				if(current_subject == subject){
+					subject_id = current_subjectid;
+					
+				}
+			});
+			
+			if(subject_id == 0 && subject != ''){
+				noty_err.text = 'Select an existing course!';
+				noty(noty_err);
+				
+			}
+		}
+		
+	});
+	
+	$('#teacher').live('blur', function(){
+		if($('#teacher').is('input')){
+			var teacher_id = 0;
+			var teacher = $.trim($(this).val());
+			$('#teachers option').each(function(){
+				var current_teacher = $(this).val();
+				var current_teacherid = $(this).data('teacherid');
+				if(current_teacher == teacher){
+					teacher_id = current_teacherid;
+					
+				}
+			});
+			
+			if(teacher_id == 0 && teacher != ''){
+				noty_err.text = 'Select an existing teacher!';
+				noty(noty_err);
+				
+			}
+		}
+	});
+	
+	$('#course').live('blur', function(){
+		if($('#course').is('input')){
+			var course_id = 0;
+			var course = $.trim($(this).val());
+			$('#courses option').each(function(){
+				var current_course = $(this).val();
+				var current_courseid = $(this).data('courseid');
+				if(current_course == course){
+					course_id = current_courseid;
+					
+				}
+			});
+			
+			if(course_id == 0 && course != ''){
+				noty_err.text = 'Select an existing course!';
+				noty(noty_err);
+				
+			}
 		}
 	});
 	

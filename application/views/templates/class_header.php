@@ -21,6 +21,7 @@
 <script type="text/javascript" src="/zenoir/libs/jscrollpane/script/jquery.mousewheel.js"></script><!-- the mousewheel plugin -->
 <script type="text/javascript" src="/zenoir/libs/jscrollpane/script/jquery.jscrollpane.min.js"></script><!--scrollbars-->
 
+<link rel="zenoir icon" href="/zenoir/img/zenoir.ico">
 <script>
 $(function(){
 	var noty_success = {

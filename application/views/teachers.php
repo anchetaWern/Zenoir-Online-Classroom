@@ -9,6 +9,7 @@
 	<li><a href="#invite_students">Invite Students</a></li>
 	<li><a href="#remove_students">Remove Students</a></li>
 	<li><a href="#modules">Enable/Disable Modules</a></li>
+	<li><a href="#email">Email Notifications</a></li>
 	<li><a href="#export">Export</a></li>
 </ul>
 <div id="invite_students" class="tab-content">
@@ -16,6 +17,7 @@
 $invites = $table['invited'];
 $modules = $table['modules'];
 $exports = $table['exports'];
+$events	 = $table['events'];
 $remove  = $table['remove'];
 
 
@@ -100,6 +102,29 @@ if(!empty($invites)){
 </table>
 <?php } ?>
 </div><!--end of modules-->
+
+<div id="email" class="tab-content">
+<?php if(!empty($events)){ ?>
+<table>
+	<thead>
+		<tr>
+			<th>Event</th>
+			<th>Enable/Disable</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($events as $row){ ?>
+		<tr>
+			<td><?php echo $row['event']; ?></td>
+			<td>
+			<input type="checkbox" class="events" id="<?php echo $row['nevent_id']; ?>" <?php if($row['status'] == 1){ echo 'Checked'; } ?>>
+			</td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>
+<?php } ?>
+</div><!--end of email notifications-->
 
 <div id="export" class="tab-content">
 	What to export?

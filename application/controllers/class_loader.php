@@ -228,6 +228,10 @@ class class_loader extends ci_Controller{
 				$this->load->model('classrooms_model');
 				$classes['modules'] = $this->classrooms_model->class_modules();
 				
+				//email notifs events
+				$this->load->model('emailnotifs_model');
+				$classes['events'] = $this->emailnotifs_model->list_events();
+				
 				//exports
 				$classes['exports'] = $this->classusers_model->user_classes(); 
 				return $classes;

@@ -504,7 +504,7 @@ $(function(){
 			$.post('/zenoir/index.php/sessions/create', {'ses_title' : title, 'ses_body' : ses_desc, 'infinite' : infinite, 
 															'time_from' : time_from, 'time_to' : time_to, 'members' : members},
 															function(data){
-																console.log(data);
+																
 																$('#fancybox-close').click();
 																noty_success.text = 'Session successfully created!';
 																noty(noty_success);
@@ -775,7 +775,18 @@ $(function(){
 		}
 	});
 
-
+	$('.events').live('click', function(){
+		var nevent_id 	= $.trim($(this).attr('id'));
+		var check 		= $(this).is(':checked');
+		var status		= 0;
+		if(check){
+			status = 1;
+		}else{
+			status = 0;
+		}
+		
+		$.post('/zenoir/index.php/notifs/change_status', {'nevent_id' : nevent_id, 'status' : status});
+	});
 });
 </script>
 <?php

@@ -24,9 +24,15 @@ class messages_model extends ci_Model{
 		$msg_id	 		= $this->db->insert_id();
 		
 		$_SESSION['post_id'] =  'PO'.$msg_id;
-	
+		
+		$this->load->model('users');
+		$this->load->model('email');
+		
 		foreach($receivers as $k=>$receiver){
-			
+			$email_address = $this->users->user_email($receiver);
+			if($email_address != ''){
+				$this->email->send($email_address, $msg_title, $msg_body);	
+			}
 			$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
 		}
 		

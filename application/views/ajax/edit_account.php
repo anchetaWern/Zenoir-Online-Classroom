@@ -43,12 +43,15 @@ $('.ui-button-text span').text('Select Photo');
 <label for="lname">Lastname</label>
 <input type="text" id="lname" name="lname" value="<?php echo $user['lname']; ?>"/>
 
+<label for="email">Email</label>
+<input type="text" id="email" name="email" value="<?php echo $user['email']; ?>"/>
+
 <label for="autobiography">Autobiography</label>
 <textarea name="autobiography" id="autobiography">
 <?php echo $user['auto_bio']; ?>
 </textarea>
 
-<input type="button" class="medium green" id="btn_update_account" value="update">
+<input type="button" class="medium green" id="btn_update_account" value="Update Account">
 </div>
 
 

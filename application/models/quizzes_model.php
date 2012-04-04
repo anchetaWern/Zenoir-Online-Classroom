@@ -45,6 +45,9 @@ class quizzes_model extends ci_Model{
 		
 		//set quiz read status to students
 		$this->load->model('post');
+		$this->load->model('classusers_model');
+		$this->load->model('email');
+		
 		$this->post->class_post('QZ'.$quiz_id , 4);
 		
 		
@@ -67,6 +70,15 @@ class quizzes_model extends ci_Model{
 			$items_data	= array($quiz_id, $q, $a, $b, $c, $d, $ans);
 			
 			$create_items = $this->db->query("INSERT INTO tbl_quizitems SET quiz_id=?, question=?, A=?, B=?, C=?, D=?, answer=?", $items_data);
+		}
+		
+		$class_users = $this->classusers_model->class_users();
+		foreach($class_users as $row){
+			$email = $row['email'];
+			if($email != ''){
+				$body = $body . "\n\n" . "Date: " . date('Y-m-d', strtotime($start_time)) . "\nStart time: " . date('g:i:s A', strtotime($start_time)) . "\nEnd time: " . date('g:i:s A', strtotime($end_time));
+				$this->email->send($email, $title, $body);
+			}
 		}
 		
 	}

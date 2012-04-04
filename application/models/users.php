@@ -41,7 +41,7 @@ class users extends ci_Model{
 		if($get_user->num_rows() > 0){
 			$row = $get_user->row();
 			
-			$user_data = array('user_id'=>$uid, 'fname'=>$row->fname, 'mname'=>$row->mname, 'lname'=>$row->lname, 'auto_bio'=>$row->autobiography);
+			$user_data = array('user_id'=>$uid, 'fname'=>$row->fname, 'mname'=>$row->mname, 'lname'=>$row->lname, 'auto_bio'=>$row->autobiography, 'email'=>$row->email);
 		}
 		return $user_data;
 	}
@@ -72,23 +72,24 @@ class users extends ci_Model{
 		$user_name = $fname . ' ' . $lname;
 		$password = $this->input->post('pword');
 		
+		$email = $this->input->post('email');
 		$autobiography = $this->input->post('autobiography');
 		
 		
-		$user_data = array($fname, $mname, $lname, $autobiography, $user_id);
+		$user_data = array($fname, $mname, $lname, $email, $autobiography, $user_id);
 		
 		if(!empty($password)){
 			$password = md5($this->input->post('pword'));
 			$password = array($password, $user_id);
 			
-			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
+			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, email=?, autobiography=? WHERE user_id=?", $user_data);
 			$update_password = $this->db->query("UPDATE tbl_users SET hashed_password=? WHERE user_id=?", $password);
 			
 			$user_id = 'UI'.$user_id;
 			$_SESSION['post_id'] =  $user_id;
 		}else{
 		
-			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
+			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, email=?, autobiography=? WHERE user_id=?", $user_data);
 			
 			
 			$user_id = 'UI'.$user_id;
@@ -145,8 +146,9 @@ class users extends ci_Model{
 			$mname		= $row->mname;
 			$lname		= $row->lname;
 			$auto_bio	= $row->autobiography;
+			$email 		= $row->email;
 			$image_id = $this->users->user_img($user_id);
-			$userinfo_array = array($fname, $mname, $lname, $auto_bio, $user_id, $image_id);
+			$userinfo_array = array($fname, $mname, $lname, $auto_bio,  $user_id, $image_id, $email);
 		}
 		return $userinfo_array;
 	}
@@ -245,6 +247,35 @@ class users extends ci_Model{
 			
 		}
 		return $class_r;
+	}
+	
+	
+	function user_list($user_type){//returns a list of a specific group of users (Eg. list of all teachers, admins, students)
+		$list 	= array();
+		$query 	= $this->db->query("SELECT tbl_users.user_id, fname, mname, lname FROM tbl_users 
+								LEFT JOIN tbl_userinfo ON tbl_users.user_id = tbl_userinfo.user_id WHERE user_type = '$user_type'");
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$fname		= $row->fname;
+				$mname		= $row->mname;
+				$lname		= $row->lname;
+				$user_id	= $row->user_id;
+				
+				$list[] = array('fname'=>$fname,'mname'=>$mname,'lname'=>$lname, 'user_id'=>$user_id); 
+			}
+		}
+		return $list;
+	}
+	
+	function user_email($user_id){
+		$email = 0;
+		$query = $this->db->query("SELECT email FROM tbl_userinfo WHERE user_id='$user_id'");
+		if($query->num_rows() > 0){
+			$row 	= $query->row();
+			$email	= $row->email;
+			
+		}
+		return $email;
 	}
 	
 	function login(){

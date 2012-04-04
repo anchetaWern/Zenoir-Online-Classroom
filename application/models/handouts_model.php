@@ -15,7 +15,18 @@ class handouts_model extends ci_Model{
 		$_SESSION['post_id'] = $handout_id;
 		
 		$this->load->model('post');
+		$this->load->model('classusers_model');
+		$this->load->model('email');
+		
 		$this->post->class_post($handout_id , 2);
+		
+		$class_users = $this->classusers_model->class_users();
+		foreach($class_users as $row){
+			$email = $row['email'];
+			if($email != ''){
+				$this->email->send($email, $ho_title, $ho_body);
+			}
+		}
 	}
 	
 	function list_all(){

@@ -93,6 +93,7 @@ $(function(){
 		var mname = $.trim($('#mname').val());
 		var lname = $.trim($('#lname').val());
 		var auto_biography = $.trim($('#autobiography').val());
+		var email =	$.trim($('#email').val());
 		
 		var account_data = [fname, mname, lname];
 		for(var x in account_data){
@@ -102,7 +103,7 @@ $(function(){
 		}
 		
 		if(updates==1){
-			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
+			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography, 'email' : email},
 				function(){
 					$('#px-submit').click();
 					noty_success.text = 'Account was successfully updated!';
@@ -499,17 +500,17 @@ $(function(){
 		}
 		
 		if(create == 1){
+		
 			$.post('/zenoir/index.php/sessions/create', {'ses_title' : title, 'ses_body' : ses_desc, 'infinite' : infinite, 
 															'time_from' : time_from, 'time_to' : time_to, 'members' : members},
 															function(data){
+																console.log(data);
 																$('#fancybox-close').click();
 																noty_success.text = 'Session successfully created!';
 																noty(noty_success);
-																setTimeout(function(){
-																	location.reload();
-																},
-																1000);
+															
 															});
+															
 		}else{
 			noty_err.text = 'All fields are required!';
 			noty(noty_err);

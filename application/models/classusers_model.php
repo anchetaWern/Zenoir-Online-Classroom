@@ -53,7 +53,7 @@ class classusers_model extends ci_Model{
 		$current_user = $this->session->userdata('user_id');
 		$class_id = $_SESSION['current_class'];
 		$class_user_r = array();
-		$query = $this->db->query("SELECT tbl_userinfo.user_id, fname, mname, lname FROM tbl_userinfo
+		$query = $this->db->query("SELECT tbl_userinfo.user_id, fname, mname, lname, email FROM tbl_userinfo
 								LEFT JOIN tbl_classpeople ON tbl_userinfo.user_id = tbl_classpeople.user_id
 								WHERE class_id = '$class_id' AND tbl_userinfo.user_id != '$current_user' AND tbl_classpeople.status = 1");
 		if($query->num_rows() > 0){
@@ -62,8 +62,9 @@ class classusers_model extends ci_Model{
 				$fname	= $row->fname;
 				$mname  = $row->mname;
 				$lname	= $row->lname;
+				$email	= $row->email;
 				
-				$class_user_r[] = array('id'=>$id, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+				$class_user_r[] = array('id'=>$id, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname, 'email'=>$email);
 			}
 		}
 		return $class_user_r;

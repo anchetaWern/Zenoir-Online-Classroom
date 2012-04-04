@@ -19,7 +19,20 @@ class assignments_model extends ci_Model{
 			
 			//set assignment read status to all of the students in the class
 			$this->load->model('post');
+			$this->load->model('classusers_model');
+			$this->load->model('email');
+			
 			$this->post->class_post($assignment_id , 1);
+			
+			
+			$class_users = $this->classusers_model->class_users();
+			foreach($class_users as $row){
+				$email = $row['email'];
+				if($email != ''){
+					$body =  $body . "\n" . "Deadline: ". $deadline;
+					$this->email->send($email, $title, $body);
+				}
+			}
 		}
 		
 		function delete(){

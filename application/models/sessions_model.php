@@ -18,6 +18,11 @@ class sessions_model extends ci_Model{
 		
 		$time_from	= date('Y-m-d G:i:s', strtotime($this->input->post('time_from')));
 		$time_to	= date('Y-m-d G:i:s', strtotime($this->input->post('time_to')));
+		
+		$ses_date 		= date('Y-m-d', strtotime($time_from));
+		$ses_timefrom	= date('g:i:s A', strtotime($time_from));	
+		$ses_timeto		= date('g:i:s A', strtotime($time_to));
+		
 		$member_grp	= $this->input->post('members');
 		
 		
@@ -29,29 +34,54 @@ class sessions_model extends ci_Model{
 		
 		
 		
+		$this->load->model('email');
+		
 		if($member_grp == 0){//class and masked session
 			$this->load->model('classusers_model');
 			$class_members = $this->classusers_model->class_users();
 			foreach($class_members as $row){
 				$member_id = $row['id'];
+				$email = $row['email'];
+				
 				$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$member_id'");
+				
+				if($email != ''){
+					
+					$body =  $ses_desc . "\n\n" . "Date: ". $ses_date . "\nFrom: " . $ses_timefrom . "\nTo: " . $ses_timeto;
+					$this->email->send($email, 'Class Session: '. $ses_title, $body);
+				}
 			}
 			
 				$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$user_id'");
 		
 		}else{//team session
 			$this->load->model('groups_model');
+			$this->load->model('users');
 			
 			foreach($member_grp as $groups){
 				$group_id = $groups['value'];
-				echo $group_id;
+				echo 'group_id : '.$group_id ."\n";
+				
+				
 				$group_members = $this->groups_model->group_members($group_id);
+			
 				
 				foreach($group_members as $member_id){
 					if($this->exists($member_id, $session_id) == 0){
+						
+						$email_address = $this->users->user_email($member_id);
 						$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$member_id'");
+						
+						
+						if($email_address != ''){
+							$body =  $ses_desc . "\n\n" . "Date: ". $ses_date . "\nFrom: " . $ses_timefrom . "\nTo: " . $ses_timeto;
+							$this->email->send($email_address, 'Team Session: '.$ses_title, $body);	
+						}
+						
+						
 					}
 				}//inner loop	
+				
 			}//outer loop
 		}
 		

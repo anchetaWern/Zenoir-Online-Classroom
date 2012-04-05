@@ -28,6 +28,14 @@ $view	= array(
 			'content'=>'View Responses',
 			'class'=>'medium orange'
 		);
+
+$view_no	= array(
+			'id'=>'view_noreply',
+			'name'=>'view_noreply',
+			'value'=>'View No Response',
+			'content'=>'View No Response',
+			'class'=>'medium red'
+		);		
 ?>
 
 <div id="modal_header">
@@ -75,5 +83,6 @@ Deadline : <?php echo $assignment['deadline']; ?>
 <a href="/zenoir/index.php/ajax_loader/view/list_assignmentreplies" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
 <?php echo form_button($view); ?>
 </a>
+<a href="/zenoir/index.php/ajax_loader/view/view_nohw" class="lightbox"><?php echo form_button($view_no); ?></a>
 <?php } ?>
 </div><!--end of container-->

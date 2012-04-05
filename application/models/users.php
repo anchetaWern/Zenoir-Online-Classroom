@@ -215,19 +215,21 @@ class users extends ci_Model{
 		if(!empty($classes)){
 			foreach($classes as $row){
 				$class_id = $row['class_id'];
-				$query = $this->db->query("SELECT DISTINCT fname, lname, mname, class_code, class_description, tbl_classpeople.user_id FROM tbl_classpeople
+				$query = $this->db->query("SELECT DISTINCT logged_in, fname, lname, mname, class_code, class_description, tbl_classpeople.user_id FROM tbl_classpeople
 										LEFT JOIN tbl_userinfo ON tbl_classpeople.user_id = tbl_userinfo.user_id
 										LEFT JOIN tbl_classes ON tbl_classpeople.class_id = tbl_classes.class_id
+										LEFT JOIN tbl_users ON tbl_userinfo.user_id = tbl_users.user_id
 										WHERE tbl_classpeople.class_id='$class_id'");
 				if($query->num_rows() > 0){
 					foreach($query->result() as $in_row){
+						$online = $in_row->logged_in;
 						$fname	= $in_row->fname;
 						$mname	= $in_row->mname;		
 						$lname	= $in_row->lname;
 						$id		= $in_row->user_id;
 						$class_code			= $in_row->class_code;
 						$class_description	= $in_row->class_description;
-						$people[]=array('fname'=>$fname,'mname'=>$mname,'lname'=>$lname,'id'=>$id,'class_code'=>$class_code,'class_description'=>$class_description,'class_id'=>$class_id);
+						$people[]=array('online'=>$online, 'fname'=>$fname,'mname'=>$mname,'lname'=>$lname,'id'=>$id,'class_code'=>$class_code,'class_description'=>$class_description,'class_id'=>$class_id);
 					}
 				}
 			}

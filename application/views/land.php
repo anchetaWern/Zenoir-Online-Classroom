@@ -107,7 +107,13 @@ $old_classes=$table['old_classes'];
 		<tbody>
 		<?php foreach($people as $row){ ?>
 			<tr>
-				<td><?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']) . ' ' . ucwords($row['mname']);  ?></td>
+				<td>
+				<?php $online = $row['online']; ?>
+				<?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']) . ' ' . ucwords($row['mname']);  ?>
+				<?php if($online == 1){ ?>
+				<img src="/zenoir/img/online.png"/>
+				<?php } ?>
+				</td>
 				<td><?php echo $row['class_code'] .' - '. $row['class_description'];  ?></td>
 				<td><a href="/zenoir/index.php/ajax_loader/view/view_user" class="lightbox" data-id="<?php echo $row['id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 			</tr>

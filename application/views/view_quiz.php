@@ -10,6 +10,14 @@ $response	= array(
 			'content'=>'View Scores',
 			'class'=>'medium orange'
 		);
+		
+$no_quiz	= array(
+			'id'=>'view_noquiz',
+			'name'=>'view_noquiz',
+			'value'=>'View No Quiz',
+			'content'=>'View No Quiz',
+			'class'=>'medium red'
+		);
 ?>
 <div id="modal_header">
 <h4>View Quiz - <?php echo $quiz['title']; ?></h4>
@@ -69,5 +77,8 @@ $response	= array(
 	</div><!--end of quiz items-->
 	<a href="/zenoir/index.php/class_loader/view/view_scores">
 	<?php echo form_button($response); ?>
+	</a>
+	<a href="/zenoir/index.php/class_loader/view/view_noquiz">
+	<?php echo form_button($no_quiz); ?>
 	</a>
 </div><!--end of container-->

@@ -37,7 +37,7 @@ class post extends ci_Model{
 		$class_id 	= $_SESSION['current_class'];
 		
 		//select all people that belong to the specific class
-		$people		= $this->db->query("SELECT * FROM tbl_classpeople WHERE class_id='$class_id'");
+		$people		= $this->db->query("SELECT * FROM tbl_classpeople WHERE class_id='$class_id' AND status = 1");
 		if($people->num_rows() > 0){
 			foreach($people->result() as $row){
 				$post_to 	= $row->user_id;
@@ -152,6 +152,71 @@ class post extends ci_Model{
 	}
 	
 	
+	function filler($query){
+		$students = array();
+		$teacher 	= $this->session->userdata('user_id');
+		
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$user_id	= $row->user_id;
+				$fname		= $row->fname;
+				$mname		= $row->mname;
+				$lname		= $row->lname;
+				
+				if($user_id != $teacher){
+					$students[] = array('id'=>$user_id,'fname'=>$fname,'mname'=>$mname,'lname'=>$lname);
+				}
+			}
+		}
+		return $students;
+	}
+	
+	function no_assignment(){//returns a list of students who didn't submit a particular assignment yet
+		$assignment_id = $_SESSION['current_id'];
+		$class_id 	= $_SESSION['current_class'];
+		$students = array(); //students with no assignments
+		
+		$query = $this->db->query("SELECT tbl_classpeople.user_id, fname, mname,lname 
+									FROM   tbl_classpeople 
+									LEFT JOIN tbl_userinfo ON tbl_classpeople.user_id = tbl_userinfo.user_id
+									WHERE status = 1 AND class_id = '$class_id'
+									AND tbl_classpeople.user_id NOT IN(SELECT user_id FROM tbl_assignmentresponse 
+									WHERE user_id IS NOT NULL AND assignment_id='$assignment_id')
+									");
+		
+		$students = $this->filler($query);
+		return $students;	
+
+	}
+	
+	function no_quiz(){
+		$quiz_id = $_SESSION['current_id'];
+		$class_id 	= $_SESSION['current_class'];
+		$students = array(); //students with no quiz response to the specified quiz
+		
+		$query = $this->db->query("SELECT tbl_classpeople.user_id, fname, mname, lname 
+									FROM tbl_classpeople
+									LEFT JOIN tbl_userinfo ON tbl_classpeople.user_id = tbl_userinfo.user_id
+									WHERE status = 1 AND class_id = '$class_id' 
+									AND tbl_classpeople.user_id NOT IN(SELECT user_id FROM tbl_quizresult WHERE user_id IS NOT NULL AND quiz_id='$quiz_id')");
+		
+		$students = $this->filler($query);
+		return $students;
+	}
+	
+	function no_handout(){//returns a list of students who didn't open a specific handout
+		$handout_id = 'HO'.$_SESSION['current_id'];
+		$class_id 	= $_SESSION['current_class'];
+		$students = array(); //students with no quiz response to the specified quiz
+		
+		$query = $this->db->query("SELECT tbl_userinfo.user_id, fname, mname, lname FROM tbl_poststatus 
+									LEFT JOIN tbl_userinfo ON tbl_poststatus.post_to = tbl_userinfo.user_id
+									WHERE class_id='$class_id' AND post_type=2 AND post_id='$handout_id' AND status = 1"); //status  = 1 means active; post_type = 2 means handout
+		
+		$students = $this->filler($query);
+		return $students;
+	}
+
 	
 }
 ?>

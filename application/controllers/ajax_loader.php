@@ -347,6 +347,18 @@ class ajax_loader extends ci_Controller{
 				$filedata = $this->files->data($_GET['fid']);
 				return $filedata;
 			break;
+			
+			case 'view_nohandout':
+				$this->load->model('post');
+				$students = $this->post->no_handout();
+				return $students;
+			break;
+			
+			case 'view_nohw'://no assignment
+				$this->load->model('post');
+				$students = $this->post->no_assignment();
+				return $students;
+			break;
 		}
 	}
 }

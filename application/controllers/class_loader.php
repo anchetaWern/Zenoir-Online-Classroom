@@ -254,6 +254,12 @@ class class_loader extends ci_Controller{
 				$_SESSION['user_name']		= $this->session->userdata('user_name');
 			break;
 			
+			case 'view_noquiz':
+				$this->load->model('post');
+				$students = $this->post->no_quiz();
+				return $students;
+			break;
+			
 		}
 	}
 

@@ -15,7 +15,7 @@
 			buttonUpload: '#px-submit',
 			buttonClear: '#px-clear',
 			selectFileLabel: 'Select files',
-			allowedExtension: 'jpg|jpeg|gif|png',
+			allowedExtension: 'gif|jpg|png|zip|avi|rar|7z|mp3|pdf|jpeg|pdf|ogv|mp4|ogg|webm|html|htm|ppt|pptx|doc|docx|xls|xlsx',
 			timeInterval: [1, 2, 4, 2, 1, 5], //Mock percentage for iframe upload
 			percentageInterval: [10, 20, 30, 40, 60, 80],
 			
@@ -190,6 +190,15 @@
 				}
 			},
 			
+			validateFileSize: function(file){
+				
+				if(file.size <= 102040){//10 Mb is the limit
+					return true;
+				}else{
+					return false;
+				}
+			},
+			
 			getFileSize: function(file) {
 				var fileSize = 0;
 				if (file.size > 1024 * 1024) {
@@ -251,12 +260,20 @@
 					
 			//validate file
 			var filename = (isHtml5)? $this.name : px.getFileName( $this.val() );
-			if ( px.validateFileName(filename) == -1 ){
+			if ( px.validateFileName(filename) == -1){
+				
 				if ($.isFunction(config.onValidationError)) {
 					config.onValidationError($this);
 				} else {
 					alert ('Invalid file!');
 				}
+				$form.find(':file').val('');
+				return false;
+			}
+			
+			//validate file size
+			if(px.validateFileSize($this) == false){
+				alert('You can only upload files with a filesize of 10Mb and below!');
 				$form.find(':file').val('');
 				return false;
 			}

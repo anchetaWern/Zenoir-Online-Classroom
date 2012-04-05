@@ -222,7 +222,7 @@ class quizzes_model extends ci_Model{
 			$quiz_title = $row->qz_title;
 			$quiz_date	= $row->quiz_date;
 		
-			$quiz_results['details'] = array('title'=>$quiz_title, 'date'=>$quiz_date);
+			$quiz_results['details'] = array('id'=>$quiz_id, 'title'=>$quiz_title, 'date'=>$quiz_date);
 			
 			$query 		= $this->db->query("SELECT quizresult_id, CONCAT_WS(', ', UPPER(lname), fname) AS student, score FROM tbl_quizresult 
 											LEFT JOIN tbl_userinfo ON tbl_quizresult.user_id = tbl_userinfo.user_id
@@ -271,7 +271,7 @@ class quizzes_model extends ci_Model{
 			$row = $query->row();
 			$quiz_title = $row->qz_title;
 			$quiz_body	= $row->qz_body;
-			$details = array('title'=>$quiz_title, 'body'=>$quiz_body);
+			$details = array('id'=>$quiz_id,'title'=>$quiz_title, 'body'=>$quiz_body);
 		}
 		return $details;
 	}

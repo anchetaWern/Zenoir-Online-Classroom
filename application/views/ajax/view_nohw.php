@@ -1,11 +1,20 @@
 <!--no assignment-->
 <?php 
-$noassignment = $page; 
+$students = $page['students']['students'];//students with no assignment 
+$details	= $page['details'];
+
+$back	= array(
+			'id'=>'back',
+			'name'=>'back',
+			'value'=>'Back to Assignment',
+			'content'=>'Back to Assignment',
+			'class'=>'medium orange'
+		);
 ?>
 <div id="modal_header">
-<h4>Students without assignment</h4>
+<h4>Students without assignment - <?php echo $details['title']; ?></h4>
 </div>
-<?php if(!empty($noassignment)){ ?>
+<?php if(!empty($students)){ ?>
 <div id="scrolls">
 <p>
 <table>
@@ -16,7 +25,7 @@ $noassignment = $page;
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach($noassignment as $row){ ?>
+	<?php foreach($students as $row){ ?>
 		<tr>
 			<td><?php echo $row['id']; ?></td>
 			<td><?php echo strtoupper($row['lname']) . ', ' .ucwords($row['fname']) . ' ' .ucwords($row['mname']); ?></td>
@@ -27,6 +36,14 @@ $noassignment = $page;
 </p>
 </div>
 <?php } ?>
+
+<p>
+<a href="/zenoir/index.php/ajax_loader/view/view_assignment" data-id="<?php echo $details['id']; ?>" class="lightbox">
+<?php
+echo form_button($back);
+?>
+</a>
+</p>
 <script>
 $('#scrolls').jScrollPane({autoReinitialise: true});
 </script>

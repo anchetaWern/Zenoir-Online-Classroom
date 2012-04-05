@@ -256,8 +256,10 @@ class class_loader extends ci_Controller{
 			
 			case 'view_noquiz':
 				$this->load->model('post');
-				$students = $this->post->no_quiz();
-				return $students;
+				$this->load->model('quizzes_model');
+				$quiz['students'] = $this->post->no_quiz();
+				$quiz['details'] = $this->quizzes_model->quiz_details($_SESSION['current_id']);
+				return $quiz;
 			break;
 			
 		}

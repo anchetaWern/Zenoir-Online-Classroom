@@ -83,6 +83,17 @@ class handouts_model extends ci_Model{
 		}
 		return $handout_details;
 	}
+	
+	function handout_details(){
+		$handout_id = $_SESSION['current_id'];
+		$details = array();
+		$query = $this->db->query("SELECT ho_title FROM tbl_handouts WHERE handout_id='$handout_id'");
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$details = array('id'=>$handout_id, 'title'=>$row->ho_title);
+		}
+		return $details;
+	}
 
 }
 ?>

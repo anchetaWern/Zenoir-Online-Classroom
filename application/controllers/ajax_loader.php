@@ -350,14 +350,18 @@ class ajax_loader extends ci_Controller{
 			
 			case 'view_nohandout':
 				$this->load->model('post');
-				$students = $this->post->no_handout();
-				return $students;
+				$this->load->model('handouts_model');
+				$handout['students'] = $this->post->no_handout();
+				$handout['details'] = $this->handouts_model->handout_details();
+				return $handout;
 			break;
 			
 			case 'view_nohw'://no assignment
 				$this->load->model('post');
-				$students = $this->post->no_assignment();
-				return $students;
+				$this->load->model('assignments_model');
+				$assignment['students'] = $this->post->no_assignment();
+				$assignment['details'] = $this->assignments_model->assignment_details();
+				return $assignment;
 			break;
 		}
 	}

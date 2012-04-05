@@ -1,9 +1,18 @@
 <!--no quiz-->
 <?php
-$noquiz = $table;
+$noquiz = $table['students']['students'];//students with no quiz
+$quiz = $table['details'];
+
+$back	= array(
+			'id'=>'back',
+			'name'=>'back',
+			'value'=>'Back to Quiz',
+			'content'=>'Back to Quiz',
+			'class'=>'medium orange'
+		);
 ?>
 <div id="modal_header">
-<h4>Students without a quiz</h4>
+<h4>Students without a quiz - <?php echo $quiz['title']; ?></h4>
 </div>
 <div class="content">
 <?php if(!empty($noquiz)){ ?>
@@ -26,4 +35,13 @@ $noquiz = $table;
 </table>
 
 <?php } ?>
+
+<p>
+<a href="/zenoir/index.php/class_loader/view/view_quiz" data-id="<?php echo $quiz['id']; ?>">
+<?php
+echo form_button($back);
+?>
+</a>
+</p>
 </div>
+

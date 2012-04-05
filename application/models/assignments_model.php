@@ -272,6 +272,18 @@ class assignments_model extends ci_Model{
 			
 			return $query->num_rows();
 		}
+		
+		function assignment_details(){
+			$assignment_id = $_SESSION['current_id'];
+			$details = array();
+			$query = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id='$assignment_id'");
+			if($query->num_rows() > 0){
+				$row = $query->row();
+				$title = $row->as_title;
+				$details = array('id'=>$assignment_id, 'title'=>$title);
+			}
+			return $details;
+		}
 	
 }
 ?>

@@ -152,7 +152,7 @@ class post extends ci_Model{
 	}
 	
 	
-	function filler($query){
+	function filler($query, $parent){
 		$students = array();
 		$teacher 	= $this->session->userdata('user_id');
 		
@@ -164,9 +164,11 @@ class post extends ci_Model{
 				$lname		= $row->lname;
 				
 				if($user_id != $teacher){
-					$students[] = array('id'=>$user_id,'fname'=>$fname,'mname'=>$mname,'lname'=>$lname);
+					$students['students'][] = array('id'=>$user_id,'fname'=>$fname,'mname'=>$mname,'lname'=>$lname);
 				}
+			
 			}
+			$students['parent'] = $parent; 
 		}
 		return $students;
 	}
@@ -184,7 +186,7 @@ class post extends ci_Model{
 									WHERE user_id IS NOT NULL AND assignment_id='$assignment_id')
 									");
 		
-		$students = $this->filler($query);
+		$students = $this->filler($query, $assignment_id);
 		return $students;	
 
 	}
@@ -200,7 +202,7 @@ class post extends ci_Model{
 									WHERE status = 1 AND class_id = '$class_id' 
 									AND tbl_classpeople.user_id NOT IN(SELECT user_id FROM tbl_quizresult WHERE user_id IS NOT NULL AND quiz_id='$quiz_id')");
 		
-		$students = $this->filler($query);
+		$students = $this->filler($query, $quiz_id);
 		return $students;
 	}
 	
@@ -213,7 +215,7 @@ class post extends ci_Model{
 									LEFT JOIN tbl_userinfo ON tbl_poststatus.post_to = tbl_userinfo.user_id
 									WHERE class_id='$class_id' AND post_type=2 AND post_id='$handout_id' AND status = 1"); //status  = 1 means active; post_type = 2 means handout
 		
-		$students = $this->filler($query);
+		$students = $this->filler($query, $_SESSION['current_id']);
 		return $students;
 	}
 

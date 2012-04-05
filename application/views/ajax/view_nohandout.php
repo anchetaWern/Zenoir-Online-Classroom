@@ -1,11 +1,20 @@
 <!--no handout-->
 <?php
-$nohandout = $page;
+$students = $page['students']['students'];
+$handout = $page['details'];
+
+$back	= array(
+			'id'=>'back',
+			'name'=>'back',
+			'value'=>'Back to Handout',
+			'content'=>'Back to Handout',
+			'class'=>'medium blue'
+		);
 ?>
 <div id="modal_header">
-<h4>Students without handout</h4>
+<h4>Students without handout - <?php echo $handout['title']; ?></h4>
 </div>
-<?php if(!empty($nohandout)){ ?>
+<?php if(!empty($students)){ ?>
 <div id="scrolls">
 <p>
 <table>
@@ -16,7 +25,7 @@ $nohandout = $page;
 		</tr>
 	</thead>
 	<tbody>
-	<?php foreach($nohandout as $row){ ?>
+	<?php foreach($students as $row){ ?>
 		<tr>
 			<td><?php echo $row['id']; ?></td>
 			<td><?php echo strtoupper($row['lname']) . ', ' .ucwords($row['fname']) . ' ' .ucwords($row['mname']); ?></td>
@@ -27,3 +36,13 @@ $nohandout = $page;
 </p>
 </div>
 <?php } ?>
+<p>
+<a href="/zenoir/index.php/ajax_loader/view/view_handout" data-id="<?php echo $handout['id']; ?>" class="lightbox">
+<?php
+echo form_button($back);
+?>
+</a>
+</p>
+<script>
+$('#scrolls').jScrollPane({autoReinitialise: true});
+</script>

@@ -3,6 +3,14 @@
 
 $quiz_details = $table['details'];
 $quiz_results = $table['result'];
+
+$back	= array(
+			'id'=>'back',
+			'name'=>'back',
+			'value'=>'Back to Quiz',
+			'content'=>'Back to Quiz',
+			'class'=>'medium blue'
+		);
 ?>
 <div id="modal_header">
 <h4>View Quiz Results - <?php echo $quiz_details['title']; ?></h4>
@@ -36,4 +44,12 @@ Quiz Date:
 	</tbody>
 </table>
 <?php } ?>
+
+<p>
+<a href="/zenoir/index.php/class_loader/view/view_quiz" data-id="<?php echo $quiz_details['id']; ?>">
+<?php
+echo form_button($back);
+?>
+</a>
+</p>
 </div>

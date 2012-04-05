@@ -41,18 +41,27 @@ class emailnotifs_model extends ci_Model{
 		$this->db->query("UPDATE tbl_notifyevent SET status='$status' WHERE notifyevent_id='$nevent_id'");
 	}
 	
-	function build(){//used for building class events
-		$classes 	= $this->db->query("SELECT * FROM tbl_classes");
+	function status($event_id){//returns the status for a specific event for the current class
 		
-		foreach($classes->result() as $row){
-			$class_id = $row->class_id;
-			
-			$events		= $this->db->query("SELECT * FROM tbl_events");
-			foreach($events->result() as $row2){
-				$event_id = $row2->event_id;
-				$this->db->query("INSERT INTO tbl_notifyevent SET event_id='$event_id', class_id='$class_id'");
-			}
+		$stat = 0;
+		$class_id = $_SESSION['current_class'];
+		$query = $this->db->query("SELECT status FROM tbl_notifyevent WHERE class_id='$class_id' AND event_id='$event_id'");
+		
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$stat = $row->status;
 		}
+		return $stat;
+	}
+	
+	function build($class_id){//used for building class events
+	
+		$events		= $this->db->query("SELECT * FROM tbl_events");
+		foreach($events->result() as $row){
+			$event_id = $row->event_id;
+			$this->db->query("INSERT INTO tbl_notifyevent SET event_id='$event_id', class_id='$class_id'");
+		}
+		
 	}
 }
 ?>

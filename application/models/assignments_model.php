@@ -5,6 +5,8 @@ class assignments_model extends ci_Model{
 		
 		function create(){
 			
+			$user_name		= $this->session->userdata('user_name');
+			
 			$class_id	= $_SESSION['current_class'];
 			$title		= $this->input->post('as_title');
 			$body		= $this->input->post('as_body');
@@ -21,16 +23,29 @@ class assignments_model extends ci_Model{
 			$this->load->model('post');
 			$this->load->model('classusers_model');
 			$this->load->model('email');
+			$this->load->model('emailnotifs_model');
+			$this->load->model('classrooms_model');
+			
+			$class_details= $this->classrooms_model->select_classinfo();
+			$class_description= $class_details['class_desc'];	
+			
 			
 			$this->post->class_post($assignment_id , 1);
 			
-			
+			//send emails
+			if($this->emailnotifs_model->status(1) == 1){
 			$class_users = $this->classusers_model->class_users();
-			foreach($class_users as $row){
-				$email = $row['email'];
-				if($email != ''){
-					$body =  $body . "\n" . "Deadline: ". $deadline;
-					$this->email->send($email, $title, $body);
+				foreach($class_users as $row){
+					$email = $row['email'];
+					if($email != ''){
+						$body = "<strong>Notification Type:</strong>New Assignment<br/>
+								<strong>Deadline: </strong>" . $deadline . "<br/>" .
+								"<strong>Sender:</strong>". $user_name . "<br/>" . 
+								"<strong>Class : </strong>" . $class_description . "<br/>" .
+								"<strong>Message:</strong><br/>". $body;
+					
+						$this->email->send($email, $title, $body);
+					}
 				}
 			}
 		}
@@ -96,6 +111,8 @@ class assignments_model extends ci_Model{
 		
 		function reply(){
 			$user_id		= $this->session->userdata('user_id');
+			$user_name		= $this->session->userdata('user_name');
+			
 			$assignment_id = $_SESSION['current_id']; //assignment you're replying to
 			$reply_title	= $this->input->post('reply_title');
 			$reply_body		= $this->input->post('reply_body');
@@ -121,6 +138,38 @@ class assignments_model extends ci_Model{
 				//set response status to unread
 				$this->load->model('post');
 				$this->post->message_post($reply_id, 3, $teacher_id);
+				
+				
+				$this->load->model('email');
+				$this->load->model('emailnotifs_model');
+				$this->load->model('classrooms_model');
+				$this->load->model('users');
+				
+				$class_details= $this->classrooms_model->select_classinfo();
+				$class_description= $class_details['class_desc'];	
+				
+				
+				$this->post->class_post($assignment_id , 1);
+				
+				//send emails
+				if($this->emailnotifs_model->status(6) == 1){
+						$assignment_details = $this->reply_details();
+						$as_title			= $assignment_details['as_title'];
+						
+						
+						$email_address = $this->users->user_email($teacher_id);
+						if($email_address != ''){
+							$body = "<strong>Notification Type:</strong>Assignment Response<br/>
+									<strong>Assignment Title: </strong>" . $as_title . "<br/>" .
+									"<strong>Sender:</strong>". $user_name . "<br/>" . 
+									"<strong>Class : </strong>" . $class_description . "<br/>" .
+									"<strong>Message:</strong><br/>". $reply_body;
+						
+							$this->email->send($email_address, $reply_title, $body);
+						}
+					
+				}
+				
 			}
 			
 			

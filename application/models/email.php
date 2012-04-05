@@ -10,7 +10,8 @@ class email extends ci_Model{
 			'smtp_host'=>'ssl://smtp.googlemail.com',
 			'smtp_port'=>465,
 			'smtp_user'=>'zenoirsystem@gmail.com',
-			'smtp_pass'=>'secretpassword11(*'
+			'smtp_pass'=>'secretpassword11(*',
+			'mailtype'=>'html'
 		);
 		
 		$this->load->library('email', $config);

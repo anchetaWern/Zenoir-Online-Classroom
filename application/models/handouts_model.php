@@ -3,6 +3,8 @@ class handouts_model extends ci_Model{
 		
 		
 	function create(){
+		$user_name		= $this->session->userdata('user_name');
+	
 		$class_id	= $_SESSION['current_class'];
 		$ho_title	= $this->input->post('ho_title');
 		$ho_body	= $this->input->post('ho_body');
@@ -17,14 +19,24 @@ class handouts_model extends ci_Model{
 		$this->load->model('post');
 		$this->load->model('classusers_model');
 		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$this->load->model('classrooms_model');
+		
+		$class_details= $this->classrooms_model->select_classinfo();
+		$class_description= $class_details['class_desc'];	
+		
 		
 		$this->post->class_post($handout_id , 2);
 		
-		$class_users = $this->classusers_model->class_users();
-		foreach($class_users as $row){
-			$email = $row['email'];
-			if($email != ''){
-				$this->email->send($email, $ho_title, $ho_body);
+		if($this->emailnotifs_model->status(4) == 1){
+			$class_users = $this->classusers_model->class_users();
+			foreach($class_users as $row){
+				$email = $row['email'];
+				if($email != ''){
+					$ho_body = "<strong>Notification Type:</strong>New Handout<br/><strong>Sender:</strong>". $user_name . 
+								"<br/><strong>Class : </strong>" . $class_description . "<br/><strong>Message:</strong><br/>". $ho_body;
+					$this->email->send($email, $ho_title, $ho_body);
+				}
 			}
 		}
 	}

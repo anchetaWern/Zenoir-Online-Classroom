@@ -44,6 +44,9 @@ class classrooms_model extends ci_Model{
 			}
 		}
 		
+		//class events 
+		$this->load->model('emailnotifs_model');
+		$this->emailnotifs_model->build($class_id);
 	}
 	
 	

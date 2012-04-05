@@ -3,6 +3,8 @@ class messages_model extends ci_Model{
 	
 	function create(){//original message
 		$current_user 	= $this->session->userdata('user_id');
+		$user_name		= $this->session->userdata('user_name');
+		
 		$class_id		= $_SESSION['current_class'];
 		$msg_title		= $this->input->post('msg_title');
 		$msg_body		= $this->input->post('msg_body');
@@ -27,12 +29,24 @@ class messages_model extends ci_Model{
 		
 		$this->load->model('users');
 		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$this->load->model('classrooms_model');
+		
+		$class_details= $this->classrooms_model->select_classinfo();
+		$class_description= $class_details['class_desc'];
+		$notif_status = $this->emailnotifs_model->status(2);
 		
 		foreach($receivers as $k=>$receiver){
-			$email_address = $this->users->user_email($receiver);
-			if($email_address != ''){
-				$this->email->send($email_address, $msg_title, $msg_body);	
+		
+			if($notif_status == 1){
+				$email_address = $this->users->user_email($receiver);
+				if($email_address != ''){
+					$msg_body = "<strong>Notification Type:</strong>New Message<br/><strong>Sender:</strong>". $user_name . 
+								"<br/><strong>Class : </strong>" . $class_description . "<br/><strong>Message:</strong><br/>". $msg_body;
+					$this->email->send($email_address, $msg_title, $msg_body);	
+				}
 			}
+			
 			$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
 		}
 		
@@ -56,6 +70,8 @@ class messages_model extends ci_Model{
 	function reply(){//only one receiver for a reply
 	
 		$current_user 	= $this->session->userdata('user_id');
+		$user_name		= $this->session->userdata('user_name');
+		
 		$class_id		= $_SESSION['current_class'];
 		$msg_title		= $this->input->post('msg_title');
 		$msg_body		= $this->input->post('msg_body');
@@ -75,6 +91,25 @@ class messages_model extends ci_Model{
 		$this->post->message_post('PO'.$msg_id, 5, $receiver);
 		
 		$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
+		
+		
+		$this->load->model('users');
+		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$this->load->model('classrooms_model');
+		
+		$notif_status = $this->emailnotifs_model->status(10);
+		$class_details= $this->classrooms_model->select_classinfo();
+		$class_description= $class_details['class_desc'];
+		
+		if($notif_status == 1){
+			$email_address = $this->users->user_email($receiver);
+			if($email_address != ''){
+				$msg_body = "<strong>Notification Type:</strong>Message Response<br/><strong>Sender:</strong>". $user_name . 
+								"<br/><strong>Class : </strong>" . $class_description . "<br/><strong>Message:</strong><br/>". $msg_body;
+				$this->email->send($email_address, $msg_title, $msg_body);	
+			}
+		}
 	}
 	
 	function messages(){

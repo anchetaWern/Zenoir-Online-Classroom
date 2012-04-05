@@ -132,6 +132,26 @@ class classusers_model extends ci_Model{
 		$class_id	= $_SESSION['current_class'];
 		$student_id	= $this->input->post('student_id');
 		$this->db->query("INSERT INTO tbl_classpeople SET status=0, class_id='$class_id', user_id='$student_id'");
+		
+		$this->load->model('emailnotifs_model');
+		$this->load->model('users');
+		$this->load->model('email');
+		
+		if($this->emailnotifs_model->status(8) == 1){
+			$email_address = $this->users->user_email($student_id);
+			if($email_address != ''){
+				$this->load->model('classrooms_model');
+				$class_details = $this->classrooms_model->select_classinfo();
+				$class_desc = $class_details['class_desc'];
+				$teacher	= ucwords($class_details['fname']) . ' ' . strtoupper($class_details['lname']);
+				
+				$title	= "Classroom Invitation";
+				$body	= "You have been invited to join the following class: \n" . $class_desc . "\nby Teacher " . $teacher . 
+							"\nLogin to your account to accept or decline the invitation";
+				
+				$this->email->send($email_address, $title, $body);	
+			}
+		}
 	}
 	
 	function accept(){//student accepts teacher invite
@@ -199,7 +219,30 @@ class classusers_model extends ci_Model{
 		2-removed
 		0-invited
 		*/
-		$this->db->query("UPDATE tbl_classpeople SET status = 2 WHERE class_id='$class_id' AND user_id='$student_id'");
+		
+		$this->load->model('emailnotifs_model');
+		$this->load->model('users');
+		$this->load->model('email');
+		
+		//$this->db->query("UPDATE tbl_classpeople SET status = 2 WHERE class_id='$class_id' AND user_id='$student_id'");
+		$this->db->query("DELETE FROM tbl_classpeople WHERE user_id='$student_id' AND class_id='$class_id'");
+		
+		if($this->emailnotifs_model->status(9) == 1){
+			$email_address = $this->users->user_email($student_id);
+			if($email_address != ''){
+				$this->load->model('classrooms_model');
+				$class_details = $this->classrooms_model->select_classinfo();
+				$class_desc = $class_details['class_desc'];
+				$teacher	= ucwords($class_details['fname']) . ' ' . strtoupper($class_details['lname']);
+				
+				$title	= "Removed from Classroom";
+				$body	= "You have been removed from the following class: \n" . $class_desc . "\nby Teacher " . $teacher . 
+							"\nIf you think this is a mistake please approach your teacher";
+				
+				$this->email->send($email_address, $title, $body);	
+			}
+		}
+		
 	}
 	
 	

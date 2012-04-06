@@ -929,8 +929,10 @@ $notes		= $class_info['notes'];
 <span class="spacer">
 <a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $_SESSION['user_name']; ?></a>
 </span>
+<?php if(!empty($_SESSION['current_class'])){ ?>
 <span class="spacer">
 <a href="/zenoir/index.php/ajax_loader/view/groups" class="lightbox">Groups</a>
+<?php } ?>
 </span>
 <span class="spacer">
 <a href="/zenoir/index.php/class_loader/destroy_userdata">[Logout]</a>

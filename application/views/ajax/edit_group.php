@@ -1,10 +1,13 @@
 <!--update groups - adding new members, remove existing members-->
 <?php
-$group_data = $page['group'];
-if(!empty($page['members'])){
-$group_members = $page['members'];
+$group_data = $page['members']['group'];
+if(!empty($page['members']['members'])){
+$group_members = $page['members']['members'];
 }
-$group_invited = $page['invited'];
+if(!empty($page['pendings'])){ 
+$pending_members = $page['pendings'];
+}
+$group_invited = $page['members']['invited'];
 $group_id	= $group_data['group_id'];
 $group_name	= $group_data['group_name'];
 
@@ -33,6 +36,9 @@ echo form_label('Group Name' , 'group_name');
 echo form_input($group);
 ?>
 <?php if(!empty($group_members)){ ?>
+<p>
+Current Members
+</p>
 <table>
 	<thead>
 		<tr>
@@ -50,6 +56,27 @@ echo form_input($group);
 			<td><?php echo $row['member_id']; ?></td>
 			<td><?php echo $member_name; ?></td>
 			<td><img src="/zenoir/img/decline.png" class="icons" data-delmember="<?php echo $row['group_people_id']; ?>" delmembername="<?php echo $member_name; ?>"/></td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>
+<?php } ?>
+<?php if(!empty($pending_members)){ ?>
+<p>
+Pending Members
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>User ID</th>
+			<th>Fullname</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($pending_members as $row){ ?>
+		<tr>
+			<td><?php echo $row['user_id']; ?></td>
+			<td><?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']); ?></td>
 		</tr>
 	<?php } ?>
 	</tbody>

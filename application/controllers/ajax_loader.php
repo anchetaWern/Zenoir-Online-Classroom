@@ -265,7 +265,8 @@ class ajax_loader extends ci_Controller{
 					redirect('../ajax_loader/view/groups');
 				}
 				
-				$group = $this->groups_model->view();
+				$group['members'] = $this->groups_model->view();
+				$group['pendings'] = $this->groups_model->pendings();
 				return $group;
 			break;
 			

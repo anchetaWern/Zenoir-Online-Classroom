@@ -99,6 +99,9 @@ class users extends ci_Model{
 		$_SESSION['user_name'] = $user_name;
 		
 		
+		$this->load->model('logs_model');
+		$this->logs_model->nlag(19, 'UA', $this->session->userdata('user_id'));
+		
 	}
 	
 	function select_users(){

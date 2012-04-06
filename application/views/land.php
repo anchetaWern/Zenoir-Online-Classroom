@@ -7,6 +7,7 @@ $user_type 	= $this->session->userdata('usertype');
 $classes 	= $table['classes'];
 $people		= $table['people'];
 $invites	= $table['invites'];
+$grp_invites= $table['grp_invites'];
 $expired	= $table['expired'];
 $unreads	= $table['unreads'];
 $old_classes=$table['old_classes'];
@@ -49,6 +50,9 @@ $old_classes=$table['old_classes'];
 <div id="notifications" class="tab-content">
 <!--for the student-->
 <?php if(!empty($invites)){ ?>
+<p>
+Classroom invites
+</p>
 <table>
 	<thead>
 		<tr>
@@ -70,8 +74,12 @@ $old_classes=$table['old_classes'];
 	</tbody>
 </table>
 <?php } ?>
-<!--for the teacher-->
+
+<!--for the teacher - classes that has expired-->
 <?php if(!empty($expired)){ ?>
+<p>
+Classes to lock
+</p>
 <table>
 	<thead>
 		<tr>
@@ -86,6 +94,35 @@ $old_classes=$table['old_classes'];
 			<td><?php echo $row['class_code'] .' - '.$row['class_description']; ?></td>
 			<td><?php echo $row['date_lock']; ?></td>
 			<td><a href="#"><img src="/zenoir/img/unlock.png" data-lock="<?php echo $row['class_id']; ?>"></a></td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>
+<?php } ?>
+
+<!--group invites-->
+<?php if(!empty($grp_invites)){ ?>
+<p>
+Group Invites
+</p>
+<table>
+	<thead>
+		<tr>
+			<th>Group</th>
+			<th>Creator</th>
+			<th>Class</th>
+			<th>Accept</th>
+			<th>Decline</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($grp_invites as $row){ ?>
+		<tr>
+			<td><?php echo $row['group_name']; ?></td>
+			<td><?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']);  ?></td>
+			<td><?php echo $row['class_code'] .' - '. $row['class_description']; ?></td>
+			<td><a href="#"><img src="/zenoir/img/confirm.gif" class="icons" data-grpaccept="<?php echo $row['user_id']; ?>" data-groupid="<?php echo $row['group_id']; ?>"/></a></td>
+			<td><a href="#"><img src="/zenoir/img/decline.png" class="icons" data-grpdecline="<?php echo $row['user_id']; ?>" data-groupid="<?php echo $row['group_id']; ?>"/></a></td>
 		</tr>
 	<?php } ?>
 	</tbody>

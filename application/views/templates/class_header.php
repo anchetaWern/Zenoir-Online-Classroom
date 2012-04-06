@@ -644,7 +644,7 @@ $(function(){
 		);
 	});
 	
-	$('img[data-decline]').live('click', function(){
+	$('img[data-decline]').live('click', function(){//student declines invitation to classroom
 		var student_id 	= $(this).data('decline');
 		var class_id	= $(this).data('classid');
 		
@@ -675,6 +675,70 @@ $(function(){
 		}
 		);
 	
+	});
+	
+	$('img[data-grpaccept]').live('click', function(){//user accepts group invite
+		var user_id 	= $(this).data('grpaccept');
+		var group_id	= $(this).data('groupid');
+		
+		noty(	
+			{
+				modal : true,
+				text: 'Are you sure you want to join this group?',
+				buttons: [
+				  {type: 'button green', text: 'Yes', 
+						click: function(){
+							$.post('/zenoir/index.php/groups/accept', {'user_id' : user_id, 'group_id' : group_id}, function(){
+								$.noty.close();
+								noty_success.text = 'You are now a part of this group';
+								noty.force = true;
+								noty(noty_success);
+								setTimeout(function(){
+									location.reload();
+								},1000);
+							});
+						}
+				  },
+				  {type: 'button pink', text: 'Cancel', click: function(){
+						$.noty.close(); 
+				  }}
+				],
+				closable: false,
+				timeout: false
+			}
+		);
+	});
+	
+	$('img[data-grpdecline]').live('click', function(){//user declines group invite
+		var user_id 	= $(this).data('grpdecline');
+		var group_id	= $(this).data('groupid');
+		
+		noty(	
+			{
+				modal : true,
+				text: 'Are you sure you want to decline the invitation to join this group?',
+				buttons: [
+				  {type: 'button green', text: 'Yes', 
+						click: function(){
+							$.post('/zenoir/index.php/groups/decline', {'user_id' : user_id, 'group_id' : group_id}, function(){
+								$.noty.close();
+								noty_success.text = 'You have declined the request to join this group';
+								noty.force = true;
+								noty(noty_success);
+								setTimeout(function(){
+									location.reload();
+								},1000);
+							});
+						}
+				  },
+				  {type: 'button pink', text: 'Cancel', click: function(){
+						$.noty.close(); 
+				  }}
+				],
+				closable: false,
+				timeout: false
+			}
+		);
 	});
 	
 	$('#enter_session').live('click', function(){

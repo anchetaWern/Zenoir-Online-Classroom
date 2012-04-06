@@ -19,12 +19,26 @@ class logs_model extends ci_Model{//for logging teacher and student activity
 	15- view quiz scores
 	16- take quiz(student is viewing quiz but hasn't actually answered yet)
 	
+	17- create group(CG)
+	18- update group(UG)
+	19- updated account(UA)
+	
+	20- accept group invite(AG)
+	21- decline group invite(DG)
 	*/
 
 	function lag($act_id, $prefix){
 		$user_id 	=	$this->session->userdata('user_id'); 
 		$class_id	=	$_SESSION['current_class']; 
 		$act_details=	$prefix.$_SESSION['current_id'];
+		
+		$this->db->query("INSERT INTO tbl_activitylog SET user_id='$user_id', class_id='$class_id', activity_id='$act_id', activity_details='$act_details'");
+	}
+	
+	function nlag($act_id, $prefix, $detail_id){
+		$user_id 	=	$this->session->userdata('user_id'); 
+		$class_id	=	$_SESSION['current_class']; 
+		$act_details=	$prefix.$detail_id;
 		
 		$this->db->query("INSERT INTO tbl_activitylog SET user_id='$user_id', class_id='$class_id', activity_id='$act_id', activity_details='$act_details'");
 	}

@@ -95,6 +95,7 @@ class class_loader extends ci_Controller{
 				$user['people']		= $this->users->people();
 				$user['old_classes']= $this->classusers_model->user_oldclasses();
 				$user['invites']	= $this->classusers_model->list_invites();
+				$user['grp_invites']= $this->classusers_model->list_groupinvites();
 				$user['expired']	= $this->classusers_model->expired_classes();
 				$user['unreads']	= $this->users->unread_post();
 				

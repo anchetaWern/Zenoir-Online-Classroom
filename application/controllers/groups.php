@@ -25,5 +25,15 @@ class groups extends ci_Controller{
 		$this->load->model('groups_model');
 		$this->groups_model->update();
 	}
+	
+	function accept(){
+		$this->load->model('groups_model');
+		$this->groups_model->accept();
+	}
+	
+	function decline(){
+		$this->load->model('groups_model');	
+		$this->groups_model->decline();
+	}
 }
 ?>

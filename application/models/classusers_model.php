@@ -170,11 +170,12 @@ class classusers_model extends ci_Model{
 	function list_invites(){//list all the classroom invites for the current user
 		$user_id= $this->session->userdata('user_id');
 		$classes= array();
-		$query 	= $this->db->query("SELECT user_id, class_code, class_description, tbl_classes.class_id FROM tbl_classes
+		$classinvites 	= $this->db->query("SELECT user_id, class_code, class_description, tbl_classes.class_id FROM tbl_classes
 									LEFT JOIN tbl_classpeople ON tbl_classes.class_id = tbl_classpeople.class_id
 									WHERE tbl_classpeople.user_id='$user_id' AND tbl_classpeople.status = 0"); 
-		if($query->num_rows() > 0){
-			foreach($query->result() as $row){
+								
+		if($classinvites->num_rows() > 0){
+			foreach($classinvites->result() as $row){
 				$student_id			= $row->user_id;
 				$class_id			= $row->class_id;
 				$class_code			= $row->class_code;
@@ -190,7 +191,42 @@ class classusers_model extends ci_Model{
 									'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname, 'teacher_id'=>$teacher_id);
 			}
 		}
+									
 		return $classes;
+	}
+	
+	
+	function list_groupinvites(){//list all the group invites for the current user regardless of the class
+		$groups = array();
+		$user_id= $this->session->userdata('user_id');
+		$groupinvites = $this->db->query("SELECT fname, mname, lname, class_code, class_description, group_name, group_creator, tbl_groups.group_id, tbl_classes.class_id FROM tbl_classes
+										LEFT JOIN tbl_groups ON tbl_classes.class_id = tbl_groups.class_id	
+										LEFT JOIN tbl_grouppeople ON tbl_groups.group_id = tbl_grouppeople.group_id
+										LEFT JOIN tbl_userinfo ON tbl_groups.group_creator = tbl_userinfo.user_id
+										WHERE tbl_grouppeople.user_id='$user_id' AND tbl_grouppeople.status = 0");
+		
+		if($groupinvites->num_rows() > 0){
+			foreach($groupinvites->result() as $row){
+				//class info
+				$class_id			= $row->class_id;
+				$class_code			= $row->class_code;
+				$class_description	= $row->class_description;
+				
+				//group info
+				$group_id			= $row->group_id;
+				$group_name			= $row->group_name;
+				$creator_id			= $row->group_creator;
+				$fname				= $row->fname;
+				$mname				= $row->mname;
+				$lname				= $row->lname;
+			
+				$groups[] = array('user_id'=>$user_id, 'class_id'=>$class_id, 'class_code'=>$class_code,
+									'class_description'=>$class_description, 'group_name'=>$group_name, 
+									'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname, 'creator_id'=>$creator_id, 'group_id'=>$group_id);
+			
+			}
+		}
+		return $groups;
 	}
 	
 	function teacher($class_id){//returns the teacher of a specific class

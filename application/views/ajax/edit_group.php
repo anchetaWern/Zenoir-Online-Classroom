@@ -1,7 +1,9 @@
 <!--update groups - adding new members, remove existing members-->
 <?php
 $group_data = $page['group'];
+if(!empty($page['members'])){
 $group_members = $page['members'];
+}
 $group_invited = $page['invited'];
 $group_id	= $group_data['group_id'];
 $group_name	= $group_data['group_name'];

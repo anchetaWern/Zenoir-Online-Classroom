@@ -22,11 +22,13 @@ class truncator_model extends ci_Model{//this empties all the non-default conten
 		$this->db->query("TRUNCATE tbl_quiz");
 		$this->db->query("TRUNCATE tbl_quizitems");
 		$this->db->query("TRUNCATE tbl_quizresult");
+		$this->db->query("TRUNCATE tbl_quizresponse");
 		$this->db->query("TRUNCATE tbl_sessioncontent");
 		$this->db->query("TRUNCATE tbl_sessions");
 		$this->db->query("TRUNCATE tbl_sessionspeople");
 		$this->db->query("TRUNCATE tbl_filepost");
 		$this->db->query("TRUNCATE tbl_subject");
+		$this->db->query("TRUNCATE tbl_notifyevent");
 		
 	}
 }

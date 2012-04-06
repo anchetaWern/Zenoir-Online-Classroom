@@ -29,6 +29,58 @@ class quizzes_model extends ci_Model{
 		return $quiz;
 	}
 	
+	
+	function create_no(){
+		$user_name		= $this->session->userdata('user_name');
+	
+		$class_id 	= $_SESSION['current_class'];
+		
+					
+		$title		= $this->input->post('quiz_title');
+		$body		= $this->input->post('quiz_body');
+		$start_time	= date('Y-m-d G:i:s', strtotime($this->input->post('start_time'))); 
+		$end_time	= date('Y-m-d G:i:s', strtotime($this->input->post('end_time'))); 
+		
+		$quiz_data	= array($class_id, $title, $body, $start_time, $end_time);
+		
+		$create_quiz = $this->db->query("INSERT INTO tbl_quiz SET class_id=?, qz_title=?, qz_body=?, start_time=?, end_time=?, date_created=CURDATE()", $quiz_data);
+		$quiz_id = $this->db->insert_id();
+		
+		$_SESSION['post_id'] = 'QZ'.$quiz_id;
+		
+		//set quiz read status to students
+		$this->load->model('post');
+		$this->load->model('classusers_model');
+		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$this->load->model('classrooms_model');
+		
+		
+		$class_details= $this->classrooms_model->select_classinfo();
+		$class_description= $class_details['class_desc'];
+		
+		$this->post->class_post('QZ'.$quiz_id , 4);
+		
+		if($this->emailnotifs_model->status(3) == 1){
+			$class_users = $this->classusers_model->class_users();
+			foreach($class_users as $row){
+				$email = $row['email'];
+				if($email != ''){
+					$body = "<strong>Notification Type:</strong>New Quiz<br/>".
+							"<strong>Quiz Date: </strong>" . date('Y-m-d', strtotime($start_time)) . "<br/>" .
+							"<strong>Start Time: </strong>" . date('g:i:s A', strtotime($start_time)) . "<br/>" .
+							"<strong>End Time: </strong>" . date('g:i:s A', strtotime($end_time)) . "<br/>" .
+							"<strong>Sender:</strong>". $user_name . "<br/>" .
+							"<strong>Class : </strong>" . $class_description . "<br/>" .
+							"<strong>Message:</strong><br/>". $body;
+				
+					
+					$this->email->send($email, $title, $body);
+				}
+			}
+		}
+	}
+	
 	function create(){
 		$user_name		= $this->session->userdata('user_name');
 	
@@ -44,6 +96,8 @@ class quizzes_model extends ci_Model{
 		
 		$create_quiz = $this->db->query("INSERT INTO tbl_quiz SET class_id=?, qz_title=?, qz_body=?, start_time=?, end_time=?, date_created=CURDATE()", $quiz_data);
 		$quiz_id = $this->db->insert_id();
+		
+		$_SESSION['post_id'] = 'QZ'.$quiz_id;
 		
 		//set quiz read status to students
 		$this->load->model('post');
@@ -102,6 +156,7 @@ class quizzes_model extends ci_Model{
 	
 	function view(){//returns quiz details and quiz items
 		$quiz_id = $_SESSION['current_id'];
+		$file_quiz_id = 'QZ'.$quiz_id;
 		$quiz['quiz'] = array();
 		$quiz['quiz_items'] = array();
 		
@@ -133,6 +188,9 @@ class quizzes_model extends ci_Model{
 				$quiz['quiz_items'][] = array('question'=>$question, 'a'=>$a, 'b'=>$b, 'c'=>$c, 'd'=>$d, 'answer'=>$answer);
 			}
 		}
+		
+		$this->load->model('files');
+		$quiz['files'] = $this->files->view($file_quiz_id);
 	
 		return $quiz;
 	}
@@ -274,6 +332,108 @@ class quizzes_model extends ci_Model{
 			$details = array('id'=>$quiz_id,'title'=>$quiz_title, 'body'=>$quiz_body);
 		}
 		return $details;
+	}
+	
+	function reply(){//reply to a quiz
+		$user_id=$this->session->userdata('user_id');
+		$quiz_id=$_SESSION['current_id'];
+		$title 	= $this->input->post('title'); 
+		$body	= $this->input->post('body');
+		
+		$quiz_response = array($quiz_id, $user_id, $title, $body);
+		$query = $this->db->query("INSERT INTO tbl_quizresponse SET quiz_id=?, student_id=?, res_title=?, res_body=?", $quiz_response);
+		$quizresponse_id = $this->db->insert_id();
+		
+		$_SESSION['post_id'] = 'QR'.$quizresponse_id;
+		
+		//fetch teacher for the current class
+		$class_id 		= $_SESSION['current_class'];
+		$query			= $this->db->query("SELECT teacher_id FROM tbl_classteachers WHERE class_id='$class_id'");
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$teacher_id = $row->teacher_id;
+			
+			//set response status to unread
+			$this->load->model('post');
+			$this->post->message_post('QR'.$quiz_id, 7, $teacher_id);
+			
+			
+			$this->load->model('email');
+			$this->load->model('emailnotifs_model');
+			$this->load->model('classrooms_model');
+			$this->load->model('users');
+			
+			$class_details= $this->classrooms_model->select_classinfo();
+			$class_description= $class_details['class_desc'];	
+			
+			//send emails
+			if($this->emailnotifs_model->status(7) == 1){
+				$quiz_details 	= $this->quiz_details($quiz_id);
+				$quiz_title		= $quiz_details['title'];
+				$quiz_body		= $quiz_details['body'];
+					
+				$email_address = $this->users->user_email($teacher_id);
+				if($email_address != ''){
+					$body = "<strong>Notification Type:</strong>Quiz Response<br/>
+							<strong>Quiz Title: </strong>" . $quiz_title . "<br/>" .
+							"<strong>Quiz Description: </strong>" .$quiz_body . "<br/>" .
+							"<strong>Sender:</strong>". $user_name . "<br/>" . 
+							"<strong>Class : </strong>" . $class_description . "<br/>" .
+							"<strong>Message:</strong>". $user_name . " has submitted a response to a quiz entitled " . $quiz_title   ."<br/>";
+				
+					$this->email->send($email_address, "Quiz Response: " . $quiz_title , $body);
+				}
+				
+			}
+		}
+	}
+	
+	function list_replies(){//returns a list of replies for a specific quiz
+		$quiz_id = $_SESSION['current_id'];
+		$replies = array();
+		$query = $this->db->query("SELECT quizresponse_id, res_title, res_datetime, fname, mname, lname FROM tbl_quizresponse 
+									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
+									WHERE quiz_id='$quiz_id'");
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$id			= $row->quizresponse_id;
+				$title 		= $row->res_title;
+				$datetime	= $row->res_datetime;
+				$fname		= $row->fname;
+				$mname		= $row->mname;
+				$lname		= $row->lname;
+				
+				$replies[] 	= array('id'=>$id, 'title'=>$title, 'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+			}
+		}
+		return $replies;
+	}
+	
+	function view_reply(){//returns a single reply for a specific quiz
+		$quizresponse_id = $_SESSION['current_id'];
+		$reply = array();
+		$query = $this->db->query("SELECT quiz_id, res_title, res_body, res_datetime , fname, mname, lname FROM tbl_quizresponse 
+									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
+									WHERE quizresponse_id='$quizresponse_id'");
+		
+		if($query->num_rows() > 0){
+			$row 		= $query->row();
+			
+			$quiz_id	= $row->quiz_id;
+			$details 	= $this->quiz_details($quiz_id);
+			$quiz_title	= $details['title'];
+			
+			$title 		= $row->res_title;
+			$body		= $row->res_body;
+			$datetime	= $row->res_datetime;
+			$fname		= $row->fname;
+			$mname		= $row->mname;
+			$lname		= $row->lname;
+			
+			$reply 		= array('quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body, 'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+		}
+		
+		return $reply;
 	}
 }
 ?>

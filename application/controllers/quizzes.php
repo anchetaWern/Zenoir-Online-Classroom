@@ -12,12 +12,20 @@ class quizzes extends ci_Controller{
 		$_SESSION['quiz'] = $quiz_data;
 	}
 	
-	function create(){
+	function create(){//create quiz with items
 		$this->load->model('logs_model');
 		$this->logs_model->lag(11, 'QZ');
 	
 		$this->load->model('quizzes_model');
 		$this->quizzes_model->create();
+	}
+	
+	function create_no(){//create a quiz with no items
+		$this->load->model('logs_model');
+		$this->logs_model->lag(11, 'QZ');
+	
+		$this->load->model('quizzes_model');
+		$this->quizzes_model->create_no();
 	}
 	
 	function submit(){
@@ -26,6 +34,14 @@ class quizzes extends ci_Controller{
 	
 		$this->load->model('quizzes_model');
 		$this->quizzes_model->submit();
+	}
+	
+	function reply(){
+		$this->load->model('logs_model');
+		$this->logs_model->lag(13, 'QR');
+		
+		$this->load->model('quizzes_model');
+		$this->quizzes_model->reply();
 	}
 
 

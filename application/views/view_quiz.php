@@ -2,6 +2,7 @@
 <?php 
 $quiz = $table['quiz'];
 $quiz_items = $table['quiz_items'];
+$quiz_files = $table['files'];
 
 $response	= array(
 			'id'=>'view_scores',
@@ -49,6 +50,7 @@ $no_quiz	= array(
 		</pre>
 	</div>
 	
+	<?php if(!empty($quiz_items)){ ?>
 	<div id="quiz_items">
 	<table>
 		<thead>
@@ -75,10 +77,22 @@ $no_quiz	= array(
 		</tbody>
 	</table>
 	</div><!--end of quiz items-->
+	<?php } ?>
+	
+	<div id="quiz_files">
+		Attached Files:
+		<?php foreach($quiz_files as $row){ ?>
+			<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
+		<?php } ?>
+	</div>
+	
+	<p>
 	<a href="/zenoir/index.php/class_loader/view/view_scores">
 	<?php echo form_button($response); ?>
 	</a>
 	<a href="/zenoir/index.php/class_loader/view/view_noquiz">
 	<?php echo form_button($no_quiz); ?>
 	</a>
+	</p>
+
 </div><!--end of container-->

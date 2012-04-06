@@ -259,6 +259,21 @@ $(function(){
 		}
 	});
 	
+	$('#file_uploader').hide();
+	$('input[name=quiz_type]').live('click', function(){
+		var id = $(this).attr('id');
+		if(id == 'with_choices'){
+			
+			$('#create_quizno, #file_uploader').hide();
+			$('#next').show();
+			
+		}else if(id == 'no_choices'){
+			$('#next').hide();
+			$('#file_uploader').show();
+			$('#action_button').after("<button id='create_quizno' name='create_quizno' class='medium green'>Create Quiz</button>");
+		}
+	});
+	
 	$('#next').live('click', function(){
 		var create		= 1;
 		var quiz_title	= $.trim($('#quiz_title').val());
@@ -280,6 +295,39 @@ $(function(){
 				function(){
 					
 					window.location = "/zenoir/index.php/class_loader/view/quiz_items";
+				}
+			);
+		}else{
+			noty_err.text = 'All fields are required!';
+			noty(noty_err);
+		}
+	});
+	
+	
+	$('#create_quizno').live('click', function(){
+		var create		= 1;
+		var quiz_title	= $.trim($('#quiz_title').val());
+		var quiz_body	= $.trim($('#quiz_body').val());
+		var start_time	= $.trim($('#start_time').val());
+		var end_time	= $.trim($('#end_time').val());
+		
+		var quiz		= [quiz_title, quiz_body, start_time, end_time];
+		
+		for(var x in quiz){
+			if(quiz[x] == ''){
+				create = 0;
+			}
+		}
+		
+		if(create == 1){
+			//put the general quiz info on the session
+			$.post('/zenoir/index.php/quizzes/create_no', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
+				function(){
+					$('#px-submit').click();
+				
+					noty_success.text = 'Quiz was successfully created!';
+					noty(noty_success);
+					
 				}
 			);
 		}else{
@@ -367,6 +415,20 @@ $(function(){
 			noty(noty_err);
 		}
 		
+	});
+	
+	$('#reply_quiz').click(function(){
+		var title 	= $.trim($('#res_title').val());
+		var body	= $.trim($('#res_body').val());
+		console.log(title);
+		$.post('/zenoir/index.php/quizzes/reply', {'title' : title, 'body' : body}, 
+			function(){
+				$('#px-submit').click();
+				noty_success.text = 'Answer was successfully submitted!';
+				noty(noty_success);
+				$('#res_title, #res_body').val('');
+			}
+		);
 	});
 	
 	$('#create_group').live('click', function(){

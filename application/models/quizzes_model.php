@@ -6,7 +6,7 @@ class quizzes_model extends ci_Model{
 		//quizzes can only be opened for the first time , once its viewed student shoud take the quiz
 		//the second time the student views the quiz its only viewable but not answerable
 		$class_id = $_SESSION['current_class'];
-		$query = $this->db->query("SELECT quiz_id, DATE(start_time) AS qz_date, qz_title, start_time, end_time 
+		$query = $this->db->query("SELECT quiz_id, qz_type, DATE(start_time) AS qz_date, qz_title, start_time, end_time 
 								FROM tbl_quiz WHERE class_id='$class_id' AND status=1 ORDER BY qz_date DESC");
 		
 		$this->load->model('post');
@@ -15,14 +15,16 @@ class quizzes_model extends ci_Model{
 		if($query->num_rows() > 0){
 			foreach($query->result() as $row){
 				$quiz_id	= $row->quiz_id;
+				$quiz_type	= $row->qz_type;
 				$qz_title	= $row->qz_title;
 				$qz_date	= $row->qz_date;
 				$start_time	= $row->start_time;
 				$end_time	= $row->end_time;
 				$student_status = $this->post->status('QZ'.$quiz_id);
 				$teacher_status = $this->post->status('QR'.$quiz_id);
+				$stat		= $this->check($quiz_id);
 				
-				$quiz[] = array('teacher_status'=>$teacher_status, 'student_status'=>$student_status, 'quiz_id'=>$quiz_id, 'title'=>$qz_title, 
+				$quiz[] = array('type'=>$quiz_type, 'stat'=>$stat,'teacher_status'=>$teacher_status, 'student_status'=>$student_status, 'quiz_id'=>$quiz_id, 'title'=>$qz_title, 
 								'date'=>$qz_date, 'start_time'=>$start_time, 'end_time'=>$end_time);
 			}
 		}
@@ -41,9 +43,9 @@ class quizzes_model extends ci_Model{
 		$start_time	= date('Y-m-d G:i:s', strtotime($this->input->post('start_time'))); 
 		$end_time	= date('Y-m-d G:i:s', strtotime($this->input->post('end_time'))); 
 		
-		$quiz_data	= array($class_id, $title, $body, $start_time, $end_time);
+		$quiz_data	= array($class_id, 2,  $title, $body, $start_time, $end_time);
 		
-		$create_quiz = $this->db->query("INSERT INTO tbl_quiz SET class_id=?, qz_title=?, qz_body=?, start_time=?, end_time=?, date_created=CURDATE()", $quiz_data);
+		$create_quiz = $this->db->query("INSERT INTO tbl_quiz SET class_id=?, qz_type=?, qz_title=?, qz_body=?, start_time=?, end_time=?, date_created=CURDATE()", $quiz_data);
 		$quiz_id = $this->db->insert_id();
 		
 		$_SESSION['post_id'] = 'QZ'.$quiz_id;
@@ -92,9 +94,9 @@ class quizzes_model extends ci_Model{
 		$start_time	= $quiz['start_time'];
 		$end_time	= $quiz['end_time'];
 		
-		$quiz_data	= array($class_id, $title, $body, $start_time, $end_time);
+		$quiz_data	= array($class_id, 1,  $title, $body, $start_time, $end_time);
 		
-		$create_quiz = $this->db->query("INSERT INTO tbl_quiz SET class_id=?, qz_title=?, qz_body=?, start_time=?, end_time=?, date_created=CURDATE()", $quiz_data);
+		$create_quiz = $this->db->query("INSERT INTO tbl_quiz SET class_id=?, qz_type=?, qz_title=?, qz_body=?, start_time=?, end_time=?, date_created=CURDATE()", $quiz_data);
 		$quiz_id = $this->db->insert_id();
 		
 		$_SESSION['post_id'] = 'QZ'.$quiz_id;
@@ -302,9 +304,15 @@ class quizzes_model extends ci_Model{
 		return $quiz_results;
 	}
 
-	function check(){//checks if the quiz can already be taken by the student
+	function check($quizid = 0){//checks if the quiz can already be taken by the student
 		$user_id = $this->session->userdata('user_id');
-		$quiz_id = $_SESSION['current_id'];
+		
+		if($quizid != 0){
+			$quiz_id = $quizid;
+		}else{
+			$quiz_id = $_SESSION['current_id'];
+		}
+		
 		$post_quiz_id = 'QZ'.$quiz_id;
 		$not_taken	= 1;
 		//checks if the student has already opened the quiz
@@ -437,6 +445,62 @@ class quizzes_model extends ci_Model{
 			$lname		= $row->lname;
 			
 			
+			
+			$reply 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
+								'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+		}
+		
+		return $reply;
+	}
+	
+	function score(){
+		$student_id = $this->session->userdata('user_id');
+		$quiz_id	= $_SESSION['current_id'];
+		$item_count = 0;
+		$score = 0;
+		
+		$details = $this->quiz_details($quiz_id);
+		$quiz_title = $details['title'];
+		
+		$score_details = array();
+		
+		$over		= $this->db->query("SELECT COUNT(quiz_item_id) AS item_count FROM tbl_quizitems WHERE quiz_id='$quiz_id'");
+		if($over->num_rows() > 0){
+			$row = $over->row();
+			$item_count = $row->item_count;
+		}
+		
+		$query 		= $this->db->query("SELECT score FROM tbl_quizresult WHERE quiz_id='$quiz_id' AND user_id='$student_id'");
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$score = $row->score;
+		}
+			
+		$score_details = array('quiz_id'=>$quiz_id, 'title'=>$quiz_title, 'score'=>$score, 'itemcount'=>$item_count);
+		
+		return $score_details;
+	}
+	
+	function student_reply(){
+		$student_id = $this->session->userdata('user_id');
+		$quiz_id	= $_SESSION['current_id'];
+		
+		$details 	= $this->quiz_details($quiz_id);
+		$quiz_title	= $details['title'];
+			
+		$reply = array();
+		$query = $this->db->query("SELECT quiz_id, res_title, res_body, res_datetime , fname, mname, lname FROM tbl_quizresponse 
+									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
+									WHERE quiz_id='$quiz_id' AND student_id='$student_id'");
+		
+		if($query->num_rows() > 0){
+			$row 		= $query->row();			
+			$title 		= $row->res_title;
+			$body		= $row->res_body;
+			$datetime	= $row->res_datetime;
+			$fname		= $row->fname;
+			$mname		= $row->mname;
+			$lname		= $row->lname;
 			
 			$reply 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
 								'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);

@@ -363,6 +363,18 @@ class ajax_loader extends ci_Controller{
 				$assignment['details'] = $this->assignments_model->assignment_details();
 				return $assignment;
 			break;
+			
+			case 'score':
+				$this->load->model('quizzes_model');
+				$score = $this->quizzes_model->score();
+				return $score;
+			break;
+			
+			case 'view_quizreply':
+				$this->load->model('quizzes_model');
+				$reply = $this->quizzes_model->student_reply();
+				return $reply;
+			break;
 		}
 	}
 }

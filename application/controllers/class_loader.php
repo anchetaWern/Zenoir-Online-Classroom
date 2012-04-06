@@ -262,6 +262,26 @@ class class_loader extends ci_Controller{
 				return $quiz;
 			break;
 			
+			case 'view_noquizresponse':
+				$this->load->model('post');
+				$this->load->model('quizzes_model');
+				$quiz['students'] = $this->post->no_quizresponse();
+				$quiz['details'] = $this->quizzes_model->quiz_details($_SESSION['current_id']);
+				return $quiz;
+			break;
+			
+			case 'list_quizreplies':
+				$this->load->model('quizzes_model');
+				$replies = $this->quizzes_model->list_replies();
+				return $replies;
+			break;
+			
+			case 'view_quizreply':
+				$this->load->model('quizzes_model');
+				$reply = $this->quizzes_model->view_reply();
+				return $reply;
+			break;
+			
 		}
 	}
 

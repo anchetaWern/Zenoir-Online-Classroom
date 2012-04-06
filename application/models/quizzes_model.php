@@ -403,7 +403,13 @@ class quizzes_model extends ci_Model{
 				$mname		= $row->mname;
 				$lname		= $row->lname;
 				
-				$replies[] 	= array('id'=>$id, 'title'=>$title, 'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+				
+				$details 	= $this->quiz_details($quiz_id);
+				$quiz_title	= $details['title'];
+				
+				$replies['quiz'] 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title);
+				
+				$replies['replies'][] 	= array('id'=>$id, 'title'=>$title, 'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
 			}
 		}
 		return $replies;
@@ -430,7 +436,10 @@ class quizzes_model extends ci_Model{
 			$mname		= $row->mname;
 			$lname		= $row->lname;
 			
-			$reply 		= array('quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body, 'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+			
+			
+			$reply 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
+								'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
 		}
 		
 		return $reply;

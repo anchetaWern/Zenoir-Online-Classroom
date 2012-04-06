@@ -4,12 +4,22 @@ $quiz = $table['quiz'];
 $quiz_items = $table['quiz_items'];
 $quiz_files = $table['files'];
 
+//scores-for quiz with items
 $response	= array(
 			'id'=>'view_scores',
 			'name'=>'view_scores',
 			'value'=>'View Scores',
 			'content'=>'View Scores',
-			'class'=>'medium orange'
+			'class'=>'medium green'
+		);
+		
+//replies-for quiz without items		
+$replies	= array(
+			'id'=>'view_replies',
+			'name'=>'view_replies',
+			'value'=>'View replies',
+			'content'=>'View Replies',
+			'class'=>'medium green'
 		);
 		
 $no_quiz	= array(
@@ -19,6 +29,14 @@ $no_quiz	= array(
 			'content'=>'View No Quiz',
 			'class'=>'medium red'
 		);
+		
+$no_reply	= array(
+			'id'=>'view_noreply',
+			'name'=>'view_noreply',
+			'value'=>'View No Quiz',
+			'content'=>'View No Quiz',
+			'class'=>'medium red'
+		);		
 ?>
 <div id="modal_header">
 <h4>View Quiz - <?php echo $quiz['title']; ?></h4>
@@ -77,7 +95,18 @@ $no_quiz	= array(
 		</tbody>
 	</table>
 	</div><!--end of quiz items-->
-	<?php } ?>
+	
+	<p>
+	<a href="/zenoir/index.php/class_loader/view/view_scores">
+	<?php echo form_button($response); ?>
+	</a>
+	
+	<a href="/zenoir/index.php/class_loader/view/view_noquiz">
+	<?php echo form_button($no_quiz); ?>
+	</a>
+	</p>
+	
+	<?php }else{ ?>
 	
 	<div id="quiz_files">
 		Attached Files:
@@ -86,13 +115,21 @@ $no_quiz	= array(
 		<?php } ?>
 	</div>
 	
-	<p>
-	<a href="/zenoir/index.php/class_loader/view/view_scores">
-	<?php echo form_button($response); ?>
+	<p></p>
+	<a href="/zenoir/index.php/class_loader/view/list_quizreplies">
+	<?php echo form_button($replies); ?>
 	</a>
-	<a href="/zenoir/index.php/class_loader/view/view_noquiz">
-	<?php echo form_button($no_quiz); ?>
+	
+	<a href="/zenoir/index.php/class_loader/view/view_noquizresponse">
+	<?php echo form_button($no_reply); ?>
 	</a>
-	</p>
+	
+	<?php } ?>
+	
+		
+	
+	
+	
+	
 
 </div><!--end of container-->

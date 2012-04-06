@@ -191,7 +191,7 @@ class post extends ci_Model{
 
 	}
 	
-	function no_quiz(){
+	function no_quiz(){//for quiz with items
 		$quiz_id = $_SESSION['current_id'];
 		$class_id 	= $_SESSION['current_class'];
 		$students = array(); //students with no quiz response to the specified quiz
@@ -202,6 +202,20 @@ class post extends ci_Model{
 									WHERE status = 1 AND class_id = '$class_id' 
 									AND tbl_classpeople.user_id NOT IN(SELECT user_id FROM tbl_quizresult WHERE user_id IS NOT NULL AND quiz_id='$quiz_id')");
 		
+		$students = $this->filler($query, $quiz_id);
+		return $students;
+	}
+	
+	function no_quizresponse(){//for quiz without items
+		$quiz_id = $_SESSION['current_id'];
+		$class_id 	= $_SESSION['current_class'];
+
+		$query = $this->db->query("SELECT tbl_classpeople.user_id, fname, mname, lname 
+									FROM tbl_classpeople
+									LEFT JOIN tbl_userinfo ON tbl_classpeople.user_id = tbl_userinfo.user_id
+									WHERE status = 1 AND class_id = '$class_id' 
+									AND tbl_classpeople.user_id NOT IN(SELECT student_id FROM tbl_quizresponse WHERE student_id IS NOT NULL AND quiz_id='$quiz_id')");
+									
 		$students = $this->filler($query, $quiz_id);
 		return $students;
 	}

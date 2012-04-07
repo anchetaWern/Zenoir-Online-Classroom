@@ -459,6 +459,8 @@ $(function(){
 	$('img[data-delmember]').live('click', function(){
 		var member_id 	= $.trim($(this).data('delmember'));
 		var member		= $.trim($(this).data('delmembername'));
+		var dis			= $(this);
+		
 		noty(	
 		{
 			modal : true,
@@ -470,7 +472,14 @@ $(function(){
 						function(){
 							noty_success.text = 'Group member successfully removed!';
 							noty(noty_success);
-							setTimeout($.noty.close(), 1000)
+							$.noty.close(); 
+							dis.parents('tr').remove();
+							if($('#tbl_current tbody tr').length == 0){
+								$('#tbl_current').remove();
+								
+							}
+								
+						
 						}
 						);
 					}

@@ -35,5 +35,9 @@ class groups extends ci_Controller{
 		$this->load->model('groups_model');	
 		$this->groups_model->decline();
 	}
+	
+	function index(){
+		echo $_SERVER["REQUEST_URI"];
+	}
 }
 ?>

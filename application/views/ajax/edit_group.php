@@ -43,12 +43,14 @@ echo form_input($group);
 	<li><a href="#pending_member">Pending Members</a></li>
 	<li><a href="#invite_members">Invite Members</a></li>
 </ul>
-<?php if(!empty($group_members)){ ?>
+
 <div id="current_member" class="tab-content">
+<?php if(!empty($group_members)){ ?>
+
 <p>
 Current Members
 </p>
-<table>
+<table id="tbl_current">
 	<thead>
 		<tr>
 			<th>Member ID</th>
@@ -69,14 +71,17 @@ Current Members
 	<?php } ?>
 	</tbody>
 </table>
-</div><!--end of current members-->
+
 <?php } ?>
-<?php if(!empty($pending_members)){ ?>
+</div><!--end of current members-->
+
 <div id="pending_member" class="tab-content">
+<?php if(!empty($pending_members)){ ?>
+
 <p>
 Pending Members
 </p>
-<table>
+<table id="tbl_pending">
 	<thead>
 		<tr>
 			<th>User ID</th>
@@ -92,20 +97,24 @@ Pending Members
 	<?php } ?>
 	</tbody>
 </table>
-</div><!--end of pending members-->
+
 <?php } ?>
+</div><!--end of pending members-->
 
-
-<?php if(!empty($group_invited )){ ?>
 <div id="invite_members" class="tab-content">
+<?php if(!empty($group_invited )){ ?>
+
+<p>
 <?php echo form_label('Select Members', 'class_users'); ?>
+</p>
 <select name="class_users" id="class_users" multiple>
 	<?php foreach($group_invited  as $row){ ?>
 	<option value="<?php echo $row['user_id']; ?>"><?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']); ?></option>
 	<?php } ?>
 </select>
-</div>
+
 <?php } ?>
+</div>
 <p>
 <?php
 echo form_button($edit);

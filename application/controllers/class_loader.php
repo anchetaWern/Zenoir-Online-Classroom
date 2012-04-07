@@ -65,6 +65,7 @@ class class_loader extends ci_Controller{
 	}
 	
 	function selector($page){
+		$_SESSION['user_page'] = $_SERVER["REQUEST_URI"];
 		switch($page){
 			case 'class_home':
 				//load class info - number of unread stuff, etc.
@@ -211,6 +212,7 @@ class class_loader extends ci_Controller{
 				}
 				$this->load->model('classusers_model');
 				$students = $this->classusers_model->class_users();
+				
 				return $students;
 			break;
 			

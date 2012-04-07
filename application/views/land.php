@@ -12,6 +12,8 @@ $grp_invites= $table['grp_invites'];
 $invite_count = count($invites) + count($grp_invites);
 
 $expired	= $table['expired'];
+$expired_count = count($expired);
+
 $unreads	= $table['unreads'];
 $unread_count = count($unreads);
 $old_classes=$table['old_classes'];
@@ -19,7 +21,7 @@ $old_classes=$table['old_classes'];
 
 <ul class="tabs left">
 	<li><a href="#classes">Classes</a></li>
-	<li><a href="#notifications">Notifications (<?php echo $invite_count; ?>)</a></li>
+	<li><a href="#notifications">Notifications (<?php echo $invite_count + $expired_count; ?>)</a></li>
 	<li><a href="#people">People</a></li>
 	<li><a href="#unreads">Unread Posts (<?php echo $unread_count; ?>)</a></li>
 	<li><a href="#previous">Previous Classes</a></li>

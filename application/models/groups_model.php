@@ -32,10 +32,10 @@ class groups_model extends ci_Model{
 					$body = "<strong>Notification Type:</strong>Group Invite<br/>
 							<strong>Sender:</strong>". $user_name . "<br/>" . 
 							"<strong>Group : </strong>" . $group_name . "<br/>" .
-							"<strong>Message:</strong>You have been invited to join the following group:<br/>" . $group_name . 
+							"<strong>Message:</strong><br/>You have been invited to join " . $group_name . 
 							"<br/>login to your account to accept or decline the invitation";
 					
-					$this->email->send($email_address, "Group Invite - '$group_name'" , $body);
+					$this->email->send($email_address, "Group Invite - $group_name" , $body);
 				}
 				
 			}
@@ -51,6 +51,7 @@ class groups_model extends ci_Model{
 	
 	function update(){
 		$user_id	= $this->session->userdata('user_id');
+		$user_name		= $this->session->userdata('user_name');
 		$group_id	= $_SESSION['current_id'];
 		
 		$group_name	= $this->input->post('group_name');
@@ -60,9 +61,30 @@ class groups_model extends ci_Model{
 		
 		$update_group = $this->db->query("UPDATE tbl_groups SET group_name=? WHERE group_id=?", $group_data);
 		
+		
+		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$this->load->model('users');
+		
 		foreach($members as $member_id){
 			$member_id = $member_id['value'];
 			$this->db->query("INSERT INTO tbl_grouppeople SET group_id='$group_id', user_id='$member_id'");
+			
+			//send emails to members if the email notification is enabled for group invites
+			if($this->emailnotifs_model->status(11) == 1){
+			
+				$email_address = $this->users->user_email($member_id);
+				if($email_address != ''){
+					$body = "<strong>Notification Type:</strong>Group Invite<br/>
+							<strong>Sender:</strong>". $user_name . "<br/>" . 
+							"<strong>Group : </strong>" . $group_name . "<br/>" .
+							"<strong>Message:</strong><br/>You have been invited to join " . $group_name . 
+							"<br/>login to your account to accept or decline the invitation";
+					
+					$this->email->send($email_address, "Group Invite - $group_name" , $body);
+				}
+				
+			}
 		}
 		
 		$this->load->model('logs_model');
@@ -172,10 +194,56 @@ class groups_model extends ci_Model{
 	}
 	
 	function del_member($group_people_id){//remove member from the group
-		$this->db->query("DELETE FROM tbl_grouppeople WHERE group_people_id=?", $group_people_id);
+		$user_name		= $this->session->userdata('user_name');
+	
 		
 		
+		$member_id = $this->member_id($group_people_id);
+		$group_name = $this->group_name($group_people_id);
 		
+		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$this->load->model('users');
+	
+		//send emails to the member that has been removed from the group
+		if($this->emailnotifs_model->status(13) == 1){
+		
+			$email_address = $this->users->user_email($member_id);
+			if($email_address != ''){
+				$body = "<strong>Notification Type:</strong>Group member removal<br/>
+						<strong>Sender:</strong>". $user_name . "<br/>" . 
+						"<strong>Group : </strong>" . $group_name . "<br/>" .
+						"<strong>Message:</strong><br/>You have been removed from " . $group_name . 
+						"<br/>please approach the group owner if you think this is a mistake";
+				
+				$this->email->send($email_address, "Group Invite - $group_name" , $body);
+				$this->db->query("DELETE FROM tbl_grouppeople WHERE group_people_id=?", $group_people_id);
+			}
+			
+		}
+	
+	}
+	
+	function group_name($group_people_id){//returns group name from group people id
+		$query = $this->db->query("SELECT group_name FROM tbl_grouppeople 
+								LEFT JOIN tbl_groups ON tbl_grouppeople.group_id = tbl_groups.group_id
+								WHERE group_people_id='$group_people_id'");
+		$group_name = '';
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$group_name = $row->group_name;
+		}
+		return $group_name;
+	}
+	
+	function member_id($group_people_id){//returns the member id from the group people id
+		$member = 0;
+		$query = $this->db->query("SELECT user_id FROM tbl_grouppeople WHERE group_people_id = '$group_people_id'");
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$member = $row->user_id;
+		}
+		return $member;
 	}
 	
 	function non_members($group_id){//select members of the class who are not members of the group yet
@@ -199,12 +267,14 @@ class groups_model extends ci_Model{
 	}
 	
 	function pendings(){//returns pending members of a specific group
-		$group_id = $_SESSION['current_class'];
+		$class_id = $_SESSION['current_class'];
+		$group_id = $_SESSION['current_id'];
 		
 		$pending_members = array();
 		$query = $this->db->query("SELECT tbl_grouppeople.user_id, fname, lname FROM tbl_grouppeople
+									LEFT JOIN tbl_groups ON tbl_grouppeople.group_id = tbl_groups.group_id
 									LEFT JOIN tbl_userinfo ON tbl_grouppeople.user_id = tbl_userinfo.user_id
-									WHERE status = 0");
+									WHERE status = 0 AND tbl_grouppeople.group_id = '$group_id' AND class_id='$class_id'");
 		if($query->num_rows() > 0){
 			foreach($query->result() as $row){
 				$user_id = $row->user_id;

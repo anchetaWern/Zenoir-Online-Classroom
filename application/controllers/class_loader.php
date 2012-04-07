@@ -286,6 +286,7 @@ class class_loader extends ci_Controller{
 			case 'view_quizreply':
 				$this->load->model('quizzes_model');
 				$reply = $this->quizzes_model->view_reply();
+				$_SESSION['page']= '';//empty so that the back button won't show up in view_file.php
 				return $reply;
 			break;
 			

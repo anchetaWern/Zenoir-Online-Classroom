@@ -1,5 +1,6 @@
 <!--view assignment response-->
 <?php 
+
 $response  	= $page['reply'];
 $reply_files= $page['files'];
 

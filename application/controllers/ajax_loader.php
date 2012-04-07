@@ -376,6 +376,7 @@ class ajax_loader extends ci_Controller{
 			case 'view_quizreply':
 				$this->load->model('quizzes_model');
 				$reply = $this->quizzes_model->student_reply();
+				$_SESSION['page']= $_SERVER['REQUEST_URI'];
 				return $reply;
 			break;
 		}

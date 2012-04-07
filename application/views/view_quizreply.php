@@ -1,6 +1,8 @@
 <!--view quiz response-->
 <?php
-$quiz_response = $table;
+
+$quiz_response = $table['reply'];
+$files = $table['files'];
 
 $back	= array(
 			'id'=>'back',
@@ -27,7 +29,14 @@ Time submitted: <?php echo date('Y-m-d g:i:s A', strtotime($quiz_response['datet
 <?php echo $quiz_response['body']; ?>
 </pre>
 </p>
-<p>
+<div id="quizresponse_files">
+	<?php if(!empty($files)){ ?>
+		Attached Files:
+		<?php foreach($files as $row){ ?>
+			<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
+		<?php } ?>
+	<?php } ?>	
+</div><!--end of quizresponse_files-->
 <p>
 <a href="/zenoir/index.php/class_loader/view/list_quizreplies" data-id="<?php echo $quiz_response['quiz_id']; ?>">
 <?php

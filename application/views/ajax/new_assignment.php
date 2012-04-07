@@ -1,5 +1,8 @@
 <!--new assignment-->
 <script>
+var page = "<?php echo $_SESSION['user_page']; ?>";
+
+
 $(".date_picker").datepicker({ dateFormat: 'yy-mm-dd' });
 $('.fileUpload').fileUploader({
 			
@@ -11,6 +14,7 @@ $('.fileUpload').fileUploader({
 
 $('.px-buttons').hide();
 </script>
+
 <div id="modal_header">
 <h4>Create New Assignment</h4>
 </div>

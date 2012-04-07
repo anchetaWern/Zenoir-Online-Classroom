@@ -25,7 +25,7 @@
 			onFileRemove: function(){},
 			beforeUpload: function(){}, //trigger after the submit button is click: before upload
 			beforeEachUpload: function(){}, //callback before each file has been uploaded ::: returns each Form
-			afterUpload: function(){},
+			afterUpload: function(){ location.replace(page);  },
 			afterEachUpload: function(){} //callback after each file has been uploaded
 			
 		}, config);

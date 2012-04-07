@@ -76,6 +76,8 @@ echo form_input($end_time);
 </div>
 </div><!--end of container-->
 <script>
+var page = document.referrer;
+
 $('.fileUpload').fileUploader({		
 			afterEachUpload: function(data, status, formContainer){
 				$jsonData = $.parseJSON($(data).find('#upload_data').text());

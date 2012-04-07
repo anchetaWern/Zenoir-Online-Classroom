@@ -121,7 +121,7 @@ class assignments_model extends ci_Model{
 			
 			$reply 			= $this->db->query("INSERT INTO tbl_assignmentresponse SET assignment_id=?, user_id=?, res_title=?, res_body=?", $reply_data);
 			$reply_id 		= $this->db->insert_id();
-			$reply_id		= 'AR'.$assignment_id; //assignment response prefix
+			$reply_id		= 'AR'.$reply_id; //assignment response prefix
 			
 			
 			

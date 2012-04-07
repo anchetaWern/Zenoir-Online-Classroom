@@ -59,9 +59,11 @@ switch($type_id){
 
 }
 ?>
+<?php if($_SESSION['page'] != ''){ ?>
 <p>
 <a href="<?php echo $_SESSION['page']; ?>" class="lightbox">
 <?php echo form_button($back); ?>
 </a>
 </p>
+<?php } ?>
 </div>

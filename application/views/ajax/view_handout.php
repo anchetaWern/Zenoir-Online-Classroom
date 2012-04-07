@@ -28,10 +28,12 @@ $view	= array(
 	</div>
 
 	<div id="handout_files">
+	<?php if(!empty($handout['handout_files'])){ ?>
 		Attached Files:
 		<?php foreach($handout['handout_files'] as $row){ ?>
 			<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
 		<?php } ?>
+	<?php } ?>	
 	</div>
 	<p>
 	<?php if($this->session->userdata('usertype') <= 2){//view a list of students who opened the current handout

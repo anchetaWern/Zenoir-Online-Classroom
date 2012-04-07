@@ -23,6 +23,7 @@
 
 <link rel="zenoir icon" href="/zenoir/img/zenoir.ico">
 <script>
+
 $(function(){
 	var noty_success = {
 			"text":"Operation was successfully completed!",
@@ -105,9 +106,17 @@ $(function(){
 		if(updates==1){
 			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography, 'email' : email},
 				function(){
-					$('#px-submit').click();
+					
 					noty_success.text = 'Account was successfully updated!';
 					noty(noty_success);
+					
+					if($('.upload-data').length){//has files to upload
+						$('#px-submit').click();
+					}else{
+						setTimeout(function(){
+							location.reload();
+						}, 1000);
+					}
 				}
 			);
 		}else{
@@ -133,10 +142,18 @@ $(function(){
 		if(submits == 1){
 			$.post('/zenoir/index.php/assignments/create_assignment', {'as_title' : as_title, 'as_body' : as_body, 'as_deadline' : as_deadline},
 				function(){
-					$('#px-submit').click();
-					$('#as_title, #as_body, #deadline').val('');
 					noty_success.text = 'Assignment was successfully created!';
 					noty(noty_success);
+					
+					if($('.upload-data').length){//has files to upload
+						$('#px-submit').click();
+					}else{
+						setTimeout(function(){
+							location.reload();
+						}, 1000);
+					}
+					
+					
 				}
 			);
 		}else{
@@ -160,10 +177,17 @@ $(function(){
 		if(create == 1){
 			$.post('/zenoir/index.php/handouts/create', {'ho_title' : ho_title, 'ho_body' : ho_body},
 				function(){
-					$('#px-submit').click();
-					$('#ho_title, #ho_body').val('');
+					
 					noty_success.text = 'Handout was successfully created!';
 					noty(noty_success);
+					
+					if($('.upload-data').length){//has files to upload
+						$('#px-submit').click();
+					}else{
+						setTimeout(function(){
+							location.reload();
+						}, 1000);
+					}
 				}
 			);
 		}else{
@@ -190,10 +214,17 @@ $(function(){
 		if(send == 1 && receiver_len >= 1){
 			$.post('/zenoir/index.php/messages/create', {'receivers' : receivers, 'msg_title' : msg_title, 'msg_body' : msg_body},
 				function(data){
-					$('#px-submit').click();
-					$('#receivers, #msg_title, #msg_body').val('');
+					
 					noty_success.text = 'Message Sent!';
 					noty(noty_success);
+				
+					if($('.upload-data').length){//has files to upload
+						$('#px-submit').click();
+					}else{
+						setTimeout(function(){
+							location.reload();
+						}, 1000);
+					}
 				}
 			);
 		}else{
@@ -218,10 +249,18 @@ $(function(){
 		if(create == 1){
 			$.post('/zenoir/index.php/messages/reply', {'msg_title' : msg_title, 'msg_body' : msg_body},
 				function(data){
-					$('#px-submit').click();
-					$('#msg_title, #msg_body').val('');
+					
 					noty_success.text = 'Message sent!';
 					noty(noty_success);
+				
+					if($('.upload-data').length){//has files to upload
+						$('#px-submit').click();
+					}else{
+						setTimeout(function(){
+							location.reload();
+						}, 1000);
+					}
+				
 				}
 			);
 		}else{
@@ -247,10 +286,17 @@ $(function(){
 		if(create == 1){
 			$.post('/zenoir/index.php/assignments/reply', {'reply_title' : reply_title, 'reply_body' : reply_body},
 				function(){
-					$('#px-submit').click();
-					$('#as_title, #as_body').val('');
+					
 					noty_success.text = 'Reply was successfully submitted!';
 					noty(noty_success);
+					
+					if($('.upload-data').length){//has files to upload
+						$('#px-submit').click();
+					}else{
+						setTimeout(function(){
+							location.reload();
+						}, 1000);
+					}
 				}
 			);
 		}else{
@@ -323,10 +369,17 @@ $(function(){
 			//put the general quiz info on the session
 			$.post('/zenoir/index.php/quizzes/create_no', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
 				function(){
-					$('#px-submit').click();
 				
 					noty_success.text = 'Quiz was successfully created!';
 					noty(noty_success);
+					
+					if($('.upload-data').length){//has files to upload
+						$('#px-submit').click();
+					}else{
+						setTimeout(function(){
+							location.replace('/zenoir/index.php/class_loader/view/quizzes');
+						}, 1000);
+					}
 					
 				}
 			);
@@ -369,7 +422,7 @@ $(function(){
 		}
 	});
 	
-	$('#submit_quiz').live('click', function(){
+	$('#submit_quiz').live('click', function(){//for quiz with items
 		
 		var quiz_items 	= $('select').length;
 		var answered_all= 1;
@@ -417,16 +470,23 @@ $(function(){
 		
 	});
 	
-	$('#reply_quiz').click(function(){
+	$('#reply_quiz').click(function(){//for quiz without items
 		var title 	= $.trim($('#res_title').val());
 		var body	= $.trim($('#res_body').val());
 		console.log(title);
 		$.post('/zenoir/index.php/quizzes/reply', {'title' : title, 'body' : body}, 
 			function(){
-				$('#px-submit').click();
+				
 				noty_success.text = 'Answer was successfully submitted!';
 				noty(noty_success);
-				$('#res_title, #res_body').val('');
+				
+				if($('.upload-data').length){//has files to upload
+					$('#px-submit').click();
+				}else{
+					setTimeout(function(){
+						location.reload();
+					}, 1000);
+				}
 			}
 		);
 	});

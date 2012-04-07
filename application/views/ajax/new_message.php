@@ -1,5 +1,6 @@
 <!--new message-->
 <script>
+var page = "<?php echo $_SESSION['user_page']; ?>";
 $('.fileUpload').fileUploader({
 			
 			afterEachUpload: function(data, status, formContainer){

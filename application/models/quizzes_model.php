@@ -443,6 +443,7 @@ class quizzes_model extends ci_Model{
 			$details 	= $this->quiz_details($quiz_id);
 			$quiz_title	= $details['title'];
 			
+			$id			= 'QR'.$quizresponse_id;
 			$title 		= $row->res_title;
 			$body		= $row->res_body;
 			$datetime	= $row->res_datetime;
@@ -452,8 +453,11 @@ class quizzes_model extends ci_Model{
 			
 			
 			
-			$reply 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
+			$reply['reply'] 	= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
 								'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+								
+			$this->load->model('files');
+			$reply['files'] = $this->files->view($id);					
 		}
 		
 		return $reply;
@@ -495,12 +499,14 @@ class quizzes_model extends ci_Model{
 		$quiz_title	= $details['title'];
 			
 		$reply = array();
-		$query = $this->db->query("SELECT quiz_id, res_title, res_body, res_datetime , fname, mname, lname FROM tbl_quizresponse 
+		$query = $this->db->query("SELECT quizresponse_id, quiz_id, res_title, res_body, res_datetime , fname, mname, lname FROM tbl_quizresponse 
 									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
 									WHERE quiz_id='$quiz_id' AND student_id='$student_id'");
 		
 		if($query->num_rows() > 0){
-			$row 		= $query->row();			
+			
+			$row 		= $query->row();	
+			$id			= 'QR'.$row->quizresponse_id;
 			$title 		= $row->res_title;
 			$body		= $row->res_body;
 			$datetime	= $row->res_datetime;
@@ -508,9 +514,15 @@ class quizzes_model extends ci_Model{
 			$mname		= $row->mname;
 			$lname		= $row->lname;
 			
-			$reply 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
+			$reply['reply'] 	= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
 								'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+			
+			$this->load->model('files');
+			$reply['files'] = $this->files->view($id);
+		
 		}
+		
+		
 		
 		return $reply;
 	}

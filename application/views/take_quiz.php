@@ -92,6 +92,7 @@ echo form_button($reply);
 ?>
 </p>
 <script>
+var page = document.referrer;
 $('.fileUpload').fileUploader({
 			afterEachUpload: function(data, status, formContainer){
 				$jsonData = $.parseJSON($(data).find('#upload_data').text());		

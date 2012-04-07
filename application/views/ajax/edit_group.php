@@ -31,11 +31,20 @@ $edit	= array(
 		);
 ?>
 <div class="container">
+
+
 <?php
 echo form_label('Group Name' , 'group_name');
 echo form_input($group);
 ?>
+
+<ul class="tabs left">
+	<li><a href="#current_member">Current Members</a></li>
+	<li><a href="#pending_member">Pending Members</a></li>
+	<li><a href="#invite_members">Invite Members</a></li>
+</ul>
 <?php if(!empty($group_members)){ ?>
+<div id="current_member" class="tab-content">
 <p>
 Current Members
 </p>
@@ -60,8 +69,10 @@ Current Members
 	<?php } ?>
 	</tbody>
 </table>
+</div><!--end of current members-->
 <?php } ?>
 <?php if(!empty($pending_members)){ ?>
+<div id="pending_member" class="tab-content">
 <p>
 Pending Members
 </p>
@@ -81,15 +92,19 @@ Pending Members
 	<?php } ?>
 	</tbody>
 </table>
+</div><!--end of pending members-->
 <?php } ?>
 
-<?php echo form_label('Select Members', 'class_users'); ?>
+
 <?php if(!empty($group_invited )){ ?>
+<div id="invite_members" class="tab-content">
+<?php echo form_label('Select Members', 'class_users'); ?>
 <select name="class_users" id="class_users" multiple>
 	<?php foreach($group_invited  as $row){ ?>
 	<option value="<?php echo $row['user_id']; ?>"><?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']); ?></option>
 	<?php } ?>
 </select>
+</div>
 <?php } ?>
 <p>
 <?php
@@ -97,3 +112,13 @@ echo form_button($edit);
 ?>
 </p>
 </div>
+
+<script>
+	$('.tab-content').addClass('clearfix').hide();
+	$('ul.tabs').each(function(){
+		var current = $(this).find('li.current');
+		if(current.length < 1) { $(this).find('li:first').addClass('current'); }
+		current = $(this).find('li.current a').attr('href');
+		$(current).show();
+	});
+</script>

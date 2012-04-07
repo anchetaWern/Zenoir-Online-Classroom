@@ -60,6 +60,7 @@ class class_loader extends ci_Controller{
 		$this->load->model('users');
 		$this->users->logout();//sets log in status to 0
 		$this->session->sess_destroy();
+		session_destroy();
 		redirect('../loader/view/login_form');
 	}
 	
@@ -86,6 +87,7 @@ class class_loader extends ci_Controller{
 			case 'land'://teacher + student
 				$user['classes'] = array();
 				$user['invites'] = array();
+				$user['grp_invites'] = array();
 				$user['unreads'] = array();
 				$this->load->model('classusers_model');
 				$this->load->model('users');
@@ -94,10 +96,10 @@ class class_loader extends ci_Controller{
 				$user['classes'] 	= $this->classusers_model->user_classes();
 				$user['people']		= $this->users->people();
 				$user['old_classes']= $this->classusers_model->user_oldclasses();
-				$user['invites']	= $this->classusers_model->list_invites();
-				$user['grp_invites']= $this->classusers_model->list_groupinvites();
+				$user['invites']	= $this->classusers_model->list_invites();//count
+				$user['grp_invites']= $this->classusers_model->list_groupinvites();//count
 				$user['expired']	= $this->classusers_model->expired_classes();
-				$user['unreads']	= $this->users->unread_post();
+				$user['unreads']	= $this->users->unread_post();//count
 				
 				return $user;
 			break;

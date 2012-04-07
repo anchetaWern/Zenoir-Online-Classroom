@@ -99,3 +99,11 @@ a{
 	height:500px;
 	overflow: auto;
 }
+
+.counter{
+	border-radius:10px;
+	padding:1px 5px 2px 5px;
+	margin: 0 0 0 5px;
+	color:#666;
+	background:#E5E5E5;
+}

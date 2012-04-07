@@ -52,7 +52,9 @@ class ajax_loader extends ci_Controller{
 		$data['user'] = $this->users->user_info($user_id);
 		$data['page'] = $this->selector($page);
 		
+		
 		$this->load->view('ajax/'.$page, $data);
+		
 	}
 	
 	function selector($page){

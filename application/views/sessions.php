@@ -49,7 +49,15 @@ $yes_no = array('NO', 'YES');
 			<td>-</td>
 			<td>-</td>
 			<?php } ?>
-			<td><a href="/zenoir/index.php/ajax_loader/view/join_session?sesid=<?php echo $row['id']; ?>" class="lightbox" data-sestype="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>"><img src="/zenoir/img/take.png" class="icons"/></a></td>
+			<td>
+			<?php if($row['status'] == 1){ ?>
+			<a href="/zenoir/index.php/ajax_loader/view/join_session?sesid=<?php echo $row['id']; ?>" class="lightbox" data-sestype="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>">
+			<img src="/zenoir/img/take.png" class="icons"/>
+			</a>
+			<?php }else{ ?>
+			<img src="/zenoir/img/lock.png"/>
+			<?php } ?>
+			</td>
 		</tr>
 		<?php } ?>
 	</tbody>

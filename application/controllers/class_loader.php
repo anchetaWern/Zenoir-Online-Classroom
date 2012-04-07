@@ -167,7 +167,7 @@ class class_loader extends ci_Controller{
 				}
 				$this->load->model('quizzes_model');
 				$take = $this->quizzes_model->check();
-				if($take == 0){
+				if($take == 0 || $take == 2){//if quiz is still locked or already taken
 					redirect('../class_loader/view/quizzes');
 				}
 				
@@ -249,14 +249,16 @@ class class_loader extends ci_Controller{
 				}
 				$this->load->model('sessions_model');
 				$join 	 = $this->sessions_model->check($_GET['sid']);
+			
 				if($join == 0){
-					
 					redirect("../class_loader/view/sessions");
 				}
+					
+				
 				$user_id = $this->session->userdata('user_id');
 				$_SESSION['user_id']		= $user_id;
 				$_SESSION['session_id']		= $_GET['sid'];
-				$_SESSION['user_name']		= $this->session->userdata('user_name');
+				
 			break;
 			
 			case 'view_noquiz':

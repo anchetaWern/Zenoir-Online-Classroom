@@ -579,6 +579,9 @@ $(function(){
 																$('#fancybox-close').click();
 																noty_success.text = 'Session successfully created!';
 																noty(noty_success);
+																setTimeout(function(){
+																	location.reload();
+																},1000);
 															
 															});
 															

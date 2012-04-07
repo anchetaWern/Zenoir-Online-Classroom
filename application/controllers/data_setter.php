@@ -10,14 +10,14 @@ class data_setter extends ci_Controller{
 	
 	function set_mask(){
 		$masked_name = $this->input->post('masked_name');
-		$_SESSION['user_name'] = $masked_name;
+		$_SESSION['mask_name'] = $masked_name;
 	}
 	
 	function set_name(){
 		$this->load->model('users');
 		$user_id = $this->session->userdata('user_id');
 		$user_name = $this->users->user_name($user_id);
-		$_SESSION['user_name']	= $user_name;
+		$_SESSION['mask_name']	= $user_name;
 	}
 	
 	

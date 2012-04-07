@@ -1,4 +1,9 @@
 <!--current session-->
+<?php
+if(empty($_SERVER['HTTP_REFERER'])){
+	redirect("../class_loader/view/sessions");
+}
+?>
 <script src="/zenoir/node_server/nowjs.js"></script>
 
 <script>
@@ -20,8 +25,11 @@ $(document).ready(function(){
 	});
 	
 	$("#send-button").click(function(){
-		now.distributeMessage($("#text-input").val());
-		$("#text-input").val("");
+		var msg = $("#text-input").val();
+		if(msg != ''){
+			now.distributeMessage($("#text-input").val());
+			$("#text-input").val("");
+		}
 	});
 
 	now.name = $('#user_name').val();
@@ -47,7 +55,7 @@ echo "From:    ".$time_from."<br/>";
 echo "To:      ".$time_to."<br/>";
 ?>
 <input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>"/><!--id-->
-<input type="hidden" id="user_name" value="<?php echo $_SESSION['user_name']; ?>"/><!--name-->
+<input type="hidden" id="user_name" value="<?php echo $_SESSION['mask_name']; ?>"/><!--name-->
 <input type="hidden" id="session_room" value="<?php echo $_GET['sid']; ?>"/><!--session room-->
 
 <div id="chatbox">

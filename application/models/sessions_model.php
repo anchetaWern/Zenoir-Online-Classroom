@@ -159,8 +159,9 @@ class sessions_model extends ci_Model{
 				$to				= $row->time_to;
 				$type			= $row->ses_type;
 				$infinite		= $row->infinite;
+				$status			= $this->check($id);
 				
-				$sessions[] = array('id'=>$id, 'title'=>$title, 'description'=>$description, 'date'=>$date, 'from'=>$from,'to'=>$to, 'type'=>$type, 'infinite'=>$infinite);
+				$sessions[] = array('status'=>$status, 'id'=>$id, 'title'=>$title, 'description'=>$description, 'date'=>$date, 'from'=>$from,'to'=>$to, 'type'=>$type, 'infinite'=>$infinite);
 			}
 		}
 		return $sessions;

@@ -15,7 +15,7 @@
 			buttonUpload: '#px-submit',
 			buttonClear: '#px-clear',
 			selectFileLabel: 'Select files',
-			allowedExtension: 'gif|jpg|png|zip|avi|rar|7z|mp3|pdf|jpeg|pdf|ogv|mp4|ogg|webm|html|htm|ppt|pptx|doc|docx|xls|xlsx',
+			allowedExtension: 'gif|jpg|png|zip|avi|rar|7z|mp3|pdf|jpeg|pdf|ogv|mp4|ogg|webm|html|htm|ppt|pptx|doc|docx|xls|xlsx|txt',
 			timeInterval: [1, 2, 4, 2, 1, 5], //Mock percentage for iframe upload
 			percentageInterval: [10, 20, 30, 40, 60, 80],
 			

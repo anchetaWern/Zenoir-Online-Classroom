@@ -324,10 +324,14 @@ class quizzes_model extends ci_Model{
 		$query = $this->db->query("SELECT quiz_id FROM tbl_quiz WHERE quiz_id='$quiz_id' AND NOW() BETWEEN start_time AND end_time");
 		if($query->num_rows() == 1 && $not_taken == 1){
 			return 1;//can take the quiz
+		}else if($query->num_rows() == 0 && $not_taken == 1){//locked
+			return 2;
 		}else{
 			return 0;//cannot take the quiz
 		}
 	}
+	
+	
 	
 	
 	function quiz_details($quiz_id){//returns general quiz details such as the title and the description
@@ -344,6 +348,8 @@ class quizzes_model extends ci_Model{
 	
 	function reply(){//reply to a quiz
 		$user_id=$this->session->userdata('user_id');
+		$user_name = $this->session->userdata('user_name');
+		
 		$quiz_id=$_SESSION['current_id'];
 		$title 	= $this->input->post('title'); 
 		$body	= $this->input->post('body');
@@ -384,11 +390,11 @@ class quizzes_model extends ci_Model{
 				if($email_address != ''){
 					$body = "<strong>Notification Type:</strong>Quiz Response<br/>
 							<strong>Quiz Title: </strong>" . $quiz_title . "<br/>" .
-							"<strong>Quiz Description: </strong>" .$quiz_body . "<br/>" .
 							"<strong>Sender:</strong>". $user_name . "<br/>" . 
 							"<strong>Class : </strong>" . $class_description . "<br/>" .
-							"<strong>Message:</strong>". $user_name . " has submitted a response to a quiz entitled " . $quiz_title   ."<br/>";
-				
+							"<strong>Message:<br/></strong>". $user_name . " has submitted a response to a quiz entitled " . $quiz_title   ."<br/>
+							Login to your account to read the response";
+							
 					$this->email->send($email_address, "Quiz Response: " . $quiz_title , $body);
 				}
 				

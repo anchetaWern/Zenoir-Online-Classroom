@@ -1,6 +1,6 @@
 <!--session entrance-->
 <?php
-$session_types = array('Masked', 'Class', 'Team');
+$session_types = array('Class', 'Masked', 'Team');
 $accessible = array('NO','YES');
 $session = $page;
 
@@ -49,7 +49,7 @@ Always Accessible:
 
 <div class="container">
 <?php 
-if($_SESSION['session_type'] == 1){
+if($_SESSION['session_type'] == 2){
 echo form_label('Alias', 'alias'); 
 echo form_input($alias);
 }

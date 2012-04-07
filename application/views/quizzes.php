@@ -54,7 +54,10 @@ $quizzes = $table;
 			<?php }else if($row['stat'] == 0 && $row['type'] == 2){ ?><!--view response-->
 			
 				<td><a href="/zenoir/index.php/ajax_loader/view/view_quizreply" data-id="<?php echo $row['quiz_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+			<?php }else if($row['stat'] == 2){ ?>
+				<td><img src="/zenoir/img/lock.png" class="icons"/></td>
 			<?php } ?>
+			
 		<?php }else{ ?><!--teacher-->
 		<td><a href="/zenoir/index.php/class_loader/view/view_quiz" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		<?php } ?>

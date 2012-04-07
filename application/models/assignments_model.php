@@ -149,8 +149,6 @@ class assignments_model extends ci_Model{
 				$class_description= $class_details['class_desc'];	
 				
 				
-				$this->post->class_post($assignment_id , 1);
-				
 				//send emails
 				if($this->emailnotifs_model->status(6) == 1){
 						$assignment_details = $this->reply_details();

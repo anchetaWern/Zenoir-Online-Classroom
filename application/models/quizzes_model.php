@@ -526,5 +526,8 @@ class quizzes_model extends ci_Model{
 		
 		return $reply;
 	}
+	
+	
+
 }
 ?>

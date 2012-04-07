@@ -161,9 +161,10 @@ class users extends ci_Model{
 		$user_id = $this->session->userdata('user_id');
 		$unreads = $this->db->query("SELECT post_from, class_code, class_description, post_type, post_time, post_id FROM tbl_poststatus 
 									LEFT JOIN tbl_classes ON tbl_poststatus.class_id = tbl_classes.class_id
-									WHERE post_to='$user_id' AND tbl_poststatus.status=1 AND post_type != 7");
+									WHERE post_to='$user_id' AND tbl_poststatus.status=1");
 		$this->load->model('post');
 		$this->load->model('assignments_model');
+		$this->load->model('quizzes_model');
 		
 		$unread_r = array();
 		if($unreads->num_rows() > 0){
@@ -181,7 +182,7 @@ class users extends ci_Model{
 				}
 				
 				$post_title			= $this->post->post_title($post_type_id, $post_id);
-				$unread_r[]			= array('type_id'=>$post_type_id,'post_id'=>$post_id, 'class_code'=>$class_code,'class_description'=>$class_description,
+				$unread_r[]			= array('post_from'=>$post_from, 'type_id'=>$post_type_id,'post_id'=>$post_id, 'class_code'=>$class_code,'class_description'=>$class_description,
 											'post_type'=>$post_type, 'post_time'=>$post_time, 'post_title'=>$post_title);
 			}
 		}

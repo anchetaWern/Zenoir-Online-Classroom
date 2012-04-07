@@ -46,7 +46,7 @@ $quizzes = $table;
 			<?php
 			if($row['stat'] == 1){ 
 			?>
-				<td><a href="/zenoir/index.php/class_loader/view/take_quiz" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/take.png" class="icons"/></a></td>
+				<td><a href="/zenoir/index.php/class_loader/view/take_quiz" data-takequiz="1" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/take.png" class="icons"/></a></td>
 			<?php }else if($row['stat'] == 0 && $row['type'] == 1){ ?><!--view score-->
 			
 				<td><a href="/zenoir/index.php/ajax_loader/view/score" data-id="<?php echo $row['quiz_id']; ?>"  class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>

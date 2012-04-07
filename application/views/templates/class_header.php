@@ -350,6 +350,29 @@ $(function(){
 	});
 	
 	
+	$('a[data-takequiz]').click(function(e){
+		e.preventDefault();
+		var address = $(this).attr('href');
+		noty(	
+		{
+			modal : true,
+			text: 'You can only access this quiz once. Are you sure you want to take the quiz?',
+			buttons: [
+			  {type: 'button green', text: 'Ok', 
+					click: function(){
+						location.replace(address);
+					}
+			  },
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
+		}
+		);
+	});
+	
 	$('#create_quizno').live('click', function(){
 		var create		= 1;
 		var quiz_title	= $.trim($('#quiz_title').val());

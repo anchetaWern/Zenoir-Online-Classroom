@@ -36,6 +36,14 @@ $no_reply	= array(
 			'value'=>'View No Quiz',
 			'content'=>'View No Quiz',
 			'class'=>'medium red'
+		);	
+
+$quiz_list	= array(
+			'id'=>'view_quizlist',
+			'name'=>'view_quizlist',
+			'value'=>'Back to Quiz List',
+			'content'=>'Back to Quiz List',
+			'class'=>'medium'
 		);		
 ?>
 <div id="modal_header">
@@ -96,7 +104,7 @@ $no_reply	= array(
 	</table>
 	</div><!--end of quiz items-->
 	
-	<p>
+	
 	<a href="/zenoir/index.php/class_loader/view/view_scores">
 	<?php echo form_button($response); ?>
 	</a>
@@ -104,7 +112,7 @@ $no_reply	= array(
 	<a href="/zenoir/index.php/class_loader/view/view_noquiz">
 	<?php echo form_button($no_quiz); ?>
 	</a>
-	</p>
+	
 	
 	<?php }else{ ?>
 	
@@ -126,8 +134,11 @@ $no_reply	= array(
 	<a href="/zenoir/index.php/class_loader/view/view_noquizresponse">
 	<?php echo form_button($no_reply); ?>
 	</a>
-	
 	<?php } ?>
+	
+	<a href="/zenoir/index.php/class_loader/view/quizzes">
+	<?php echo form_button($quiz_list); ?>
+	</a>
 	
 		
 	

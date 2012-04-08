@@ -15,10 +15,19 @@ $res_body	= array(
 			'name'=>'res_body',
 			'id'=>'res_body'
 		);
-		
+
+
 $reply	= array(
 			'id'=>'reply_quiz',
 			'name'=>'reply_quiz',
+			'value'=>'Submit Answer',
+			'content'=>'Submit Answer',
+			'class'=>'medium green'
+		);
+		
+$submit	= array(
+			'id'=>'submit_quiz',
+			'name'=>'submit_quiz',
 			'value'=>'Submit Answer',
 			'content'=>'Submit Answer',
 			'class'=>'medium green'
@@ -88,7 +97,11 @@ echo form_textarea($res_body);
 <?php } ?>
 <p>
 <?php
-echo form_button($reply);
+if(!empty($quiz_items)){
+	echo form_button($submit);
+}else{
+	echo form_button($reply);
+}
 ?>
 </p>
 <script>

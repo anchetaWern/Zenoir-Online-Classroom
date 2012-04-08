@@ -161,7 +161,7 @@ class users extends ci_Model{
 		$user_id = $this->session->userdata('user_id');
 		$unreads = $this->db->query("SELECT post_from, class_code, class_description, post_type, post_time, post_id FROM tbl_poststatus 
 									LEFT JOIN tbl_classes ON tbl_poststatus.class_id = tbl_classes.class_id
-									WHERE post_to='$user_id' AND tbl_poststatus.status=1");
+									WHERE post_to='$user_id' AND tbl_poststatus.status=1 ORDER BY post_time DESC");
 		$this->load->model('post');
 		$this->load->model('assignments_model');
 		$this->load->model('quizzes_model');

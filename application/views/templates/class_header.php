@@ -373,7 +373,7 @@ $(function(){
 		);
 	});
 	
-	$('#create_quizno').live('click', function(){
+	$('#create_quizno').live('click', function(){//creating quiz with no items
 		var create		= 1;
 		var quiz_title	= $.trim($('#quiz_title').val());
 		var quiz_body	= $.trim($('#quiz_body').val());
@@ -496,22 +496,42 @@ $(function(){
 	$('#reply_quiz').click(function(){//for quiz without items
 		var title 	= $.trim($('#res_title').val());
 		var body	= $.trim($('#res_body').val());
-		console.log(title);
-		$.post('/zenoir/index.php/quizzes/reply', {'title' : title, 'body' : body}, 
-			function(){
-				
-				noty_success.text = 'Answer was successfully submitted!';
-				noty(noty_success);
-				
-				if($('.upload-data').length){//has files to upload
-					$('#px-submit').click();
-				}else{
-					setTimeout(function(){
-						location.reload();
-					}, 1000);
-				}
-			}
+		
+		noty(	
+		{
+			modal : true,
+			text: 'Are you sure of your answers?',
+			buttons: [
+			  {type: 'button green', text: 'Ok', 
+					click: function(){
+						$.post('/zenoir/index.php/quizzes/reply', {'title' : title, 'body' : body}, 
+							function(){
+								$.noty.close(); 
+								noty_success.text = 'Answer was successfully submitted!';
+								noty(noty_success);
+								
+								if($('.upload-data').length){//has files to upload
+									$('#px-submit').click();
+								}else{
+									setTimeout(function(){
+										location.reload();
+									}, 1000);
+								}
+							}
+						);
+					}
+			  },
+			  {type: 'button pink', text: 'Cancel', click: function(){
+					$.noty.close(); 
+			  }}
+			],
+			closable: false,
+			timeout: false
+		}
 		);
+		
+		
+		
 	});
 	
 	$('#create_group').live('click', function(){

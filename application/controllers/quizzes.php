@@ -28,7 +28,7 @@ class quizzes extends ci_Controller{
 		$this->quizzes_model->create_no();
 	}
 	
-	function submit(){
+	function submit(){//quiz with items/multiple choice quiz
 		$this->load->model('logs_model');
 		$this->logs_model->lag(13, 'QR');
 	
@@ -36,7 +36,7 @@ class quizzes extends ci_Controller{
 		$this->quizzes_model->submit();
 	}
 	
-	function reply(){
+	function reply(){//for essay type quiz or quiz without items
 		$this->load->model('logs_model');
 		$this->logs_model->lag(13, 'QR');
 		

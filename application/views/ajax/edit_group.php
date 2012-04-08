@@ -47,9 +47,7 @@ echo form_input($group);
 <div id="current_member" class="tab-content">
 <?php if(!empty($group_members)){ ?>
 
-<p>
-Current Members
-</p>
+
 <table id="tbl_current">
 	<thead>
 		<tr>
@@ -66,7 +64,7 @@ Current Members
 		<tr>
 			<td><?php echo $row['member_id']; ?></td>
 			<td><?php echo $member_name; ?></td>
-			<td><img src="/zenoir/img/decline.png" class="icons" data-delmember="<?php echo $row['group_people_id']; ?>" delmembername="<?php echo $member_name; ?>"/></td>
+			<td><img src="/zenoir/img/decline.png" class="icons" data-delmember="<?php echo $row['group_people_id']; ?>" data-delmembername="<?php echo $member_name; ?>"/></td>
 		</tr>
 	<?php } ?>
 	</tbody>
@@ -78,9 +76,7 @@ Current Members
 <div id="pending_member" class="tab-content">
 <?php if(!empty($pending_members)){ ?>
 
-<p>
-Pending Members
-</p>
+
 <table id="tbl_pending">
 	<thead>
 		<tr>
@@ -104,9 +100,6 @@ Pending Members
 <div id="invite_members" class="tab-content">
 <?php if(!empty($group_invited )){ ?>
 
-<p>
-<?php echo form_label('Select Members', 'class_users'); ?>
-</p>
 <select name="class_users" id="class_users" multiple>
 	<?php foreach($group_invited  as $row){ ?>
 	<option value="<?php echo $row['user_id']; ?>"><?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']); ?></option>

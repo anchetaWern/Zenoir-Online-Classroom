@@ -77,10 +77,12 @@ $(function(){
 		}
 		
 		if(updates==1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
 				function(){
 					
 					$('#px-submit').click();
+					$('#ajax_loader').remove();
 					noty_success.text = 'Account was successfully updated!';
 					noty(noty_success);
 				}
@@ -107,8 +109,10 @@ $(function(){
 		}
 		
 		if(create == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/usert/create_user', {'user_id' : user_id, 'user_type' : user_type, 'fname' : fname, 'mname' : mname, 'lname' : lname}, 
 				function(){
+					$('#ajax_loader').remove();
 					noty_success.text = 'User was successfully created!';
 					noty(noty_success);
 					$('#fancybox-close').click();
@@ -136,8 +140,10 @@ $(function(){
 		}
 		
 		if(create == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/subjects/create_subject', {'subject_code' : subject_code, 'description' : description},
 				function(){
+					$('#ajax_loader').remove();
 					noty_success.text = 'Subject was successfully created!';
 					noty(noty_success);
 					$('#fancybox-close').click();
@@ -165,8 +171,10 @@ $(function(){
 		}
 		
 		if(create == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/courses/create_course', {'course_code' : course_code, 'course_desc' : description},
 				function(){
+					$('#ajax_loader').remove();
 					noty_success.text = 'Course was successfully created!';
 					noty(noty_success);
 					$('#fancybox-close').click();
@@ -240,10 +248,12 @@ $(function(){
 		}
 		
 		if(create == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/classrooms/create_class', 
 				{'yr' : yr, 'year': year, 'section' : section, 'subject_id' : subject_id, 'teacher_id' : teacher_id, 'course_id' : course_id,
 				'class_desc' : class_desc, 'date_created' : date_created, 'date_to' : date_lock, 'details' : addl_details},
 				function(){
+					$('#ajax_loader').remove();
 					noty_success.text = 'Class was successfully created!';
 					noty(noty_success);
 					$('#fancybox-close').click();
@@ -261,8 +271,7 @@ $(function(){
 	$('a[data-id]').live('hover', function(){
 		
 		var current_id = $(this).data('id');
-	
-		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id}, function(data){console.log(data);});
+		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
 	});
 	
 
@@ -280,8 +289,10 @@ $(function(){
 		}
 		
 		if(update == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/subjects/update_subject', {'subj_code' : subj_code, 'subj_desc' : subj_desc}, 
 				function(){
+					$('#ajax_loader').remove();
 					noty_success.text = 'Subject was successfully updated!';
 					noty(noty_success);
 					$('#fancybox-close').click();
@@ -309,8 +320,10 @@ $(function(){
 		}
 		
 		if(update == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/courses/update_course', {'course_code' : course_code, 'course_desc' : course_desc},
 				function(){
+					$('#ajax_loader').remove();
 					noty_success.text = 'Course was successfully updated!';
 					noty(noty_success);
 					$('#fancybox-close').click();

@@ -59,7 +59,7 @@ $quizzes = $table;
 			<?php } ?>
 			
 		<?php }else{ ?><!--teacher-->
-		<td><a href="/zenoir/index.php/class_loader/view/view_quiz" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+		<td><a href="/zenoir/index.php/class_loader/view/view_quiz" data-quiz_id="<?php echo $row['quiz_id']; ?>" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		<?php } ?>
 	</tr>
 <?php } ?>

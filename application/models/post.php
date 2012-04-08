@@ -207,7 +207,7 @@ class post extends ci_Model{
 	}
 	
 	function no_quiz(){//for quiz with items
-		$quiz_id = $_SESSION['current_id'];
+		$quiz_id = $_SESSION['current_quiz_id'];
 		$class_id 	= $_SESSION['current_class'];
 		$students = array(); //students with no quiz response to the specified quiz
 		
@@ -222,7 +222,7 @@ class post extends ci_Model{
 	}
 	
 	function no_quizresponse(){//for quiz without items
-		$quiz_id = $_SESSION['current_id'];
+		$quiz_id = $_SESSION['current_quiz_id'];
 		$class_id 	= $_SESSION['current_class'];
 
 		$query = $this->db->query("SELECT tbl_classpeople.user_id, fname, mname, lname 

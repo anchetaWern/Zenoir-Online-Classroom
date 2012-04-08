@@ -71,14 +71,13 @@ $(function(){
 	$('a[data-id]').live('hover', function(){
 		
 		var current_id = $(this).data('id');
-		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id}, function(data){console.log(data);});
+		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
 	});
 	
 	$('a[data-sid]').live('hover', function(){
 		
 		var current_id = $(this).data('sid');
-		console.log(current_id);
-		$.post('/zenoir/index.php/data_setter/set_sid', {'sid' : current_id}, function(data){console.log(data);});
+		$.post('/zenoir/index.php/data_setter/set_sid', {'sid' : current_id});
 	});
 	
 	
@@ -140,8 +139,10 @@ $(function(){
 		}
 		
 		if(submits == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/assignments/create_assignment', {'as_title' : as_title, 'as_body' : as_body, 'as_deadline' : as_deadline},
 				function(){
+					$('#ajax_loader').remove();
 					noty_success.text = 'Assignment was successfully created!';
 					noty(noty_success);
 					
@@ -175,9 +176,10 @@ $(function(){
 		}
 		
 		if(create == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/handouts/create', {'ho_title' : ho_title, 'ho_body' : ho_body},
 				function(){
-					
+					$('#ajax_loader').remove();
 					noty_success.text = 'Handout was successfully created!';
 					noty(noty_success);
 					
@@ -212,9 +214,11 @@ $(function(){
 		}
 		
 		if(send == 1 && receiver_len >= 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/messages/create', {'receivers' : receivers, 'msg_title' : msg_title, 'msg_body' : msg_body},
 				function(data){
 					
+					$('#ajax_loader').remove();
 					noty_success.text = 'Message Sent!';
 					noty(noty_success);
 				
@@ -247,9 +251,10 @@ $(function(){
 		}
 		
 		if(create == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/messages/reply', {'msg_title' : msg_title, 'msg_body' : msg_body},
 				function(data){
-					
+					$('#ajax_loader').remove();
 					noty_success.text = 'Message sent!';
 					noty(noty_success);
 				
@@ -284,9 +289,10 @@ $(function(){
 		}
 		
 		if(create == 1){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/assignments/reply', {'reply_title' : reply_title, 'reply_body' : reply_body},
 				function(){
-					
+					$('#ajax_loader').remove();
 					noty_success.text = 'Reply was successfully submitted!';
 					noty(noty_success);
 					
@@ -390,9 +396,10 @@ $(function(){
 		
 		if(create == 1){
 			//put the general quiz info on the session
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/quizzes/create_no', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
 				function(){
-				
+					$('#ajax_loader').remove();
 					noty_success.text = 'Quiz was successfully created!';
 					noty(noty_success);
 					
@@ -428,9 +435,10 @@ $(function(){
 		});
 		
 		if(create_quiz == 1){
-		
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/quizzes/create', {'questions' : questions, 'a' : a, 'b' : b, 'c' : c, 'd' : d, 'answers' : answers},
 				function(data){
+					$('#ajax_loader').remove();
 					noty_success.text = 'Quiz was successfully created!';
 					noty(noty_success);
 					setTimeout(function(){
@@ -465,8 +473,11 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
 					click: function(){
+						$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 						$.post('/zenoir/index.php/quizzes/submit', {'answers' : answers}, 
 						function(){
+							$.noty.close(); 
+							$('#ajax_loader').remove();
 							noty_success.text = 'Answers was successfully submitted!';
 							noty(noty_success);
 							 
@@ -504,9 +515,11 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
 					click: function(){
+						$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 						$.post('/zenoir/index.php/quizzes/reply', {'title' : title, 'body' : body}, 
 							function(){
 								$.noty.close(); 
+								$('#ajax_loader').remove();
 								noty_success.text = 'Answer was successfully submitted!';
 								noty(noty_success);
 								
@@ -542,8 +555,10 @@ $(function(){
 			if(member_length > 0){
 					
 					var group_members 	= $('#class_users').serializeArray();
+					$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 					$.post('/zenoir/index.php/groups/create', {'group_name' : group_name, 'members' : group_members},
 							function(){
+								$('#ajax_loader').remove();
 								noty_success.text = 'Group successfully created!';
 								noty(noty_success);
 								$('#fancybox-close').click();
@@ -571,8 +586,10 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
 					click: function(){
+						$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 						$.post('/zenoir/index.php/groups/delmember', {'member_id' : member_id}, 
 						function(){
+							$('#ajax_loader').remove();
 							noty_success.text = 'Group member successfully removed!';
 							noty(noty_success);
 							$.noty.close(); 
@@ -605,8 +622,10 @@ $(function(){
 			
 					
 					var group_members 	= $('#class_users').serializeArray();
+					$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 					$.post('/zenoir/index.php/groups/update', {'group_name' : group_name, 'members' : group_members},
 							function(){
+								$('#ajax_loader').remove();
 								noty_success.text = "Group successfully updated!";
 								noty(noty_success);
 								$('#fancybox-close').click();
@@ -673,12 +692,12 @@ $(function(){
 			create = 0;
 		}
 		
-		if(create == 1){
-		
+		if(create == 1 && members != 0){
+			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/sessions/create', {'ses_title' : title, 'ses_body' : ses_desc, 'infinite' : infinite, 
 															'time_from' : time_from, 'time_to' : time_to, 'members' : members},
 															function(data){
-																
+																$('#ajax_loader').remove();
 																$('#fancybox-close').click();
 																noty_success.text = 'Session successfully created!';
 																noty(noty_success);
@@ -689,7 +708,7 @@ $(function(){
 															});
 															
 		}else{
-			noty_err.text = 'All fields are required!';
+			noty_err.text = 'All fields are required! Make sure that you are a member of atleast one group before trying to create a Team Session';
 			noty(noty_err);
 		}
 	});
@@ -705,7 +724,9 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
 					click: function(){
+						$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 						$.post('/zenoir/index.php/classrooms/invites', {'student_id' : invite_id}, function(){
+							$('#ajax_loader').remove();
 							$.noty.close();
 							noty_success.text = 'Student was successfully invited to the classroom!';
 							noty.force = true;
@@ -869,7 +890,7 @@ $(function(){
 		
 		var classmodule_id = $(this).data('classmoduleid');
 		if($(this).attr('checked')){
-			$.post('/zenoir/index.php/classrooms/enable', {'cm_id' : classmodule_id}, function(data){console.log(data);});
+			$.post('/zenoir/index.php/classrooms/enable', {'cm_id' : classmodule_id});
 		}else{
 			$.post('/zenoir/index.php/classrooms/disable', {'cm_id' : classmodule_id});
 		}
@@ -890,8 +911,10 @@ $(function(){
 						if(export_numbers != 0){
 							$('#export_group input[type=checkbox]').each(function(index){
 								if($(this).attr('checked')){
+									$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 									$.post('/zenoir/index.php/classrooms/export', {'export_class' : export_class, 'export_type' : index}, 
 									function(){
+										$('#ajax_loader').remove();
 										$.noty.close();
 										noty_success.text = 'Classroom data was successfully exported!';
 										noty.force = true;
@@ -935,8 +958,10 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Yes', 
 					click: function(){
+							$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 							$.post('/zenoir/index.php/classrooms/remove', {'student_id' : student_id},
 							function(){
+								$('#ajax_loader').remove();
 								$.noty.close();
 								noty_success.text = 'Student successfully removed from the classroom!';
 								noty.force = true;
@@ -963,8 +988,10 @@ $(function(){
 	$('img[data-lock]').live('click', function(e){
 		e.preventDefault();
 		var class_id = $(this).data('lock');
+		$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 		$.post('/zenoir/index.php/classrooms/lock', {'class_id' : class_id}, 
 				function(){
+					$('#ajax_loader').remove();
 					noty_success.text = 'Class was successfully locked!';
 					noty(noty_success);
 					
@@ -1001,9 +1028,8 @@ $(function(){
 	});
 	
 	
-	$('img[src="/zenoir/img/view.png"]').live('dblclick', function(){
+	$('img[src="/zenoir/img/view.png"]').live('click', function(){
 		var id = $(this).parents('a').data('id');
-		console.log(id);
 		$('#'+id).remove();
 	});
 	
@@ -1027,6 +1053,13 @@ $(function(){
 		}
 		
 		$.post('/zenoir/index.php/notifs/change_status', {'nevent_id' : nevent_id, 'status' : status});
+	});
+	
+	$('a[data-quiz_id]').live('hover', function(){
+		
+		var quiz_id = $.trim($(this).data('quiz_id'));
+		
+		$.post('/zenoir/index.php/data_setter/set_quiz_id', {'quiz_id' : quiz_id});
 	});
 });
 </script>

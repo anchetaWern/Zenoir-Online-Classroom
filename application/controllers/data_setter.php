@@ -56,5 +56,10 @@ class data_setter extends ci_Controller{
 		$session_type = $this->input->post('session_type');
 		$_SESSION['session_type'] = $session_type;
 	}
+	
+	function set_quiz_id(){
+		$_SESSION['current_quiz_id'] = $this->input->post('quiz_id');
+		echo $this->input->post('quiz_id');
+	}
 }
 ?>

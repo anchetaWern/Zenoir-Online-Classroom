@@ -405,12 +405,17 @@ class quizzes_model extends ci_Model{
 	function list_replies(){//returns a list of replies for a specific quiz
 		$quiz_id = $_SESSION['current_id'];
 		$replies = array();
-		$query = $this->db->query("SELECT quizresponse_id, res_title, res_datetime, fname, mname, lname FROM tbl_quizresponse 
+		$query = $this->db->query("SELECT quizresponse_id, tbl_quizresponse.student_id, res_title, res_datetime, fname, mname, lname FROM tbl_quizresponse 
 									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
 									WHERE quiz_id='$quiz_id'");
+		
+		$this->load->model('post');
+							
 		if($query->num_rows() > 0){
 			foreach($query->result() as $row){
+			
 				$id			= $row->quizresponse_id;
+				$post_from	= $row->student_id;
 				$title 		= $row->res_title;
 				$datetime	= $row->res_datetime;
 				$fname		= $row->fname;
@@ -421,9 +426,12 @@ class quizzes_model extends ci_Model{
 				$details 	= $this->quiz_details($quiz_id);
 				$quiz_title	= $details['title'];
 				
-				$replies['quiz'] 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title);
 				
-				$replies['replies'][] 	= array('id'=>$id, 'title'=>$title, 'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+				$post_status 	= $this->post->quizreply_status('QR'.$quiz_id, $post_from);
+				$status_id		= $this->post->status_id('QR'.$quiz_id, $post_from);
+				
+				$replies['quiz'] 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title);
+				$replies['replies'][] 	= array('status_id'=>$status_id, 'quiz_id'=>$quiz_id, 'status'=>$post_status, 'id'=>$id, 'title'=>$title, 'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
 			}
 		}
 		return $replies;

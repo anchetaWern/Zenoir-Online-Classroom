@@ -74,6 +74,16 @@ class post extends ci_Model{
 		return $state;
 	}
 	
+	function quizreply_status($post_id, $post_from){//quick fix refactor later
+		$query = $this->db->query("SELECT status FROM tbl_poststatus WHERE post_id='$post_id' AND post_from='$post_from' AND status =1");
+		$state = 0;
+		if($query->num_rows() > 0){
+			$row 	= $query->row();
+			$state	= $row->status;
+		}
+		return $state;
+	}
+	
 	function assignmentreply_count($post_id){//returns 0 if there are no unread responses to a specific assignment and 1 if there is an unread response
 		$query = $this->db->query("SELECT status FROM tbl_poststatus WHERE post_id='$post_id' AND status=1");
 		return $query->num_rows();
@@ -108,6 +118,11 @@ class post extends ci_Model{
 	}
 	
 	function unset_assignmentreply(){
+		$post_status_id = $_SESSION['sid'];
+		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_status_id='$post_status_id'");
+	}
+	
+	function unset_quizreply(){
 		$post_status_id = $_SESSION['sid'];
 		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_status_id='$post_status_id'");
 	}

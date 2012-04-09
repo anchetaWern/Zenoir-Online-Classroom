@@ -1,9 +1,7 @@
 <!-- Tabs Left -->
-<ul class="tabs left">
-<li><a href="#tabr1">Login</a></li>
-</ul>
 
-<div id="tabr1" class="tab-content">
+
+<div id="tabr1">
 <?php
 echo form_open('../login/validate_user');
 ?>

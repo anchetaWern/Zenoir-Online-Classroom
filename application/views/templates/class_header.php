@@ -68,6 +68,13 @@ $(function(){
 		$.post('/zenoir/index.php/data_setter/set_class', {'class_id' : class_id});
 	});
 	
+	$('a[data-classid]').live('click', function(){
+		var class_id= $.trim($(this).data('classid'));
+		var act_id	= 3;
+		var prefix 	= 'EC';
+		$.post('/zenoir/index.php/logs/log_act', {'act_id' : act_id, 'prefix' : prefix});
+	});
+	
 	$('a[data-id]').live('hover', function(){
 		
 		var current_id = $(this).data('id');
@@ -890,6 +897,9 @@ $(function(){
 	
 	$('#enter_session').live('click', function(){
 		var masked_name = $.trim($('#alias').val());
+		
+		
+		$.post('/zenoir/index.php/sessions/join');
 		if(masked_name != ''){//for masked session
 			$.post('/zenoir/index.php/data_setter/set_mask', {'masked_name' : masked_name});
 		}else{//for team and class session

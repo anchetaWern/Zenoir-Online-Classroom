@@ -61,10 +61,12 @@ class groups_model extends ci_Model{
 		
 		$update_group = $this->db->query("UPDATE tbl_groups SET group_name=? WHERE group_id=?", $group_data);
 		
-		
+	
 		$this->load->model('email');
 		$this->load->model('emailnotifs_model');
 		$this->load->model('users');
+		
+		
 		
 		foreach($members as $member_id){
 			$member_id = $member_id['value'];

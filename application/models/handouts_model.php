@@ -16,6 +16,8 @@ class handouts_model extends ci_Model{
 		$handout_id = 'HO'.$handout_id;
 		$_SESSION['post_id'] = $handout_id;
 		
+		
+		$this->load->model('logs_model');
 		$this->load->model('post');
 		$this->load->model('classusers_model');
 		$this->load->model('email');
@@ -25,7 +27,7 @@ class handouts_model extends ci_Model{
 		$class_details= $this->classrooms_model->select_classinfo();
 		$class_description= $class_details['class_desc'];	
 		
-		
+		$this->logs_model->lag(10, 'CH');
 		$this->post->class_post($handout_id , 2);
 		
 		if($this->emailnotifs_model->status(4) == 1){

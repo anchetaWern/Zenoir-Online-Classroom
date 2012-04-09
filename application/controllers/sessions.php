@@ -7,8 +7,8 @@ class sessions extends ci_Controller{
 	}
 	
 	function join(){
-		$this->load->model('sessions_model');
-		$this->loa
+		$this->load->model('logs_model');
+		$this->logs_model->lag(22, 'JS');
 	}
 }
 ?>

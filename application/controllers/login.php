@@ -6,6 +6,7 @@ class login extends ci_Controller{
 		$user_id = $this->input->post('user_id');
 		$hashed_password = md5($this->input->post('password'));
 		$this->load->model('users');
+		$this->load->model('logs_model');
 		
 		$user_exists = $this->users->validate($user_id, $hashed_password);
 		
@@ -28,6 +29,8 @@ class login extends ci_Controller{
 			
 			$this->session->set_userdata($user_data);
 			$this->users->login();//sets login status to 1
+			
+			$this->logs_model->lag(1, 'LI');
 			
 			if($usertype == 1){//admin
 				redirect('../adminloader/view/admin_home');

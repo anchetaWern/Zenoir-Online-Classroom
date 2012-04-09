@@ -58,6 +58,9 @@ class class_loader extends ci_Controller{
 	
 	function destroy_userdata(){
 		$this->load->model('users');
+		$this->load->model('logs_model');
+		$this->logs_model->lag(2, 'LO');
+		
 		$this->users->logout();//sets log in status to 0
 		$this->session->sess_destroy();
 		session_destroy();

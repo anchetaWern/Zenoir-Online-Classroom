@@ -25,6 +25,8 @@ class logs_model extends ci_Model{//for logging teacher and student activity
 	
 	20- accept group invite(AG)
 	21- decline group invite(DG)
+	
+	22- join session (JS)
 	*/
 
 	function lag($act_id, $prefix){

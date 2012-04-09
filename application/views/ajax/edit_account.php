@@ -1,6 +1,6 @@
 <!--for editing user account information-->
 <script>
-var page = "<?php echo $_SESSION['user_page']; ?>";
+var page = "<?php if(!empty($_SESSION['user_page'])){ echo $_SESSION['user_page']; }else{ echo 1; }?>";
 $('.fileUpload').fileUploader({
 			allowedExtension: 'jpg|jpeg|gif|png|zip|avi',
 			afterEachUpload: function(data, status, formContainer){

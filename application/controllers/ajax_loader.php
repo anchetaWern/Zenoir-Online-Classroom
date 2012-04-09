@@ -52,7 +52,9 @@ class ajax_loader extends ci_Controller{
 		$data['user'] = $this->users->user_info($user_id);
 		$data['page'] = $this->selector($page);
 		
+		
 		$this->load->view('ajax/'.$page, $data);
+		
 	}
 	
 	function selector($page){
@@ -192,19 +194,21 @@ class ajax_loader extends ci_Controller{
 				$this->logs_model->lag(4, 'AS');
 			
 				$this->load->model('assignments_model');
-				$assignment = $this->assignments_model->view();
+				$assignment['details'] = $this->assignments_model->view();
+				$assignment['response'] = $this->assignments_model->response_id();
 				
 				$_SESSION['page']= $_SERVER['REQUEST_URI'];
 				return $assignment;
 			break;
 			
-			case 'view_assignmentreply'://teacher
-				if($this->access(2, 1) == false){
+			case 'view_assignmentreply'://teacher + student
+				if($this->access(3, 0) == false){
 					redirect('../loader/view/login_form');
 				}
 				$this->load->model('post');
-				$this->post->unset_post('AR');
-				
+				if($this->session->userdata('usertype') == 2){
+					$this->post->unset_assignmentreply();
+				}
 				$this->load->model('logs_model');
 				$this->logs_model->lag(14, 'AR');
 			
@@ -263,21 +267,22 @@ class ajax_loader extends ci_Controller{
 					redirect('../ajax_loader/view/groups');
 				}
 				
-				$group = $this->groups_model->view();
+				$group['members'] = $this->groups_model->view();
+				$group['pendings'] = $this->groups_model->pendings();
 				return $group;
 			break;
 			
 			
-			case 'new_classsession':
-				$session_type = $this->session->userdata('session_type');
+			case 'new_classsession': 
+				$session_type = $_SESSION['session_type'];
 				$session['title'] = '';
-				if($session_type == 1){//masked - teacher only
+				if($session_type == 2){//masked - teacher only
 					if($this->access(2, 1) == false){
 						redirect('../loader/view/login_form');
 					}
 					$session['title'] = 'Masked';
 					
-				}else if($session_type == 2){//class - teacher only
+				}else if($session_type == 1){//class - teacher only
 					if($this->access(2, 1) == false){
 						redirect('../loader/view/login_form');
 					}
@@ -303,6 +308,7 @@ class ajax_loader extends ci_Controller{
 			break;		
 			
 			case 'user_logs'://teacher 
+			
 				if($this->session->userdata('usertype') == 3){//student cannot view logs
 					redirect('../ajax_loader/view/view_user');
 				}
@@ -343,6 +349,35 @@ class ajax_loader extends ci_Controller{
 				$this->load->model('files');
 				$filedata = $this->files->data($_GET['fid']);
 				return $filedata;
+			break;
+			
+			case 'view_nohandout':
+				$this->load->model('post');
+				$this->load->model('handouts_model');
+				$handout['students'] = $this->post->no_handout();
+				$handout['details'] = $this->handouts_model->handout_details();
+				return $handout;
+			break;
+			
+			case 'view_nohw'://no assignment
+				$this->load->model('post');
+				$this->load->model('assignments_model');
+				$assignment['students'] = $this->post->no_assignment();
+				$assignment['details'] = $this->assignments_model->assignment_details();
+				return $assignment;
+			break;
+			
+			case 'score':
+				$this->load->model('quizzes_model');
+				$score = $this->quizzes_model->score();
+				return $score;
+			break;
+			
+			case 'view_quizreply':
+				$this->load->model('quizzes_model');
+				$reply = $this->quizzes_model->student_reply();
+				$_SESSION['page']= $_SERVER['REQUEST_URI'];
+				return $reply;
 			break;
 		}
 	}

@@ -38,8 +38,18 @@ if($_GET['dl'] == 1){//browser has datalist support
 					'name'=>'course',
 					'list'=>'courses',
 					'placeholder'=>'Eg. BSCS/4-3'
-				);
+				);			
+
 }	
+
+$year		= array(
+				'id'=>'year',
+				'name'=>'year'
+			);
+$section	= array(
+				'id'=>'section',
+				'name'=>'section'
+			);
 		
 $date		= array(
 				'id'=>'date_created',
@@ -70,8 +80,8 @@ $create 	= array(
 
 <div class="container">
 <?php
-echo form_label('Class Code', 'class_code');
-echo form_input($class_code);
+//echo form_label('Class Code', 'class_code');
+echo form_hidden($class_code);
 
 echo form_label('Class Description', 'class_desc');
 echo form_input($class_desc);
@@ -108,7 +118,7 @@ echo form_input($teacher);
 <?php } ?>
 
 
-<?php echo form_label('Course/Yr/Section', 'course'); ?>
+<?php echo form_label('Course', 'course'); ?>
 <?php
 if($_GET['dl'] == 1){
 echo form_input($course);
@@ -120,6 +130,14 @@ echo form_input($course);
 	<?php } ?>
 	</select>
 <?php } ?>
+
+<?php
+echo form_label('Year', 'year');
+echo form_input($year);
+
+echo form_label('Section', 'section');
+echo form_input($section);
+?>
 
 <?php
 echo form_label('Start Date', 'date_created');

@@ -18,10 +18,10 @@ class Upload extends CI_Controller {
 		$config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'gif|jpg|png|zip|avi|rar|7z|mp3|pdf|jpeg|pdf|ogv|mp4|ogg|webm|html|htm|ppt|pptx|doc|docx|xls|xlsx';
 		
-		$config['max_size']	= '10000000';
+		$config['max_size']	= '10240';//10Mb
 		
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
+		$config['max_width']  = '0';
+		$config['max_height']  = '0';
 
 		$this->load->library('upload', $config);
 

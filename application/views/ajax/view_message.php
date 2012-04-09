@@ -24,7 +24,7 @@ $reply		= array(
 ?>
 
 <div id="modal_header">
-<h4>View Message</h4>
+<h4>View Message - <?php echo $message['msg_title']; ?></h4>
 </div>
 <div class="container">
 <div id="from">
@@ -42,9 +42,7 @@ To:
 Date: <?php echo date('Y-m-d g:i:s A', strtotime($message['date'])); ?>
 </div>
 
-<div id="msg_title">
-<?php echo $message['msg_title']; ?>
-</div>
+
 
 <div id="msg_body">
 <pre>

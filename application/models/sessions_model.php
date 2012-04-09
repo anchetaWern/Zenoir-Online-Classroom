@@ -3,14 +3,15 @@ class sessions_model extends ci_Model{
 
 	function create(){
 		$user_id = $this->session->userdata('user_id');
+		$user_name		= $this->session->userdata('user_name');
 		/*
 		session types:
 		1- Masked
 		2- Class	
 		3- Team
 		*/
-		$class_id	= $this->session->userdata('current_class');
-		$ses_type 	= $this->session->userdata('session_type');
+		$class_id	= $_SESSION['current_class'];
+		$ses_type 	= $_SESSION['session_type'];
 		
 		$ses_title	= $this->input->post('ses_title');
 		$ses_desc	= $this->input->post('ses_body');
@@ -18,6 +19,11 @@ class sessions_model extends ci_Model{
 		
 		$time_from	= date('Y-m-d G:i:s', strtotime($this->input->post('time_from')));
 		$time_to	= date('Y-m-d G:i:s', strtotime($this->input->post('time_to')));
+		
+		$ses_date 		= date('Y-m-d', strtotime($time_from));
+		$ses_timefrom	= date('g:i:s A', strtotime($time_from));	
+		$ses_timeto		= date('g:i:s A', strtotime($time_to));
+		
 		$member_grp	= $this->input->post('members');
 		
 		
@@ -28,30 +34,98 @@ class sessions_model extends ci_Model{
 		$session_id		= $this->db->insert_id();
 		
 		
+		$this->load->model('logs_model');
+		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$notif_status = $this->emailnotifs_model->status(5);
+		
+		$this->load->model('classrooms_model');
+		
+		
+		$class_details= $this->classrooms_model->select_classinfo();
+		$class_description= $class_details['class_desc'];
+		
+		$this->logs_model->lag(8, 'CS');
 		
 		if($member_grp == 0){//class and masked session
 			$this->load->model('classusers_model');
-			$class_members = $this->classusers_model->class_users();
-			foreach($class_members as $row){
-				$member_id = $row['id'];
-				$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$member_id'");
+			
+			
+			if($notif_status == 1){
+				$class_members = $this->classusers_model->class_users();
+				foreach($class_members as $row){
+					$member_id = $row['id'];
+					$email = $row['email'];
+					
+					$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$member_id'");
+					
+					if($email != ''){
+					
+						if($infinite == 2){
+							$body = "<strong>Notification Type:</strong>New Session<br/>".
+									"<strong>Session Type: </strong> Class Session<br/>" . 
+									"<strong>Session Date: </strong>" . $ses_date . "<br/>" .
+									"<strong>Start Time: </strong>" . $ses_timefrom . "<br/>" .
+									"<strong>End Time: </strong>" . $ses_timeto . "<br/>" .
+									"<strong>Sender:</strong>". $user_name . "<br/>" .
+									"<strong>Class : </strong>" . $class_description . "<br/>" .
+									"<strong>Message:</strong><br/>". $ses_desc;
+						}else{
+							$body = "<strong>Notification Type:</strong>New Session<br/>".
+									"<strong>Session Type: </strong> Class Session<br/>" . 
+									"<strong>Sender:</strong>". $user_name . "<br/>" .
+									"<strong>Class : </strong>" . $class_description . "<br/>" .
+									"<strong>Message:</strong><br/>". $ses_desc;
+						}			
+						$this->email->send($email, 'Class Session: '. $ses_title, $body);
+					}
+				}
 			}
 			
-				$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$user_id'");
+			$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$user_id'");
 		
 		}else{//team session
 			$this->load->model('groups_model');
+			$this->load->model('users');
 			
 			foreach($member_grp as $groups){
 				$group_id = $groups['value'];
-				echo $group_id;
+				
 				$group_members = $this->groups_model->group_members($group_id);
+			
 				
 				foreach($group_members as $member_id){
 					if($this->exists($member_id, $session_id) == 0){
+						
+						if($notif_status == 1){
+							$email_address = $this->users->user_email($member_id);
+							if($email_address != ''){
+								if($infinite == 2){
+									$body = "<strong>Notification Type:</strong>New Session<br/>".
+											"<strong>Session Type: </strong> Team Session<br/>" .
+											"<strong>Session Date: </strong>" . $ses_date . "<br/>" .
+											"<strong>Start Time: </strong>" . $ses_timefrom . "<br/>" .
+											"<strong>End Time: </strong>" . $ses_timeto . "<br/>" .
+											"<strong>Sender:</strong>". $user_name . "<br/>" .
+											"<strong>Class : </strong>" . $class_description . "<br/>" .
+											"<strong>Message:</strong><br/>". $ses_desc;
+								}else{
+									$body = "<strong>Notification Type:</strong>New Session<br/>".
+											"<strong>Session Type: </strong> Team Session<br/>" . 
+											"<strong>Sender:</strong>". $user_name . "<br/>" .
+											"<strong>Class : </strong>" . $class_description . "<br/>" .
+											"<strong>Message:</strong><br/>". $ses_desc;
+								}	
+								$this->email->send($email_address, 'Team Session: '.$ses_title, $body);	
+							}
+						}
+						
 						$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$member_id'");
+						
+						
 					}
 				}//inner loop	
+				
 			}//outer loop
 		}
 		
@@ -69,7 +143,7 @@ class sessions_model extends ci_Model{
 	function list_all(){//list all the sessions where the current user has been invited or participated
 		
 		$user_id	= $this->session->userdata('user_id');
-		$class_id	= $this->session->userdata('current_class');
+		$class_id	= $_SESSION['current_class'];
 		$sessions	= array();
 		$query 		= $this->db->query("SELECT tbl_sessions.session_id, ses_title, ses_description, 
 						DATE(time_from) AS date, time_from, time_to, ses_type, infinite 
@@ -87,8 +161,9 @@ class sessions_model extends ci_Model{
 				$to				= $row->time_to;
 				$type			= $row->ses_type;
 				$infinite		= $row->infinite;
+				$status			= $this->check($id);
 				
-				$sessions[] = array('id'=>$id, 'title'=>$title, 'description'=>$description, 'date'=>$date, 'from'=>$from,'to'=>$to, 'type'=>$type, 'infinite'=>$infinite);
+				$sessions[] = array('status'=>$status, 'id'=>$id, 'title'=>$title, 'description'=>$description, 'date'=>$date, 'from'=>$from,'to'=>$to, 'type'=>$type, 'infinite'=>$infinite);
 			}
 		}
 		return $sessions;
@@ -147,8 +222,8 @@ class sessions_model extends ci_Model{
 	
 	
 	function session_count(){//returns the number of active sessions for the current class
-		$class_id 	= $this->session->userdata('current_class');
-		$query		= $this->db->query("SELECT session_id FROM tbl_sessions WHERE class_id='3' AND (time_to >= NOW() OR infinite = 1)");
+		$class_id 	= $_SESSION['current_class'];
+		$query		= $this->db->query("SELECT session_id FROM tbl_sessions WHERE class_id='$class_id' AND (time_to >= NOW() OR infinite = 1)");
 		return $query->num_rows();
 	}
 }

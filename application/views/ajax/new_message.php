@@ -1,7 +1,8 @@
 <!--new message-->
 <script>
+var page = "<?php echo $_SESSION['user_page']; ?>";
 $('.fileUpload').fileUploader({
-			allowedExtension: 'gif|jpg|png|zip|avi|rar|7z|mp3|pdf|jpeg|pdf|ogv|mp4|ogg|webm|html|htm|ppt|pptx|doc|docx|xls|xlsx',
+			
 			afterEachUpload: function(data, status, formContainer){
 				$jsonData = $.parseJSON($(data).find('#upload_data').text());
 			}

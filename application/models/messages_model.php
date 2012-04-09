@@ -3,7 +3,9 @@ class messages_model extends ci_Model{
 	
 	function create(){//original message
 		$current_user 	= $this->session->userdata('user_id');
-		$class_id		= $this->session->userdata('current_class');
+		$user_name		= $this->session->userdata('user_name');
+		
+		$class_id		= $_SESSION['current_class'];
 		$msg_title		= $this->input->post('msg_title');
 		$msg_body		= $this->input->post('msg_body');
 		
@@ -23,9 +25,27 @@ class messages_model extends ci_Model{
 											msg_body=?, sender_id=?", $msg_data);
 		$msg_id	 		= $this->db->insert_id();
 		
-		$this->session->set_userdata('post_id', 'PO'.$msg_id);
-	
+		$_SESSION['post_id'] =  'PO'.$msg_id;
+		
+		$this->load->model('users');
+		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$this->load->model('classrooms_model');
+		
+		$class_details= $this->classrooms_model->select_classinfo();
+		$class_description= $class_details['class_desc'];
+		$notif_status = $this->emailnotifs_model->status(2);
+		
 		foreach($receivers as $k=>$receiver){
+		
+			if($notif_status == 1){
+				$email_address = $this->users->user_email($receiver);
+				if($email_address != ''){
+					$msg_body = "<strong>Notification Type:</strong>New Message<br/><strong>Sender:</strong>". $user_name . 
+								"<br/><strong>Class : </strong>" . $class_description . "<br/><strong>Message:</strong><br/>". $msg_body;
+					$this->email->send($email_address, $msg_title, $msg_body);	
+				}
+			}
 			
 			$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
 		}
@@ -50,12 +70,14 @@ class messages_model extends ci_Model{
 	function reply(){//only one receiver for a reply
 	
 		$current_user 	= $this->session->userdata('user_id');
-		$class_id		= $this->session->userdata('current_class');
+		$user_name		= $this->session->userdata('user_name');
+		
+		$class_id		= $_SESSION['current_class'];
 		$msg_title		= $this->input->post('msg_title');
 		$msg_body		= $this->input->post('msg_body');
 		
-		$receiver 		= $this->session->userdata('sender_id'); //set from reply_details() function
-		$root_msg_id	= $this->session->userdata('root_msg_id');
+		$receiver 		= $_SESSION['sender_id']; //set from reply_details() function
+		$root_msg_id	= $_SESSION['root_msg_id'];
 		
 		$msg_data		= array($root_msg_id, $class_id, $msg_title, $msg_body, $current_user);
 		
@@ -63,17 +85,36 @@ class messages_model extends ci_Model{
 											msg_body=?, sender_id=?", $msg_data);
 											
 		$msg_id	 		= $this->db->insert_id();
-		$this->session->set_userdata('post_id', 'PO'.$msg_id);
+		$_SESSION['post_id'] = 'PO'.$msg_id;
 		
 		$this->load->model('post');
 		$this->post->message_post('PO'.$msg_id, 5, $receiver);
 		
 		$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
+		
+		
+		$this->load->model('users');
+		$this->load->model('email');
+		$this->load->model('emailnotifs_model');
+		$this->load->model('classrooms_model');
+		
+		$notif_status = $this->emailnotifs_model->status(10);
+		$class_details= $this->classrooms_model->select_classinfo();
+		$class_description= $class_details['class_desc'];
+		
+		if($notif_status == 1){
+			$email_address = $this->users->user_email($receiver);
+			if($email_address != ''){
+				$msg_body = "<strong>Notification Type:</strong>Message Response<br/><strong>Sender:</strong>". $user_name . 
+								"<br/><strong>Class : </strong>" . $class_description . "<br/><strong>Message:</strong><br/>". $msg_body;
+				$this->email->send($email_address, $msg_title, $msg_body);	
+			}
+		}
 	}
 	
 	function messages(){
 		$current_user = $this->session->userdata('user_id');
-		$class_id	  = $this->session->userdata('current_class');
+		$class_id	  = $_SESSION['current_class'];
 		
 		$messages_r['inbox']  = array();
 		$messages_r['outbox'] = array();
@@ -125,7 +166,7 @@ class messages_model extends ci_Model{
 	
 	function view(){//for viewing a message
 		$current_user = $this->session->userdata('user_id');
-		$message_id = $this->session->userdata('msg_id');
+		$message_id = $_SESSION['msg_id'];
 		$file_message_id = 'PO'.$message_id;
 		
 		$message_data['message'] = array();
@@ -183,7 +224,7 @@ class messages_model extends ci_Model{
 	}
 	
 	function reply_details(){//for viewing reply details: Title of the message you're replying to and the Receiver
-		$message_id = $this->session->userdata('current_id');
+		$message_id = $_SESSION['current_id'];
 		
 		
 		
@@ -199,8 +240,8 @@ class messages_model extends ci_Model{
 			$row = $message->row();
 			$msg_title = $row->msg_title;
 			$sender = $row->sender; //the person you're replying to
-			$this->session->set_userdata('sender_id', $row->sender_id); //set sender id for replying later
-			$this->session->set_userdata('root_msg_id', $row->root_msg_id);
+			$_SESSION['sender_id'] =  $row->sender_id; //set sender id for replying later
+			$_SESSION['root_msg_id'] = $row->root_msg_id;
 			$message_data['message'] = array('msg_id'=>$message_id,'msg_title'=>$msg_title, 'sender'=>$sender);
 		}						
 		return $message_data;						
@@ -208,7 +249,7 @@ class messages_model extends ci_Model{
 	
 	
 	function history(){//conversation history
-		$root_message_id = $this->session->userdata('current_id');
+		$root_message_id = $_SESSION['current_id'];
 		$message_r = array();
 		$message = $this->db->query("SELECT tbl_messages.message_id, tbl_messages.root_msg_id, tbl_messages.sender_id, 
 								msg_title, CONCAT_WS(', ', UPPER(lname), fname) AS sender, 

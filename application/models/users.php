@@ -41,7 +41,7 @@ class users extends ci_Model{
 		if($get_user->num_rows() > 0){
 			$row = $get_user->row();
 			
-			$user_data = array('user_id'=>$uid, 'fname'=>$row->fname, 'mname'=>$row->mname, 'lname'=>$row->lname, 'auto_bio'=>$row->autobiography);
+			$user_data = array('user_id'=>$uid, 'fname'=>$row->fname, 'mname'=>$row->mname, 'lname'=>$row->lname, 'auto_bio'=>$row->autobiography, 'email'=>$row->email);
 		}
 		return $user_data;
 	}
@@ -72,31 +72,35 @@ class users extends ci_Model{
 		$user_name = $fname . ' ' . $lname;
 		$password = $this->input->post('pword');
 		
+		$email = $this->input->post('email');
 		$autobiography = $this->input->post('autobiography');
 		
 		
-		$user_data = array($fname, $mname, $lname, $autobiography, $user_id);
+		$user_data = array($fname, $mname, $lname, $email, $autobiography, $user_id);
 		
 		if(!empty($password)){
 			$password = md5($this->input->post('pword'));
 			$password = array($password, $user_id);
 			
-			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
+			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, email=?, autobiography=? WHERE user_id=?", $user_data);
 			$update_password = $this->db->query("UPDATE tbl_users SET hashed_password=? WHERE user_id=?", $password);
 			
 			$user_id = 'UI'.$user_id;
-			$this->session->set_userdata('post_id', $user_id);
+			$_SESSION['post_id'] =  $user_id;
 		}else{
 		
-			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, autobiography=? WHERE user_id=?", $user_data);
+			$update_accountinfo = $this->db->query("UPDATE tbl_userinfo SET fname=?, mname=?, lname=?, email=?, autobiography=? WHERE user_id=?", $user_data);
 			
 			
 			$user_id = 'UI'.$user_id;
-			$this->session->set_userdata('post_id', $user_id);
+			$_SESSION['post_id'] = $user_id;
 		}
 		
-		$this->session->set_userdata('user_name', $user_name);
+		$_SESSION['user_name'] = $user_name;
 		
+		
+		$this->load->model('logs_model');
+		$this->logs_model->nlag(19, 'UA', $this->session->userdata('user_id'));
 		
 	}
 	
@@ -135,18 +139,19 @@ class users extends ci_Model{
 	
 	
 	function user_information(){
-		$user_id = $this->session->userdata('current_id');
-		$user = array($this->session->userdata('current_id'));
+		$user_id = $_SESSION['current_id'];
+		
 		$userinfo_array = array();
-		$query = $this->db->query("SELECT * FROM tbl_userinfo WHERE user_id=?", $user);
+		$query = $this->db->query("SELECT * FROM tbl_userinfo WHERE user_id=?", $user_id);
 		if($query->num_rows > 0){
 			$row = $query->row();
 			$fname		= $row->fname;
 			$mname		= $row->mname;
 			$lname		= $row->lname;
 			$auto_bio	= $row->autobiography;
+			$email 		= $row->email;
 			$image_id = $this->users->user_img($user_id);
-			$userinfo_array = array($fname, $mname, $lname, $auto_bio, $user_id, $image_id);
+			$userinfo_array = array($fname, $mname, $lname, $auto_bio,  $user_id, $image_id, $email);
 		}
 		return $userinfo_array;
 	}
@@ -154,10 +159,13 @@ class users extends ci_Model{
 	
 	function unread_post(){//selects all the unread post from all the classes
 		$user_id = $this->session->userdata('user_id');
-		$unreads = $this->db->query("SELECT class_code, class_description, post_type, post_id FROM tbl_poststatus 
+		$unreads = $this->db->query("SELECT post_from, class_code, class_description, post_type, post_time, post_id FROM tbl_poststatus 
 									LEFT JOIN tbl_classes ON tbl_poststatus.class_id = tbl_classes.class_id
-									WHERE post_to='$user_id' AND tbl_poststatus.status=1 AND post_type != 7");
+									WHERE post_to='$user_id' AND tbl_poststatus.status=1 ORDER BY post_time DESC");
 		$this->load->model('post');
+		$this->load->model('assignments_model');
+		$this->load->model('quizzes_model');
+		
 		$unread_r = array();
 		if($unreads->num_rows() > 0){
 			foreach($unreads->result() as $row){
@@ -165,20 +173,35 @@ class users extends ci_Model{
 				$class_description	= $row->class_description;
 				$post_type_id		= $row->post_type;
 				$post_id			= $row->post_id;
+				$original_post_id	= $post_id;
+				$post_from			= $row->post_from;
 				$post_type 			= $this->post->post_type($post_type_id);
+				$post_time			= $row->post_time;
+				
+				if($post_type_id == 3){//assignment response
+					$post_id = $this->assignments_model->responseid($row->post_from, substr($post_id, 2, strlen($post_id)));
+				}else if($post_type_id == 7){//quiz response
+					$post_id = $this->quizzes_model->responseid($row->post_from, substr($post_id, 2, strlen($post_id)));
+				}
+				
 				$post_title			= $this->post->post_title($post_type_id, $post_id);
-				$unread_r[]			= array('class_code'=>$class_code,'class_description'=>$class_description,'post_type'=>$post_type, 'post_title'=>$post_title);
+				if($post_title == ''){
+					$post_title = $this->quizzes_model->quiz_details(substr($original_post_id, 2, strlen($original_post_id)));
+					$post_title = $post_title['title'] . ' Result';
+				}
+				$unread_r[]			= array('post_from'=>$post_from, 'type_id'=>$post_type_id,'post_id'=>$post_id, 'class_code'=>$class_code,'class_description'=>$class_description,
+											'post_type'=>$post_type, 'post_time'=>$post_time, 'post_title'=>$post_title);
 			}
 		}
 		return $unread_r;
 	}
 	
 	function recent_activities(){//selects all the activities from all the classes in the past  week - SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK) 
-		$user_id = $this->session->userdata('current_id');
+		$user_id = $_SESSION['current_id'];
 	} 
 	
 	function previous_classes(){//selects all the previous classes attended by the current user
-		$user_id = $this->session->userdata('current_id');
+		$user_id = $_SESSION['current_id'];
 	}
 	
 	function user_img($user_id){
@@ -203,19 +226,21 @@ class users extends ci_Model{
 		if(!empty($classes)){
 			foreach($classes as $row){
 				$class_id = $row['class_id'];
-				$query = $this->db->query("SELECT DISTINCT fname, lname, mname, class_code, class_description, tbl_classpeople.user_id FROM tbl_classpeople
+				$query = $this->db->query("SELECT DISTINCT logged_in, fname, lname, mname, class_code, class_description, tbl_classpeople.user_id FROM tbl_classpeople
 										LEFT JOIN tbl_userinfo ON tbl_classpeople.user_id = tbl_userinfo.user_id
 										LEFT JOIN tbl_classes ON tbl_classpeople.class_id = tbl_classes.class_id
+										LEFT JOIN tbl_users ON tbl_userinfo.user_id = tbl_users.user_id
 										WHERE tbl_classpeople.class_id='$class_id'");
 				if($query->num_rows() > 0){
 					foreach($query->result() as $in_row){
+						$online = $in_row->logged_in;
 						$fname	= $in_row->fname;
 						$mname	= $in_row->mname;		
 						$lname	= $in_row->lname;
 						$id		= $in_row->user_id;
 						$class_code			= $in_row->class_code;
 						$class_description	= $in_row->class_description;
-						$people[]=array('fname'=>$fname,'mname'=>$mname,'lname'=>$lname,'id'=>$id,'class_code'=>$class_code,'class_description'=>$class_description,'class_id'=>$class_id);
+						$people[]=array('online'=>$online, 'fname'=>$fname,'mname'=>$mname,'lname'=>$lname,'id'=>$id,'class_code'=>$class_code,'class_description'=>$class_description,'class_id'=>$class_id);
 					}
 				}
 			}
@@ -235,6 +260,35 @@ class users extends ci_Model{
 			
 		}
 		return $class_r;
+	}
+	
+	
+	function user_list($user_type){//returns a list of a specific group of users (Eg. list of all teachers, admins, students)
+		$list 	= array();
+		$query 	= $this->db->query("SELECT tbl_users.user_id, fname, mname, lname FROM tbl_users 
+								LEFT JOIN tbl_userinfo ON tbl_users.user_id = tbl_userinfo.user_id WHERE user_type = '$user_type'");
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$fname		= $row->fname;
+				$mname		= $row->mname;
+				$lname		= $row->lname;
+				$user_id	= $row->user_id;
+				
+				$list[] = array('fname'=>$fname,'mname'=>$mname,'lname'=>$lname, 'user_id'=>$user_id); 
+			}
+		}
+		return $list;
+	}
+	
+	function user_email($user_id){
+		$email = 0;
+		$query = $this->db->query("SELECT email FROM tbl_userinfo WHERE user_id='$user_id'");
+		if($query->num_rows() > 0){
+			$row 	= $query->row();
+			$email	= $row->email;
+			
+		}
+		return $email;
 	}
 	
 	function login(){

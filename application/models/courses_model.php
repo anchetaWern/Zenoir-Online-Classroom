@@ -9,7 +9,7 @@ class courses_model extends ci_Model{
 	}
 	
 	function update_course(){
-		$course_id		= $this->session->userdata('current_id');
+		$course_id		= $_SESSION['current_id'];
 		$course_code	= $this->input->post('course_code');
 		$description	= $this->input->post('course_desc');
 		
@@ -20,7 +20,7 @@ class courses_model extends ci_Model{
 	
 	function get_course(){
 		$course_info	= array();
-		$course_id 		= $this->session->userdata('current_id');
+		$course_id 		= $_SESSION['current_id'];
 		$course 		= $this->db->query("SELECT * FROM tbl_courses WHERE course_id='$course_id'");
 		if($course->num_rows() > 0){
 			$row 			= $course->row();
@@ -29,6 +29,16 @@ class courses_model extends ci_Model{
 			$course_info = array('course_code'=>$course_code, 'course_desc'=>$course_desc);
 		}
 		return $course_info;
+	}
+	
+	function course_code($course_id){
+		$query = $this->db->query("SELECT course_code FROM tbl_courses WHERE course_id='$course_id'");
+		$course_code = 0;
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$course_code = $row->course_code;
+		}
+		return $course_code;
 	}
 	
 	function select_courses(){

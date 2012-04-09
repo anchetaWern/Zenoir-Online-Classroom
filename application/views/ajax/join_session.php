@@ -1,6 +1,6 @@
 <!--session entrance-->
 <?php
-$session_types = array('Masked', 'Class', 'Team');
+$session_types = array('Class', 'Masked', 'Team');
 $accessible = array('NO','YES');
 $session = $page;
 
@@ -30,6 +30,7 @@ Description
 Session type:
 <?php echo $session_types[$session['type']-1]; ?>
 </div>
+<?php if($session['infinite'] != 1){ ?>
 <div id="date">
 Date:
 <?php echo $session['date']; ?>
@@ -42,6 +43,7 @@ Time from:
 Time to:
 <?php echo date('g:i:s A', strtotime($session['to'])); ?>
 </div>
+<?php } ?>
 <div id="infinite">
 Always Accessible: 
 <?php echo $accessible[$session['infinite']]; ?>
@@ -49,7 +51,7 @@ Always Accessible:
 
 <div class="container">
 <?php 
-if($this->session->userdata('session_type') == 1){
+if($_SESSION['session_type'] == 2){
 echo form_label('Alias', 'alias'); 
 echo form_input($alias);
 }

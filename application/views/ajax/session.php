@@ -10,7 +10,7 @@ if(!empty($conversation)){
 	<tbody>
 	<?php foreach($conversation as $row){ ?>
 		<tr>
-			<td><?php echo $row['mask'] .': '. $row['msg']; ?></td>
+			<td><?php echo '<strong>'.$row['mask'].'</strong>' .': '. $row['msg']; ?></td>
 			<td class="td_hidden"><?php echo date('Y-m-d g:i:s A', strtotime($row['time'])); ?></td>
 		</tr>
 	<?php } ?>

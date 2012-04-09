@@ -2,14 +2,49 @@
 <?php 
 $quiz = $table['quiz'];
 $quiz_items = $table['quiz_items'];
+$quiz_files = $table['files'];
 
+//scores-for quiz with items
 $response	= array(
 			'id'=>'view_scores',
 			'name'=>'view_scores',
 			'value'=>'View Scores',
 			'content'=>'View Scores',
-			'class'=>'medium orange'
+			'class'=>'medium green'
 		);
+		
+//replies-for quiz without items		
+$replies	= array(
+			'id'=>'view_replies',
+			'name'=>'view_replies',
+			'value'=>'View replies',
+			'content'=>'View Replies',
+			'class'=>'medium green'
+		);
+		
+$no_quiz	= array(
+			'id'=>'view_noquiz',
+			'name'=>'view_noquiz',
+			'value'=>'View No Quiz',
+			'content'=>'View No Quiz',
+			'class'=>'medium red'
+		);
+		
+$no_reply	= array(
+			'id'=>'view_noreply',
+			'name'=>'view_noreply',
+			'value'=>'View No Quiz',
+			'content'=>'View No Quiz',
+			'class'=>'medium red'
+		);	
+
+$quiz_list	= array(
+			'id'=>'view_quizlist',
+			'name'=>'view_quizlist',
+			'value'=>'Back to Quiz List',
+			'content'=>'Back to Quiz List',
+			'class'=>'medium'
+		);		
 ?>
 <div id="modal_header">
 <h4>View Quiz - <?php echo $quiz['title']; ?></h4>
@@ -41,6 +76,7 @@ $response	= array(
 		</pre>
 	</div>
 	
+	<?php if(!empty($quiz_items)){ ?>
 	<div id="quiz_items">
 	<table>
 		<thead>
@@ -67,7 +103,47 @@ $response	= array(
 		</tbody>
 	</table>
 	</div><!--end of quiz items-->
+	
+	
 	<a href="/zenoir/index.php/class_loader/view/view_scores">
 	<?php echo form_button($response); ?>
 	</a>
+	
+	<a href="/zenoir/index.php/class_loader/view/view_noquiz">
+	<?php echo form_button($no_quiz); ?>
+	</a>
+	
+	
+	<?php }else{ ?>
+	
+	
+	<div id="quiz_files">
+	<?php if(!empty($quiz_files)){ ?>
+		Attached Files:
+		<?php foreach($quiz_files as $row){ ?>
+			<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
+		<?php } ?>
+	<?php } ?>	
+	</div>
+	
+	<p></p>
+	<a href="/zenoir/index.php/class_loader/view/list_quizreplies">
+	<?php echo form_button($replies); ?>
+	</a>
+	
+	<a href="/zenoir/index.php/class_loader/view/view_noquizresponse">
+	<?php echo form_button($no_reply); ?>
+	</a>
+	<?php } ?>
+	
+	<a href="/zenoir/index.php/class_loader/view/quizzes">
+	<?php echo form_button($quiz_list); ?>
+	</a>
+	
+		
+	
+	
+	
+	
+
 </div><!--end of container-->

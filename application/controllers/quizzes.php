@@ -9,10 +9,10 @@ class quizzes extends ci_Controller{
 		
 		$quiz_data = array('title'=>$title,'body'=>$body,'start_time'=>$start_time, 'end_time'=>$end_time);
 		
-		$this->session->set_userdata('quiz', $quiz_data);
+		$_SESSION['quiz'] = $quiz_data;
 	}
 	
-	function create(){
+	function create(){//create quiz with items
 		$this->load->model('logs_model');
 		$this->logs_model->lag(11, 'QZ');
 	
@@ -20,12 +20,28 @@ class quizzes extends ci_Controller{
 		$this->quizzes_model->create();
 	}
 	
-	function submit(){
+	function create_no(){//create a quiz with no items
+		$this->load->model('logs_model');
+		$this->logs_model->lag(11, 'QZ');
+	
+		$this->load->model('quizzes_model');
+		$this->quizzes_model->create_no();
+	}
+	
+	function submit(){//quiz with items/multiple choice quiz
 		$this->load->model('logs_model');
 		$this->logs_model->lag(13, 'QR');
 	
 		$this->load->model('quizzes_model');
 		$this->quizzes_model->submit();
+	}
+	
+	function reply(){//for essay type quiz or quiz without items
+		$this->load->model('logs_model');
+		$this->logs_model->lag(13, 'QR');
+		
+		$this->load->model('quizzes_model');
+		$this->quizzes_model->reply();
 	}
 
 

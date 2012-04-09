@@ -5,6 +5,10 @@ class sessions extends ci_Controller{
 		$this->load->model('sessions_model');
 		$this->sessions_model->create();
 	}
-
+	
+	function join(){
+		$this->load->model('logs_model');
+		$this->logs_model->lag(22, 'JS');
+	}
 }
 ?>

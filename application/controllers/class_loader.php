@@ -58,12 +58,17 @@ class class_loader extends ci_Controller{
 	
 	function destroy_userdata(){
 		$this->load->model('users');
+		$this->load->model('logs_model');
+		$this->logs_model->lag(2, 'LO');
+		
 		$this->users->logout();//sets log in status to 0
 		$this->session->sess_destroy();
+		session_destroy();
 		redirect('../loader/view/login_form');
 	}
 	
 	function selector($page){
+		$_SESSION['user_page'] = $_SERVER["REQUEST_URI"];
 		switch($page){
 			case 'class_home':
 				//load class info - number of unread stuff, etc.
@@ -86,6 +91,7 @@ class class_loader extends ci_Controller{
 			case 'land'://teacher + student
 				$user['classes'] = array();
 				$user['invites'] = array();
+				$user['grp_invites'] = array();
 				$user['unreads'] = array();
 				$this->load->model('classusers_model');
 				$this->load->model('users');
@@ -94,9 +100,10 @@ class class_loader extends ci_Controller{
 				$user['classes'] 	= $this->classusers_model->user_classes();
 				$user['people']		= $this->users->people();
 				$user['old_classes']= $this->classusers_model->user_oldclasses();
-				$user['invites']	= $this->classusers_model->list_invites();
+				$user['invites']	= $this->classusers_model->list_invites();//count
+				$user['grp_invites']= $this->classusers_model->list_groupinvites();//count
 				$user['expired']	= $this->classusers_model->expired_classes();
-				$user['unreads']	= $this->users->unread_post();
+				$user['unreads']	= $this->users->unread_post();//count
 				
 				return $user;
 			break;
@@ -163,7 +170,7 @@ class class_loader extends ci_Controller{
 				}
 				$this->load->model('quizzes_model');
 				$take = $this->quizzes_model->check();
-				if($take == 0){
+				if($take == 0 || $take == 2){//if quiz is still locked or already taken
 					redirect('../class_loader/view/quizzes');
 				}
 				
@@ -208,6 +215,7 @@ class class_loader extends ci_Controller{
 				}
 				$this->load->model('classusers_model');
 				$students = $this->classusers_model->class_users();
+				
 				return $students;
 			break;
 			
@@ -221,12 +229,19 @@ class class_loader extends ci_Controller{
 				$this->load->model('classusers_model');
 				$classes['invited'] = $this->classusers_model->list_invited_students();
 				
+				//pending students
+				$classes['pendings'] = $this->classusers_model->pending_students();
+				
 				//remove students
 				$classes['remove'] = $this->classusers_model->class_users();
 				
 				//modules
 				$this->load->model('classrooms_model');
 				$classes['modules'] = $this->classrooms_model->class_modules();
+				
+				//email notifs events
+				$this->load->model('emailnotifs_model');
+				$classes['events'] = $this->emailnotifs_model->list_events();
 				
 				//exports
 				$classes['exports'] = $this->classusers_model->user_classes(); 
@@ -240,14 +255,50 @@ class class_loader extends ci_Controller{
 				}
 				$this->load->model('sessions_model');
 				$join 	 = $this->sessions_model->check($_GET['sid']);
+			
 				if($join == 0){
-					
 					redirect("../class_loader/view/sessions");
 				}
+					
+				
 				$user_id = $this->session->userdata('user_id');
 				$_SESSION['user_id']		= $user_id;
 				$_SESSION['session_id']		= $_GET['sid'];
-				$_SESSION['user_name']		= $this->session->userdata('user_name');
+				
+			break;
+			
+			case 'view_noquiz':
+				$this->load->model('post');
+				$this->load->model('quizzes_model');
+				$quiz['students'] = $this->post->no_quiz();
+				$quiz['details'] = $this->quizzes_model->quiz_details($_SESSION['current_id']);
+				return $quiz;
+			break;
+			
+			case 'view_noquizresponse':
+				$this->load->model('post');
+				$this->load->model('quizzes_model');
+				$quiz['students'] = $this->post->no_quizresponse();
+				$quiz['details'] = $this->quizzes_model->quiz_details($_SESSION['current_id']);
+				return $quiz;
+			break;
+			
+			case 'list_quizreplies':
+				$this->load->model('quizzes_model');
+				$replies = $this->quizzes_model->list_replies();
+				return $replies;
+			break;
+			
+			case 'view_quizreply':
+				$this->load->model('quizzes_model');
+				$reply = $this->quizzes_model->view_reply();
+				$_SESSION['page']= '';//empty so that the back button won't show up in view_file.php
+				
+				$this->load->model('post');
+				if($this->session->userdata('usertype') == 2){
+					$this->post->unset_quizreply();
+				}
+				return $reply;
 			break;
 			
 		}

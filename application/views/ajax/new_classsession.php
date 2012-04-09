@@ -55,6 +55,7 @@ $create	= array(
 <h4>Create New <?php echo $session_title; ?> Session</h4>
 </div>
 <div class="container">
+<input type="hidden" id="current_session_type" value="<?php echo $session_title; ?>"/>
 <?php
 echo form_label('Title', 'ses_title');
 echo form_input($title);

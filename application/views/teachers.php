@@ -7,6 +7,7 @@
 <h4>[Classroom Settings]</h4>
 <ul class="tabs left">
 	<li><a href="#invite_students">Invite Students</a></li>
+	<li><a href="#pending_students">Pending</a></li>
 	<li><a href="#remove_students">Remove Students</a></li>
 	<li><a href="#modules">Enable/Disable Modules</a></li>
 	<li><a href="#email">Email Notifications</a></li>
@@ -15,6 +16,7 @@
 <div id="invite_students" class="tab-content">
 <?php 
 $invites = $table['invited'];
+$pendings= $table['pendings'];
 $modules = $table['modules'];
 $exports = $table['exports'];
 $events	 = $table['events'];
@@ -50,6 +52,27 @@ if(!empty($invites)){
 </table>
 <?php } ?>
 </div><!--end of invite students-->
+
+<div id="pending_students" class="tab-content">
+<?php if(!empty($pendings)){ ?>
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Student</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php foreach($pendings as $row){ ?>
+		<tr>
+			<td><?php echo $row['id']; ?></td>
+			<td><?php echo strtoupper($row['lname']) .', '. ucwords($row['fname']) .' '. ucwords($row['mname']); ?></td>
+		</tr>
+	<?php } ?>
+	</tbody>
+</table>
+<?php } ?>
+</div>
 
 <div id="remove_students" class="tab-content">
 <?php if(!empty($remove)){ ?>

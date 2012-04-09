@@ -128,7 +128,7 @@ class post extends ci_Model{
 	}
 	
 	function status_id($post_id, $post_from){
-		$query = $this->db->query("SELECT post_status_id FROM tbl_poststatus WHERE post_id='$post_id' AND post_from='$post_from'");
+		$query = $this->db->query("SELECT post_status_id FROM tbl_poststatus WHERE post_id='$post_id' AND post_from='$post_from' AND status =1");
 		if($query->num_rows() > 0){
 			$row = $query->row();
 			return $row->post_status_id;
@@ -147,7 +147,7 @@ class post extends ci_Model{
 	
 	function post_title($post_type, $post_id){//returns the post title from the post_type id and post_id
 		$post_id_len	= strlen($post_id);
-		if($post_type != 3){
+		if($post_type != 3 && $post_type != 7){//assignment response and quiz response doesn't have a prefix
 		$post_id		= substr($post_id, 2, $post_id_len);
 		}
 		$tables 		= array('tbl_assignment', 'tbl_handouts', 'tbl_assignmentresponse', 'tbl_quiz', 'tbl_messages', 'tbl_sessions', 'tbl_quizresponse');

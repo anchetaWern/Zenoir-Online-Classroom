@@ -192,7 +192,7 @@
 			
 			validateFileSize: function(file){
 				
-				if(file.size <= 102040){//10 Mb is the limit
+				if(file.size <= 10485760){//10 Mb is the limit
 					return true;
 				}else{
 					return false;

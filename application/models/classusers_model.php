@@ -307,6 +307,25 @@ class classusers_model extends ci_Model{
 		}
 		return $expired_classes;
 	}
+	
+	function pending_students(){
+		$class_id = $_SESSION['current_class'];
+		$query = $this->db->query("SELECT tbl_classpeople.user_id, fname, mname, lname FROM tbl_classpeople 
+									LEFT JOIN tbl_userinfo ON tbl_classpeople.user_id = tbl_userinfo.user_id
+									WHERE class_id = '$class_id' AND status = 0
+									");
+		$pendings = array();
+		if($query->num_rows() > 0){
+			foreach($query->result() as $row){
+				$user_id	= $row->user_id;
+				$fname		= $row->fname;
+				$mname		= $row->mname;
+				$lname		= $row->lname;
+				$pendings[] = array('fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname, 'id'=>$user_id);
+			}
+		}
+		return $pendings;
+	}
 
 }
 ?>

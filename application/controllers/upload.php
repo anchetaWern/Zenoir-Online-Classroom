@@ -20,8 +20,8 @@ class Upload extends CI_Controller {
 		
 		$config['max_size']	= '10240';//10Mb
 		
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
+		$config['max_width']  = '0';
+		$config['max_height']  = '0';
 
 		$this->load->library('upload', $config);
 

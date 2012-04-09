@@ -121,11 +121,11 @@ class assignments_model extends ci_Model{
 			
 			$reply 			= $this->db->query("INSERT INTO tbl_assignmentresponse SET assignment_id=?, user_id=?, res_title=?, res_body=?", $reply_data);
 			$reply_id 		= $this->db->insert_id();
-			$reply_id		= 'AR'.$reply_id; //assignment response prefix
+			$post_id		= 'AR'.$assignment_id; //assignment response prefix
 			
 			
 			
-			$_SESSION['post_id'] =  $reply_id;
+			$_SESSION['post_id'] =  'AR'.$reply_id;//for the files
 			
 			
 			//fetch teacher for the current class
@@ -137,7 +137,7 @@ class assignments_model extends ci_Model{
 				
 				//set response status to unread
 				$this->load->model('post');
-				$this->post->message_post($reply_id, 3, $teacher_id);
+				$this->post->message_post($post_id, 3, $teacher_id);
 				
 				
 				$this->load->model('email');

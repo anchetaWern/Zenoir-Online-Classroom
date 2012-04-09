@@ -536,6 +536,17 @@ class quizzes_model extends ci_Model{
 	}
 	
 	
+		function responseid($user_id, $quiz_id){//quick fix; returns the response id for a specific quiz
+			$query = $this->db->query("SELECT quizresponse_id FROM tbl_quizresponse WHERE student_id='$user_id' AND quiz_id='$quiz_id'");
+			$responseid = 0;
+			if($query->num_rows() >0){
+				$row = $query->row();
+				$responseid = $row->quizresponse_id;
+			}
+			return $responseid;
+		}
+	
+	
 
 }
 ?>

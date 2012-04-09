@@ -173,15 +173,22 @@ class users extends ci_Model{
 				$class_description	= $row->class_description;
 				$post_type_id		= $row->post_type;
 				$post_id			= $row->post_id;
+				$original_post_id	= $post_id;
 				$post_from			= $row->post_from;
 				$post_type 			= $this->post->post_type($post_type_id);
 				$post_time			= $row->post_time;
 				
 				if($post_type_id == 3){//assignment response
 					$post_id = $this->assignments_model->responseid($row->post_from, substr($post_id, 2, strlen($post_id)));
+				}else if($post_type_id == 7){//quiz response
+					$post_id = $this->quizzes_model->responseid($row->post_from, substr($post_id, 2, strlen($post_id)));
 				}
 				
 				$post_title			= $this->post->post_title($post_type_id, $post_id);
+				if($post_title == ''){
+					$post_title = $this->quizzes_model->quiz_details(substr($original_post_id, 2, strlen($original_post_id)));
+					$post_title = $post_title['title'] . ' Result';
+				}
 				$unread_r[]			= array('post_from'=>$post_from, 'type_id'=>$post_type_id,'post_id'=>$post_id, 'class_code'=>$class_code,'class_description'=>$class_description,
 											'post_type'=>$post_type, 'post_time'=>$post_time, 'post_title'=>$post_title);
 			}

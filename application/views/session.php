@@ -48,11 +48,17 @@ $(document).ready(function(){
 </script>
 <?php
 $session_title 	= $_SESSION['ses']['title'];
-$time_from		= date('Y-m-d g:i:s A', strtotime($_SESSION['ses']['from']));
-$time_to		= date('Y-m-d g:i:s A', strtotime($_SESSION['ses']['to']));
+$session_date 	= date('Y-m-d ', strtotime($_SESSION['ses']['from']));
+$time_from		= date('g:i:s A', strtotime($_SESSION['ses']['from']));
+$time_to		= date('g:i:s A', strtotime($_SESSION['ses']['to']));
 echo "Session:<a href='/zenoir/index.php/ajax_loader/view/session' class='lightbox'> ". $session_title ."</a><br/>";
+
+if($_SESSION['ses']['infinite'] != 1){
+
+echo "Date 	   ". $session_date. "<br/>";
 echo "From:    ".$time_from."<br/>";
 echo "To:      ".$time_to."<br/>";
+}
 ?>
 <input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>"/><!--id-->
 <input type="hidden" id="user_name" value="<?php echo $_SESSION['mask_name']; ?>"/><!--name-->

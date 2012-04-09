@@ -226,6 +226,9 @@ class class_loader extends ci_Controller{
 				$this->load->model('classusers_model');
 				$classes['invited'] = $this->classusers_model->list_invited_students();
 				
+				//pending students
+				$classes['pendings'] = $this->classusers_model->pending_students();
+				
 				//remove students
 				$classes['remove'] = $this->classusers_model->class_users();
 				

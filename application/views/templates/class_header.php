@@ -396,7 +396,7 @@ $(function(){
 		
 		if(create == 1){
 			//put the general quiz info on the session
-			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
+			$("body").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/quizzes/create_no', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
 				function(){
 					$('#ajax_loader').remove();
@@ -435,7 +435,7 @@ $(function(){
 		});
 		
 		if(create_quiz == 1){
-			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
+			$("body").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/quizzes/create', {'questions' : questions, 'a' : a, 'b' : b, 'c' : c, 'd' : d, 'answers' : answers},
 				function(data){
 					$('#ajax_loader').remove();
@@ -473,7 +473,7 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
 					click: function(){
-						$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
+						$("body").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 						$.post('/zenoir/index.php/quizzes/submit', {'answers' : answers}, 
 						function(){
 							$.noty.close(); 
@@ -515,7 +515,7 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
 					click: function(){
-						$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
+						$("body").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 						$.post('/zenoir/index.php/quizzes/reply', {'title' : title, 'body' : body}, 
 							function(){
 								$.noty.close(); 
@@ -657,9 +657,15 @@ $(function(){
 	});
 	
 	$('#create_mcsession').live('click', function(){
+		
 		var create		= 1;
 		var title		= $.trim($('#ses_title').val());
 		var ses_desc	= $.trim($('#ses_body').val());
+		var sessions_type= $.trim($('#current_session_type').val());
+		console.log(sessions_type);
+		if(sessions_type != 'Team'){
+			console.log('booms');
+		}
 		var infinite	= 0;
 		
 		if($('#ses_validity').attr('checked')){
@@ -692,7 +698,12 @@ $(function(){
 			create = 0;
 		}
 		
-		if(create == 1 && members != 0){
+		if(create == 1){
+			if(sessions_type == 'Team' && members == 0){
+				noty_err.text = 'Make sure that you are a member of atleast one group before trying to create a Team Session';
+				noty(noty_err);
+			}else{
+			
 			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 			$.post('/zenoir/index.php/sessions/create', {'ses_title' : title, 'ses_body' : ses_desc, 'infinite' : infinite, 
 															'time_from' : time_from, 'time_to' : time_to, 'members' : members},
@@ -706,9 +717,9 @@ $(function(){
 																},1000);
 															
 															});
-															
+			}												
 		}else{
-			noty_err.text = 'All fields are required! Make sure that you are a member of atleast one group before trying to create a Team Session';
+			noty_err.text = 'All fields are required!';
 			noty(noty_err);
 		}
 	});
@@ -724,7 +735,7 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Ok', 
 					click: function(){
-						$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
+						$("body").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 						$.post('/zenoir/index.php/classrooms/invites', {'student_id' : invite_id}, function(){
 							$('#ajax_loader').remove();
 							$.noty.close();
@@ -958,7 +969,7 @@ $(function(){
 			buttons: [
 			  {type: 'button green', text: 'Yes', 
 					click: function(){
-							$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
+							$("body").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
 							$.post('/zenoir/index.php/classrooms/remove', {'student_id' : student_id},
 							function(){
 								$('#ajax_loader').remove();

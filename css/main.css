@@ -1,3 +1,9 @@
+#tabr1{
+	margin: 0 auto;
+	width: 500px;
+	padding-top:25px;
+}
+
 #container{
 	margin: 0 auto;
 	width: 800px;
@@ -11,8 +17,8 @@
     background-color: bada55;
 }
 #app_name {
-    width: 100px;
-	margin: 0 auto;
+    width: 200px;
+	margin: auto auto;
 }
 
 #app_title{
@@ -25,6 +31,7 @@
 
 h2 {
     font-family: Comic Sans MS;
+	display:inline;
 }
 
 #form_div {

@@ -1,3 +1,4 @@
+
 <?php
 class ajax_loader extends ci_Controller{
 	
@@ -7,7 +8,7 @@ class ajax_loader extends ci_Controller{
 	}
 
 	function index(){
-
+		
 		$this->load->view('ajax/edit_account');
 	}
 	
@@ -54,6 +55,7 @@ class ajax_loader extends ci_Controller{
 		
 		
 		$this->load->view('ajax/'.$page, $data);
+		$this->load->view('templates/ajax_header', $data);
 		
 	}
 	

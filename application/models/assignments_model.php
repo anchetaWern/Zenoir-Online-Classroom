@@ -10,7 +10,7 @@ class assignments_model extends ci_Model{
 			$class_id	= $_SESSION['current_class'];
 			$title		= $this->input->post('as_title');
 			$body		= $this->input->post('as_body');
-			$deadline	= $this->input->post('as_deadline');
+			$deadline	= date('Y-m-d G:i:s', strtotime($this->input->post('as_deadline'))); 
 			
 			$data 		= array($title, $body, $class_id, $deadline);
 			$this->db->query("INSERT INTO tbl_assignment SET as_title=?, as_body=?, class_id=?, date=CURDATE(), deadline=?", $data);
@@ -39,7 +39,7 @@ class assignments_model extends ci_Model{
 					$email = $row['email'];
 					if($email != ''){
 						$body = "<strong>Notification Type:</strong>New Assignment<br/>
-								<strong>Deadline: </strong>" . $deadline . "<br/>" .
+								<strong>Deadline: </strong>" . date('Y-m-d g:i:s A', strtotime($deadline)) . "<br/>" .
 								"<strong>Sender:</strong>". $user_name . "<br/>" . 
 								"<strong>Class : </strong>" . $class_description . "<br/>" .
 								"<strong>Message:</strong><br/>". $body;
@@ -266,7 +266,7 @@ class assignments_model extends ci_Model{
 		//checks if student can still reply to an assignment 
 		//once the deadline becomes less than the current date the student cannot reply to the assignment anymore
 			$assignment_id = $_SESSION['current_id'];
-			$query = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id='$assignment_id' AND deadline >= CURDATE()");
+			$query = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id='$assignment_id' AND deadline >= NOW()");
 			
 			return $query->num_rows();
 		}

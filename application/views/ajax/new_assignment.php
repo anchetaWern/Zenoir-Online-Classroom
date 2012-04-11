@@ -33,7 +33,7 @@ $body	= array(
 $deadline=array(
 			'name'=>'deadline',
 			'id'=>'deadline',
-			'class'=>'date_picker'
+			'class'=>'time_picker'
 		);
 
 $create	= array(
@@ -72,3 +72,9 @@ echo form_button($create);
 </p>
 
 </div>
+<script>
+$('.time_picker').datetimepicker({
+	ampm: true,
+	dateFormat: 'yy-mm-dd'
+});
+</script>

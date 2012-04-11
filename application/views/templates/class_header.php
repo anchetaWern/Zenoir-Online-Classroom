@@ -11,6 +11,7 @@
 
 <script src="/zenoir/js/jquery171.js"></script><!--core-->
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
+<script src="/zenoir/libs/kickstart/js/jquery.snippet.min.js"></script>
 <script src="/zenoir/libs/kickstart/js/prettify.js"></script>
 <script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script><!--table functionality-->
 <script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script><!--ui script-->

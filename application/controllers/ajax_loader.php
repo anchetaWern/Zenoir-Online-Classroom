@@ -1,4 +1,3 @@
-
 <?php
 class ajax_loader extends ci_Controller{
 	

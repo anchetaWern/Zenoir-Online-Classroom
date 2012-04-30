@@ -41,6 +41,7 @@ class messages_model extends ci_Model{
 			if($notif_status == 1){
 				$email_address = $this->users->user_email($receiver);
 				if($email_address != ''){
+					$msg_title = "New Message: " . $msg_title;
 					$msg_body = "<strong>Notification Type:</strong>New Message<br/><strong>Sender:</strong>". $user_name . 
 								"<br/><strong>Class : </strong>" . $class_description . "<br/><strong>Message:</strong><br/>". $msg_body;
 					$this->email->send($email_address, $msg_title, $msg_body);	
@@ -101,6 +102,7 @@ class messages_model extends ci_Model{
 		if($notif_status == 1){
 			$email_address = $this->users->user_email($receiver);
 			if($email_address != ''){
+				$msg_title = "New Message Reply: ". $msg_title;
 				$msg_body = "<strong>Notification Type:</strong>Message Response<br/><strong>Sender:</strong>". $user_name . 
 								"<br/><strong>Class : </strong>" . $class_description . "<br/><strong>Message:</strong><br/>". $msg_body;
 				$this->email->send($email_address, $msg_title, $msg_body);	

@@ -76,7 +76,7 @@ class sessions_model extends ci_Model{
 									"<strong>Class : </strong>" . $class_description . "<br/>" .
 									"<strong>Message:</strong><br/>". $ses_desc;
 						}			
-						$this->email->send($email, 'Class Session: '. $ses_title, $body);
+						$this->email->send($email, 'New Class Session: '. $ses_title, $body);
 					}
 				}
 			}
@@ -114,7 +114,7 @@ class sessions_model extends ci_Model{
 											"<strong>Class : </strong>" . $class_description . "<br/>" .
 											"<strong>Message:</strong><br/>". $ses_desc;
 								}	
-								$this->email->send($email_address, 'Team Session: '.$ses_title, $body);	
+								$this->email->send($email_address, 'New Team Session: '.$ses_title, $body);	
 							}
 						}
 						

@@ -65,6 +65,7 @@ class quizzes_model extends ci_Model{
 			foreach($class_users as $row){
 				$email = $row['email'];
 				if($email != ''){
+					$title = "New Essay Quiz: " . $title;
 					$body = "<strong>Notification Type:</strong>New Quiz<br/>".
 							"<strong>Quiz Date: </strong>" . date('Y-m-d', strtotime($start_time)) . "<br/>" .
 							"<strong>Start Time: </strong>" . date('g:i:s A', strtotime($start_time)) . "<br/>" .
@@ -135,6 +136,7 @@ class quizzes_model extends ci_Model{
 			foreach($class_users as $row){
 				$email = $row['email'];
 				if($email != ''){
+					$title = "New Multiple Choice Quiz: ". $title;
 					$body = "<strong>Notification Type:</strong>New Quiz<br/>".
 							"<strong>Quiz Date: </strong>" . date('Y-m-d', strtotime($start_time)) . "<br/>" .
 							"<strong>Start Time: </strong>" . date('g:i:s A', strtotime($start_time)) . "<br/>" .

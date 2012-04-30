@@ -30,6 +30,7 @@ class handouts_model extends ci_Model{
 			foreach($class_users as $row){
 				$email = $row['email'];
 				if($email != ''){
+					$ho_title = "New Handout: " . $ho_title;
 					$ho_body = "<strong>Notification Type:</strong>New Handout<br/><strong>Sender:</strong>". $user_name . 
 								"<br/><strong>Class : </strong>" . $class_description . "<br/><strong>Message:</strong><br/>". $ho_body;
 					$this->email->send($email, $ho_title, $ho_body);

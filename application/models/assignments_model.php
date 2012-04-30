@@ -38,6 +38,7 @@ class assignments_model extends ci_Model{
 				foreach($class_users as $row){
 					$email = $row['email'];
 					if($email != ''){
+						$title = "New Assignment: ".$title;
 						$body = "<strong>Notification Type:</strong>New Assignment<br/>
 								<strong>Deadline: </strong>" . date('Y-m-d g:i:s A', strtotime($deadline)) . "<br/>" .
 								"<strong>Sender:</strong>". $user_name . "<br/>" . 
@@ -157,6 +158,7 @@ class assignments_model extends ci_Model{
 						
 						$email_address = $this->users->user_email($teacher_id);
 						if($email_address != ''){
+							$reply_title = "New Assignment Response: ".$reply_title;
 							$body = "<strong>Notification Type:</strong>Assignment Response<br/>
 									<strong>Assignment Title: </strong>" . $as_title . "<br/>" .
 									"<strong>Sender:</strong>". $user_name . "<br/>" . 

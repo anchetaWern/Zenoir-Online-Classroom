@@ -57,8 +57,7 @@ class class_loader extends ci_Controller{
 
 	
 	function destroy_userdata(){
-		$this->load->model('users');
-		$this->load->model('logs_model');
+		
 		$this->logs_model->lag(2, 'LO');
 		
 		$this->users->logout();//sets log in status to 0
@@ -72,8 +71,7 @@ class class_loader extends ci_Controller{
 		switch($page){
 			case 'class_home':
 				//load class info - number of unread stuff, etc.
-				$this->load->model('post');
-				$this->load->model('sessions_model');
+				
 				$unread['posts'] =  $this->post->unread_posts();
 				$unread['sessions'] = $this->sessions_model->session_count(); 
 				return $unread;
@@ -83,7 +81,7 @@ class class_loader extends ci_Controller{
 				if($this->access(1, 1) == false){
 					redirect('../loader/view/login_form');
 				}
-				$this->load->model('subjects_model');
+				
 				$subjects = $this->subjects_model->select_subjects();
 				return $subjects;
 			break;
@@ -93,8 +91,7 @@ class class_loader extends ci_Controller{
 				$user['invites'] = array();
 				$user['grp_invites'] = array();
 				$user['unreads'] = array();
-				$this->load->model('classusers_model');
-				$this->load->model('users');
+				
 				
 				
 				$user['classes'] 	= $this->classusers_model->user_classes();
@@ -109,45 +106,45 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'assignments'://teacher + student
-				$this->load->model('classrooms_model');
+				
 				if($this->classrooms_model->module_status(1) == 0){
 					redirect('../class_loader/view/class_home');
 				}
 			
-				$this->load->model('assignments_model');
+				
 				$assignments = $this->assignments_model->list_all();
 				return $assignments;
 			break;
 			
 			case 'handouts'://teacher + student
-				$this->load->model('classrooms_model');
+				
 				if($this->classrooms_model->module_status(3) == 0){
 					redirect('../class_loader/view/class_home');
 				}
 			
-				$this->load->model('handouts_model');
+				
 				$handouts = $this->handouts_model->list_all();
 				return $handouts;
 			break;
 			
 			case 'messages'://teacher + student
-				$this->load->model('classrooms_model');
+				
 				if($this->classrooms_model->module_status(4) == 0){
 					redirect('../class_loader/view/class_home');
 				}
 			
-				$this->load->model('messages_model');
+				
 				$messages = $this->messages_model->messages();
 				return $messages;
 			break;
 			
 			case 'quizzes'://teacher + student
-				$this->load->model('classrooms_model');
+				
 				if($this->classrooms_model->module_status(2) == 0){
 					redirect('../class_loader/view/class_home');
 				}
 			
-				$this->load->model('quizzes_model');
+				
 				$quizzes = $this->quizzes_model->list_all();
 				return $quizzes;
 			break;
@@ -156,10 +153,10 @@ class class_loader extends ci_Controller{
 				if($this->access(2, 1) == false){
 					redirect('../loader/view/login_form');
 				}
-				$this->load->model('logs_model');
+			
 				$this->logs_model->lag(5, 'QZ');
 			
-				$this->load->model('quizzes_model');
+			
 				$quiz = $this->quizzes_model->view();
 				return $quiz;
 			break;
@@ -168,16 +165,16 @@ class class_loader extends ci_Controller{
 				if($this->access(3, 1) == false){
 					redirect('../loader/view/login_form');
 				}
-				$this->load->model('quizzes_model');
+				
 				$take = $this->quizzes_model->check();
 				if($take == 0 || $take == 2){//if quiz is still locked or already taken
 					redirect('../class_loader/view/quizzes');
 				}
 				
-				$this->load->model('post');
+				
 				$this->post->unset_post('QZ');
 				
-				$this->load->model('logs_model');
+				
 				$this->logs_model->lag(16, 'QZ');
 			
 				
@@ -189,21 +186,21 @@ class class_loader extends ci_Controller{
 				if($this->access(2, 1) == false){
 					redirect('../loader/view/login_form');
 				}
-				$this->load->model('post');
+				
 				$this->post->unset_all('QR');
 			
-				$this->load->model('quizzes_model');
+				
 				$scores = $this->quizzes_model->scores();
 				return $scores;
 			break;
 			
 			case 'sessions'://teacher + student
-				$this->load->model('classrooms_model');
+				
 				if($this->classrooms_model->module_status(5) == 0){
 					redirect('../class_loader/view/class_home');
 				}
 			
-				$this->load->model('sessions_model');
+				
 				$sessions = $this->sessions_model->list_all();
 				return $sessions;
 			break;
@@ -213,7 +210,7 @@ class class_loader extends ci_Controller{
 				if($this->session->userdata('usertype') == 3){
 					redirect('../class_loader/view/class_home');
 				}
-				$this->load->model('classusers_model');
+				
 				$students = $this->classusers_model->class_users();
 				
 				return $students;
@@ -226,7 +223,7 @@ class class_loader extends ci_Controller{
 				}
 				$classes['invited'] = array();
 				$classes['modules'] = array();
-				$this->load->model('classusers_model');
+				
 				$classes['invited'] = $this->classusers_model->list_invited_students();
 				
 				//pending students
@@ -236,11 +233,11 @@ class class_loader extends ci_Controller{
 				$classes['remove'] = $this->classusers_model->class_users();
 				
 				//modules
-				$this->load->model('classrooms_model');
+				
 				$classes['modules'] = $this->classrooms_model->class_modules();
 				
 				//email notifs events
-				$this->load->model('emailnotifs_model');
+				
 				$classes['events'] = $this->emailnotifs_model->list_events();
 				
 				//exports
@@ -253,7 +250,7 @@ class class_loader extends ci_Controller{
 				if($this->access(3, 0) == false){
 					redirect('../loader/view/login_form');
 				}
-				$this->load->model('sessions_model');
+				
 				$join 	 = $this->sessions_model->check($_GET['sid']);
 			
 				if($join == 0){
@@ -268,33 +265,33 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'view_noquiz':
-				$this->load->model('post');
-				$this->load->model('quizzes_model');
+				
+				
 				$quiz['students'] = $this->post->no_quiz();
 				$quiz['details'] = $this->quizzes_model->quiz_details($_SESSION['current_id']);
 				return $quiz;
 			break;
 			
 			case 'view_noquizresponse':
-				$this->load->model('post');
-				$this->load->model('quizzes_model');
+				
+				
 				$quiz['students'] = $this->post->no_quizresponse();
 				$quiz['details'] = $this->quizzes_model->quiz_details($_SESSION['current_id']);
 				return $quiz;
 			break;
 			
 			case 'list_quizreplies':
-				$this->load->model('quizzes_model');
+				
 				$replies = $this->quizzes_model->list_replies();
 				return $replies;
 			break;
 			
 			case 'view_quizreply':
-				$this->load->model('quizzes_model');
+				
 				$reply = $this->quizzes_model->view_reply();
 				$_SESSION['page']= '';//empty so that the back button won't show up in view_file.php
 				
-				$this->load->model('post');
+				
 				if($this->session->userdata('usertype') == 2){
 					$this->post->unset_quizreply();
 				}

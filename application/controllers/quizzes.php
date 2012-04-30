@@ -13,34 +13,34 @@ class quizzes extends ci_Controller{
 	}
 	
 	function create(){//create quiz with items
-		$this->load->model('logs_model');
+		
 		$this->logs_model->lag(11, 'QZ');
 	
-		$this->load->model('quizzes_model');
+		
 		$this->quizzes_model->create();
 	}
 	
 	function create_no(){//create a quiz with no items
-		$this->load->model('logs_model');
+		
 		$this->logs_model->lag(11, 'QZ');
 	
-		$this->load->model('quizzes_model');
+		
 		$this->quizzes_model->create_no();
 	}
 	
 	function submit(){//quiz with items/multiple choice quiz
-		$this->load->model('logs_model');
+		
 		$this->logs_model->lag(13, 'QR');
 	
-		$this->load->model('quizzes_model');
+		
 		$this->quizzes_model->submit();
 	}
 	
 	function reply(){//for essay type quiz or quiz without items
-		$this->load->model('logs_model');
+		
 		$this->logs_model->lag(13, 'QR');
 		
-		$this->load->model('quizzes_model');
+		
 		$this->quizzes_model->reply();
 	}
 

@@ -17,12 +17,7 @@ class handouts_model extends ci_Model{
 		$_SESSION['post_id'] = $handout_id;
 		
 		
-		$this->load->model('logs_model');
-		$this->load->model('post');
-		$this->load->model('classusers_model');
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
-		$this->load->model('classrooms_model');
+	
 		
 		$class_details= $this->classrooms_model->select_classinfo();
 		$class_description= $class_details['class_desc'];	
@@ -46,7 +41,7 @@ class handouts_model extends ci_Model{
 	function list_all(){
 		$class_id	= $_SESSION['current_class'];
 		$handouts_r = array();
-		$this->load->model('post');
+		
 		$handouts = $this->db->query("SELECT handout_id, ho_title, date_posted FROM tbl_handouts WHERE class_id='$class_id' AND status = 1 ORDER BY date_posted DESC");
 		if($handouts->num_rows > 0){
 			foreach($handouts->result() as $row){	
@@ -78,7 +73,7 @@ class handouts_model extends ci_Model{
 				$handout_details = array('ho_title'=>$ho_title, 'ho_body'=>$ho_body, 'ho_date'=>$ho_date);
 				
 				//load files attached to a handout
-				$this->load->model('files');
+				
 				$handout_details['handout_files'] = $this->files->view($file_ho_id);
 				
 				

@@ -15,9 +15,7 @@ class groups_model extends ci_Model{
 		$group_id		= $this->db->insert_id();
 		
 		
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
-		$this->load->model('users');
+		
 	
 		
 		foreach($members as $member_id){
@@ -45,7 +43,7 @@ class groups_model extends ci_Model{
 		$this->db->query("INSERT INTO tbl_grouppeople SET group_id='$group_id', user_id='$user_id', status=1");
 		
 	
-		$this->load->model('logs_model');
+		
 		$this->logs_model->nlag(17, 'CG', $group_id);
 	}
 	
@@ -62,9 +60,7 @@ class groups_model extends ci_Model{
 		$update_group = $this->db->query("UPDATE tbl_groups SET group_name=? WHERE group_id=?", $group_data);
 		
 	
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
-		$this->load->model('users');
+		
 		
 		
 		
@@ -89,7 +85,7 @@ class groups_model extends ci_Model{
 			}
 		}
 		
-		$this->load->model('logs_model');
+		
 		$this->logs_model->nlag(18, 'UG', $group_id);
 	}
 	
@@ -203,9 +199,7 @@ class groups_model extends ci_Model{
 		$member_id = $this->member_id($group_people_id);
 		$group_name = $this->group_name($group_people_id);
 		
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
-		$this->load->model('users');
+	
 	
 		//send emails to the member that has been removed from the group
 		if($this->emailnotifs_model->status(13) == 1){
@@ -296,7 +290,7 @@ class groups_model extends ci_Model{
 			
 		$this->db->query("UPDATE tbl_grouppeople SET status = 1 WHERE group_id='$group_id' AND user_id='$user_id'");
 		
-		$this->load->model('logs_model');
+		
 		$this->logs_model->nlag(20, 'AG', $group_id);
 	}
 	
@@ -306,7 +300,7 @@ class groups_model extends ci_Model{
 		
 		$this->db->query("DELETE FROM tbl_grouppeople WHERE group_id='$group_id' AND user_id='$user_id'");
 		
-		$this->load->model('logs_model');
+		
 		$this->logs_model->nlag(21, 'DG', $group_id);
 	}
 	

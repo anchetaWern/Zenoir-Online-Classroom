@@ -37,7 +37,7 @@ class adminloader extends ci_Controller{
 	}
 	
 	function destroy_userdata(){
-		$this->load->model('users');
+		
 		$this->users->logout();//sets log in status to 0
 		$this->session->sess_destroy();
 		redirect('../loader/view/login_form');
@@ -46,25 +46,25 @@ class adminloader extends ci_Controller{
 	function selector($page){
 		switch($page){
 			case 'subjects':
-				$this->load->model('subjects_model');
+				
 				$subjects = $this->subjects_model->select_subjects();
 				return $subjects;
 			break;
 			
 			case 'users':
-				$this->load->model('users');
+				
 				$users = $this->users->select_users();
 				return $users;
 			break;
 			
 			case 'courses':
-				$this->load->model('courses_model');
+				
 				$courses = $this->courses_model->select_courses();
 				return $courses;
 			break;
 			
 			case 'classes':
-				$this->load->model('classrooms_model');
+				
 				$classes = $this->classrooms_model->select_classes();
 				return $classes;
 			break;

@@ -34,12 +34,11 @@ class sessions_model extends ci_Model{
 		$session_id		= $this->db->insert_id();
 		
 		
-		$this->load->model('logs_model');
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
+		
+		
 		$notif_status = $this->emailnotifs_model->status(5);
 		
-		$this->load->model('classrooms_model');
+		
 		
 		
 		$class_details= $this->classrooms_model->select_classinfo();
@@ -48,7 +47,7 @@ class sessions_model extends ci_Model{
 		$this->logs_model->lag(8, 'CS');
 		
 		if($member_grp == 0){//class and masked session
-			$this->load->model('classusers_model');
+			
 			
 			
 			if($notif_status == 1){
@@ -85,8 +84,7 @@ class sessions_model extends ci_Model{
 			$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$user_id'");
 		
 		}else{//team session
-			$this->load->model('groups_model');
-			$this->load->model('users');
+			
 			
 			foreach($member_grp as $groups){
 				$group_id = $groups['value'];

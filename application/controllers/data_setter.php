@@ -14,7 +14,7 @@ class data_setter extends ci_Controller{
 	}
 	
 	function set_name(){
-		$this->load->model('users');
+		
 		$user_id = $this->session->userdata('user_id');
 		$user_name = $this->users->user_name($user_id);
 		$_SESSION['mask_name']	= $user_name;
@@ -26,7 +26,7 @@ class data_setter extends ci_Controller{
 		
 		$_SESSION['current_class'] = $class_id;
 		
-		$this->load->model('classrooms_model');
+		
 		$classroom_info = $this->classrooms_model->select_classinfo();
 		
 		$_SESSION['classroom_info'] = $classroom_info;

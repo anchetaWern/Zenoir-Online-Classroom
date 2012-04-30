@@ -2,8 +2,7 @@
 class classrooms_model extends ci_Model{
 	
 	function create_class(){
-		$this->load->model('courses_model');
-		$this->load->model('subjects_model');
+		
 		
 		
 		$class_desc 	= $this->input->post('class_desc');
@@ -45,7 +44,7 @@ class classrooms_model extends ci_Model{
 		}
 		
 		//class events 
-		$this->load->model('emailnotifs_model');
+		
 		$this->emailnotifs_model->build($class_id);
 	}
 	

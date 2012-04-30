@@ -9,7 +9,7 @@ class quizzes_model extends ci_Model{
 		$query = $this->db->query("SELECT quiz_id, qz_type, DATE(start_time) AS qz_date, qz_title, start_time, end_time 
 								FROM tbl_quiz WHERE class_id='$class_id' AND status=1 ORDER BY qz_date DESC");
 		
-		$this->load->model('post');
+		
 		
 		$quiz = array();
 		if($query->num_rows() > 0){
@@ -51,11 +51,8 @@ class quizzes_model extends ci_Model{
 		$_SESSION['post_id'] = 'QZ'.$quiz_id;
 		
 		//set quiz read status to students
-		$this->load->model('post');
-		$this->load->model('classusers_model');
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
-		$this->load->model('classrooms_model');
+		
+		
 		
 		
 		$class_details= $this->classrooms_model->select_classinfo();
@@ -102,11 +99,8 @@ class quizzes_model extends ci_Model{
 		$_SESSION['post_id'] = 'QZ'.$quiz_id;
 		
 		//set quiz read status to students
-		$this->load->model('post');
-		$this->load->model('classusers_model');
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
-		$this->load->model('classrooms_model');
+		
+		
 		
 		
 		$class_details= $this->classrooms_model->select_classinfo();
@@ -191,7 +185,7 @@ class quizzes_model extends ci_Model{
 			}
 		}
 		
-		$this->load->model('files');
+		
 		$quiz['files'] = $this->files->view($file_quiz_id);
 	
 		return $quiz;
@@ -237,14 +231,11 @@ class quizzes_model extends ci_Model{
 			$teacher_id = $row->teacher_id;
 			
 			//set response status to unread
-			$this->load->model('post');
+			
 			$this->post->message_post('QR'.$quiz_id, 7, $teacher_id);
 			
 			
-			$this->load->model('email');
-			$this->load->model('emailnotifs_model');
-			$this->load->model('classrooms_model');
-			$this->load->model('users');
+			
 			
 			$class_details= $this->classrooms_model->select_classinfo();
 			$class_description= $class_details['class_desc'];	
@@ -288,7 +279,7 @@ class quizzes_model extends ci_Model{
 											LEFT JOIN tbl_userinfo ON tbl_quizresult.user_id = tbl_userinfo.user_id
 											WHERE quiz_id='$quiz_id'");
 			
-			$this->load->model('post');							
+										
 			
 			if($query->num_rows() > 0){
 				foreach($query->result() as $row){
@@ -368,14 +359,11 @@ class quizzes_model extends ci_Model{
 			$teacher_id = $row->teacher_id;
 			
 			//set response status to unread
-			$this->load->model('post');
+			
 			$this->post->message_post('QR'.$quiz_id, 7, $teacher_id);
 			
 			
-			$this->load->model('email');
-			$this->load->model('emailnotifs_model');
-			$this->load->model('classrooms_model');
-			$this->load->model('users');
+		
 			
 			$class_details= $this->classrooms_model->select_classinfo();
 			$class_description= $class_details['class_desc'];	
@@ -409,7 +397,7 @@ class quizzes_model extends ci_Model{
 									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
 									WHERE quiz_id='$quiz_id'");
 		
-		$this->load->model('post');
+		
 							
 		if($query->num_rows() > 0){
 			foreach($query->result() as $row){
@@ -464,7 +452,7 @@ class quizzes_model extends ci_Model{
 			$reply['reply'] 	= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
 								'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
 								
-			$this->load->model('files');
+			
 			$reply['files'] = $this->files->view($id);					
 		}
 		
@@ -525,7 +513,7 @@ class quizzes_model extends ci_Model{
 			$reply['reply'] 	= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title, 'res_title'=>$title, 'body'=>$body,
 								'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
 			
-			$this->load->model('files');
+			
 			$reply['files'] = $this->files->view($id);
 		
 		}

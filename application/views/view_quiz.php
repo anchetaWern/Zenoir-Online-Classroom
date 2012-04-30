@@ -121,7 +121,7 @@ $quiz_list	= array(
 	<?php if(!empty($quiz_files)){ ?>
 		Attached Files:
 		<?php foreach($quiz_files as $row){ ?>
-			<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
+			<li><a href="/zenoir/index.php/ajax_loader/view/dl_file?fid=<?php echo $row['file_id']; ?>"><?php echo $row['filename']; ?></a></li>
 		<?php } ?>
 	<?php } ?>	
 	</div>

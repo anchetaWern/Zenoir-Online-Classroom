@@ -27,10 +27,10 @@ class messages_model extends ci_Model{
 		
 		$_SESSION['post_id'] =  'PO'.$msg_id;
 		
-		$this->load->model('users');
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
-		$this->load->model('classrooms_model');
+		
+		
+		
+		
 		
 		$class_details= $this->classrooms_model->select_classinfo();
 		$class_description= $class_details['class_desc'];
@@ -50,7 +50,7 @@ class messages_model extends ci_Model{
 			$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
 		}
 		
-		$this->load->model('post');
+		
 		$this->post->message_post('PO'.$msg_id, 5, $receivers);
 		
 	}
@@ -87,16 +87,12 @@ class messages_model extends ci_Model{
 		$msg_id	 		= $this->db->insert_id();
 		$_SESSION['post_id'] = 'PO'.$msg_id;
 		
-		$this->load->model('post');
+		
 		$this->post->message_post('PO'.$msg_id, 5, $receiver);
 		
-		$receiver = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
+		$send_reply = $this->db->query("INSERT INTO tbl_messagereceiver SET message_id='$msg_id', receiver_id='$receiver'");
 		
 		
-		$this->load->model('users');
-		$this->load->model('email');
-		$this->load->model('emailnotifs_model');
-		$this->load->model('classrooms_model');
 		
 		$notif_status = $this->emailnotifs_model->status(10);
 		$class_details= $this->classrooms_model->select_classinfo();
@@ -133,7 +129,7 @@ class messages_model extends ci_Model{
 									WHERE tbl_messages.sender_id='$current_user' AND class_id='$class_id' GROUP BY msg_title ORDER BY datetime_sent DESC");							
 		$outbox_count = $outbox->num_rows();
 		
-		$this->load->model('post');
+		
 		
 		if($inbox_count > 0){
 			foreach($inbox->result() as $row){
@@ -181,7 +177,7 @@ class messages_model extends ci_Model{
 								LEFT JOIN tbl_messagesroot ON tbl_messages.root_msg_id = tbl_messagesroot.msgroot_id
 								WHERE message_id='$message_id'");
 								
-		$this->load->model('files');
+		
 		$files = $this->files->view($file_message_id);
 		
 		if($message->num_rows() > 0){

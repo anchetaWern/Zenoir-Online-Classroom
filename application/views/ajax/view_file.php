@@ -22,6 +22,7 @@ $back	= array(
 			'content'=>'Back',
 			'class'=>'medium orange'
 		);
+		
 switch($type_id){
 	case 0: //document -only reads txt, pdf, xls, html 
 	

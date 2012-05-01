@@ -73,6 +73,3 @@ echo "To:      ".$time_to."<br/>";
 	<input type="text" id="text-input" class="col_12">
 	<input type="button" value="Send" disabled id="send-button">
 </div>
-<script>
-$('#chatbox').jScrollPane({autoReinitialise: true});
-</script>

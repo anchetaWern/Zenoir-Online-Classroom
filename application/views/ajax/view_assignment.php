@@ -67,12 +67,12 @@ Deadline : <?php echo $assignment['deadline']; ?>
 <?php if($this->session->userdata('usertype') == 3){ ?>
 <?php if($response == 0){ ?>
 <!--reply button for student-->
-<a href="<?php echo $this->config->item('ajax_base'); ?>assignment_reply" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>assignment_reply/<?php echo $assignment['as_id']; ?>" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
 <?php echo form_button($reply); ?>
 </a>
 <?php }else{ ?>
 <!--view reply if current student has already replied-->
-<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignmentreply" data-id="<?php echo $response; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignmentreply/<?php echo $response; ?>" data-id="<?php echo $response; ?>" class="lightbox">
 <?php echo form_button($viewreply); ?>
 </a>
 <?php } ?>
@@ -80,9 +80,9 @@ Deadline : <?php echo $assignment['deadline']; ?>
 
 <!--assignment responses-->
 <?php if($this->session->userdata('usertype') == 1 || $this->session->userdata('usertype') == 2){ ?>
-<a href="<?php echo $this->config->item('ajax_base'); ?>list_assignmentreplies" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>list_assignmentreplies/<?php echo $assignment['as_id']; ?>" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
 <?php echo form_button($view); ?>
 </a>
-<a href="<?php echo $this->config->item('ajax_base'); ?>view_nohw" class="lightbox"><?php echo form_button($view_no); ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_nohw/<?php echo $assignment['as_id']; ?>" class="lightbox"><?php echo form_button($view_no); ?></a>
 <?php } ?>
 </div><!--end of container-->

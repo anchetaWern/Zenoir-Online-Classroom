@@ -32,7 +32,7 @@ class logs_model extends ci_Model{//for logging teacher and student activity
 	function lag($act_id, $prefix){
 		$user_id 	=	$this->session->userdata('user_id'); 
 		$class_id	=	$_SESSION['current_class']; 
-		$act_details=	$prefix.$_SESSION['current_id'];
+		$act_details=	$prefix.$this->uri->segment(4);
 		
 		$this->db->query("INSERT INTO tbl_activitylog SET user_id='$user_id', class_id='$class_id', activity_id='$act_id', activity_details='$act_details'");
 	}

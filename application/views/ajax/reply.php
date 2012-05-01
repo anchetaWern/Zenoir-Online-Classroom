@@ -71,7 +71,7 @@ echo form_textarea($msg_body);
 <?php
 echo form_button($reply);
 ?>
-<a href="<?php echo $this->config->item('ajax_base'); ?>view_message" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_message/<?php echo $this->uri->segment(4); ?>" class="lightbox">
 <?php echo form_button($back); ?>
 </a>
 </p>

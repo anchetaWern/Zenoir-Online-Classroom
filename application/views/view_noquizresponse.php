@@ -37,7 +37,7 @@ $back	= array(
 <?php } ?>
 
 <p>
-<a href="<?php echo $this->config->item('page_base'); ?>view_quiz" data-id="<?php echo $quiz['id']; ?>">
+<a href="<?php echo $this->config->item('page_base'); ?>view_quiz/<?php echo $this->uri->segment(4); ?>" data-id="<?php echo $quiz['id']; ?>">
 <?php
 echo form_button($back);
 ?>

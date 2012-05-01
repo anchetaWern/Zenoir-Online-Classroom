@@ -36,7 +36,7 @@ $outbox	= $table['outbox'];
 			</td>
 			<td><?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']); ?></td>
 			<td><?php echo date('Y-m-d g:i:s A', strtotime($row['date_sent'])); ?></td>
-			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_message" data-id="<?php echo $row['msg_id']; ?>" data-msgid="<?php echo $row['msg_id']; ?>" class="lightbox"><img class="icons" src="/zenoir/img/view.png"/></a></td>
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_message/<?php echo $row['msg_id']; ?>" data-id="<?php echo $row['msg_id']; ?>" data-msgid="<?php echo $row['msg_id']; ?>" class="lightbox"><img class="icons" src="/zenoir/img/view.png"/></a></td>
 		</tr>
 		<?php } ?>
 	</tbody>
@@ -63,7 +63,7 @@ $outbox	= $table['outbox'];
 			<td><?php echo $row['msg_title']; ?></td>
 			<td><?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']); ?></td>
 			<td><?php echo date('Y-m-d g:i:s A', strtotime($row['date_sent'])); ?></td>
-			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_message" data-id="<?php echo $row['msg_id']; ?>" data-msgid="<?php echo $row['msg_id']; ?>" class="lightbox"><img class="icons" src="/zenoir/img/view.png"/></a></td>
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_message/<?php echo $row['msg_id']; ?>" data-id="<?php echo $row['msg_id']; ?>" data-msgid="<?php echo $row['msg_id']; ?>" class="lightbox"><img class="icons" src="/zenoir/img/view.png"/></a></td>
 		</tr>
 		<?php } ?>
 	</tbody>

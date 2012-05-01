@@ -50,7 +50,7 @@ class classrooms_model extends ci_Model{
 	
 	
 	function add_people(){//adds people to the selected class
-		$class_id 	= $_SESSION['current_id'];
+		$class_id 	= $this->uri->segment(4);
 		$user_id	= $this->input->post('user_id');
 		
 		foreach($user_id as $v){
@@ -99,7 +99,7 @@ class classrooms_model extends ci_Model{
 		$this->db->join("tbl_userinfo", "tbl_classteachers.teacher_id = tbl_userinfo.user_id");
 		
 	
-			$subject_id = $_SESSION['current_id'];
+			$subject_id = $this->uri->segment(4);
 			$this->db->where('tbl_classes.subject_id', $subject_id);
 			
 			
@@ -115,7 +115,7 @@ class classrooms_model extends ci_Model{
 
 	function select_classcourse(){//selects the courses associated with the selected class
 			$classes_array = array();
-			$course_id = $_SESSION['current_id'];
+			$course_id = $this->uri->segment(4);
 			$course = array($course_id);
 			$classes = $this->db->query("SELECT class_code, class_description, subject_description, fname, mname, lname
 										FROM tbl_classes 
@@ -135,7 +135,7 @@ class classrooms_model extends ci_Model{
 	
 	function select_coursecode(){
 		$code = 0;
-		$class_id = $_SESSION['current_id'];
+		$class_id = $this->uri->segment(4);
 		$query = $this->db->query("SELECT class_code FROM tbl_classes WHERE class_id='$class_id'");
 		if($query->num_rows > 0){
 			$row = $query->row();

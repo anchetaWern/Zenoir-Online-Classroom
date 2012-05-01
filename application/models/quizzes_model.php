@@ -153,7 +153,7 @@ class quizzes_model extends ci_Model{
 	}
 	
 	function view(){//returns quiz details and quiz items
-		$quiz_id = $_SESSION['current_id'];
+		$quiz_id = $this->uri->segment(4);
 		$file_quiz_id = 'QZ'.$quiz_id;
 		$quiz['quiz'] = array();
 		$quiz['quiz_items'] = array();
@@ -303,7 +303,7 @@ class quizzes_model extends ci_Model{
 		if($quizid != 0){
 			$quiz_id = $quizid;
 		}else{
-			$quiz_id = $_SESSION['current_id'];
+			$quiz_id = $this->uri->segment(4);
 		}
 		
 		$post_quiz_id = 'QZ'.$quiz_id;
@@ -343,7 +343,7 @@ class quizzes_model extends ci_Model{
 		$user_id=$this->session->userdata('user_id');
 		$user_name = $this->session->userdata('user_name');
 		
-		$quiz_id=$_SESSION['current_id'];
+		$quiz_id= $_SESSION['current_id'];
 		$title 	= $this->input->post('title'); 
 		$body	= $this->input->post('body');
 		
@@ -393,7 +393,7 @@ class quizzes_model extends ci_Model{
 	}
 	
 	function list_replies(){//returns a list of replies for a specific quiz
-		$quiz_id = $_SESSION['current_quiz_id'];
+		$quiz_id = $this->uri->segment(4);
 		$replies = array();
 		$query = $this->db->query("SELECT quizresponse_id, tbl_quizresponse.student_id, res_title, res_datetime, fname, mname, lname FROM tbl_quizresponse 
 									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
@@ -428,7 +428,7 @@ class quizzes_model extends ci_Model{
 	}
 	
 	function view_reply(){//returns a single reply for a specific quiz
-		$quizresponse_id = $_SESSION['current_id'];
+		$quizresponse_id = $this->uri->segment(4);
 		$reply = array();
 		$query = $this->db->query("SELECT quiz_id, res_title, res_body, res_datetime , fname, mname, lname FROM tbl_quizresponse 
 									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
@@ -463,7 +463,7 @@ class quizzes_model extends ci_Model{
 	
 	function score(){
 		$student_id = $this->session->userdata('user_id');
-		$quiz_id	= $_SESSION['current_id'];
+		$quiz_id	= $this->uri->segment(4);
 		$item_count = 0;
 		$score = 0;
 		
@@ -491,7 +491,7 @@ class quizzes_model extends ci_Model{
 	
 	function student_reply(){
 		$student_id = $this->session->userdata('user_id');
-		$quiz_id	= $_SESSION['current_id'];
+		$quiz_id	= $this->uri->segment(4);
 		
 		$details 	= $this->quiz_details($quiz_id);
 		$quiz_title	= $details['title'];
@@ -534,6 +534,27 @@ class quizzes_model extends ci_Model{
 				$responseid = $row->quizresponse_id;
 			}
 			return $responseid;
+		}
+		
+		
+		function check_owner(){
+			//checks if the user who wants to view or take the quiz
+			//belongs to the class where the quiz is posted
+			$current_class = $_SESSION['current_class'];
+			$user_id = $this->session->userdata('user_id');
+			$quiz_id = $this->uri->segment(4);
+			$viewable = 0;
+			
+			$query = $this->db->query("SELECT class_id FROM tbl_quiz WHERE quiz_id='$quiz_id'");
+			if($query->num_rows() > 0){
+				$row = $query->row();
+				$class_id = $row->class_id;
+				
+				if($current_class == $class_id){
+					$viewable = 1;
+				}
+			}	
+			return $viewable;
 		}
 	
 	

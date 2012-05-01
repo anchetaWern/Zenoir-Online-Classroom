@@ -49,12 +49,12 @@ Attached Files:
 
 <?php if($this->session->userdata('usertype') == 2){ ?>
 <p>
-<a href="<?php echo $this->config->item('ajax_base'); ?>list_assignmentreplies" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>list_assignmentreplies/<?php echo $response['as_id']; ?>" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
 <?php echo form_button($back); ?>
 </a>
 <?php }else if($this->session->userdata('usertype') == 3){ ?>
 <p>
-<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignment" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignment/<?php echo $response['as_id']; ?>" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
 <?php echo form_button($view); ?>
 </a>
 </p>

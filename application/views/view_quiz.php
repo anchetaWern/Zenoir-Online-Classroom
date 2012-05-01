@@ -105,11 +105,11 @@ $quiz_list	= array(
 	</div><!--end of quiz items-->
 	
 	
-	<a href="<?php echo $this->config->item('page_base'); ?>view_scores">
+	<a href="<?php echo $this->config->item('page_base'); ?>view_scores/<?php echo $this->uri->segment(4); ?>">
 	<?php echo form_button($response); ?>
 	</a>
 	
-	<a href="<?php echo $this->config->item('page_base'); ?>view_noquiz">
+	<a href="<?php echo $this->config->item('page_base'); ?>view_noquiz/<?php echo $this->uri->segment(4); ?>">
 	<?php echo form_button($no_quiz); ?>
 	</a>
 	
@@ -127,16 +127,16 @@ $quiz_list	= array(
 	</div>
 	
 	<p></p>
-	<a href="<?php echo $this->config->item('page_base'); ?>list_quizreplies">
+	<a href="<?php echo $this->config->item('page_base'); ?>list_quizreplies/<?php echo $this->uri->segment(4); ?>">
 	<?php echo form_button($replies); ?>
 	</a>
 	
-	<a href="<?php echo $this->config->item('page_base'); ?>view_noquizresponse">
+	<a href="<?php echo $this->config->item('page_base'); ?>view_noquizresponse/<?php echo $this->uri->segment(4); ?>">
 	<?php echo form_button($no_reply); ?>
 	</a>
 	<?php } ?>
 	
-	<a href="<?php echo $this->config->item('page_base'); ?>quizzes">
+	<a href="<?php echo $this->config->item('page_base'); ?>quizzes/">
 	<?php echo form_button($quiz_list); ?>
 	</a>
 	

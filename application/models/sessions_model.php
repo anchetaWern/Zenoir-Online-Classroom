@@ -50,36 +50,38 @@ class sessions_model extends ci_Model{
 			
 			
 			
-			if($notif_status == 1){
+			
 				$class_members = $this->classusers_model->class_users();
 				foreach($class_members as $row){
 					$member_id = $row['id'];
 					$email = $row['email'];
 					
 					$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$member_id'");
-					
-					if($email != ''){
-					
-						if($infinite == 2){
-							$body = "<strong>Notification Type:</strong>New Session<br/>".
-									"<strong>Session Type: </strong> Class Session<br/>" . 
-									"<strong>Session Date: </strong>" . $ses_date . "<br/>" .
-									"<strong>Start Time: </strong>" . $ses_timefrom . "<br/>" .
-									"<strong>End Time: </strong>" . $ses_timeto . "<br/>" .
-									"<strong>Sender:</strong>". $user_name . "<br/>" .
-									"<strong>Class : </strong>" . $class_description . "<br/>" .
-									"<strong>Message:</strong><br/>". $ses_desc;
-						}else{
-							$body = "<strong>Notification Type:</strong>New Session<br/>".
-									"<strong>Session Type: </strong> Class Session<br/>" . 
-									"<strong>Sender:</strong>". $user_name . "<br/>" .
-									"<strong>Class : </strong>" . $class_description . "<br/>" .
-									"<strong>Message:</strong><br/>". $ses_desc;
-						}			
-						$this->email->send($email, 'New Class Session: '. $ses_title, $body);
+					if($notif_status == 1){
+						if($email != ''){
+						
+							if($infinite == 2){
+								$body = "<strong>Notification Type:</strong>New Session<br/>".
+										"<strong>Session Type: </strong> Class Session<br/>" . 
+										"<strong>Session Date: </strong>" . $ses_date . "<br/>" .
+										"<strong>Start Time: </strong>" . $ses_timefrom . "<br/>" .
+										"<strong>End Time: </strong>" . $ses_timeto . "<br/>" .
+										"<strong>Sender:</strong>". $user_name . "<br/>" .
+										"<strong>Class : </strong>" . $class_description . "<br/>" .
+										"<strong>Message:</strong><br/>". $ses_desc;
+							}else{
+								$body = "<strong>Notification Type:</strong>New Session<br/>".
+										"<strong>Session Type: </strong> Class Session<br/>" . 
+										"<strong>Sender:</strong>". $user_name . "<br/>" .
+										"<strong>Class : </strong>" . $class_description . "<br/>" .
+										"<strong>Message:</strong><br/>". $ses_desc;
+							}	
+							
+							$this->email->send($email, 'New Class Session: '. $ses_title, $body);
+						}
 					}
 				}
-			}
+			
 			
 			$this->db->query("INSERT INTO tbl_sessionspeople SET session_id='$session_id', user_id='$user_id'");
 		

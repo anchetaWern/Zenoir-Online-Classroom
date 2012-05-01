@@ -76,7 +76,7 @@ class assignments_model extends ci_Model{
 		
 		
 		function view(){//view a single assignment
-			$assignment_id = $_SESSION['current_id'];
+			$assignment_id = $this->uri->segment(4);
 			$assignment_details['assignment'] = array();
 			$assignment_details['files'] = array();
 			$assignment = $this->db->query("SELECT * FROM tbl_assignment WHERE assignment_id='$assignment_id'");
@@ -97,7 +97,7 @@ class assignments_model extends ci_Model{
 		}
 		
 		function reply_details(){//get the details needed when replying to an assignment: title of the assignment you're replying to and assignment_id
-			$assignment_id = $_SESSION['current_id'];
+			$assignment_id = $this->uri->segment(4);
 			$assignment_details = array();
 			$assignment = $this->db->query("SELECT as_title, as_body FROM tbl_assignment WHERE assignment_id = '$assignment_id'");
 			
@@ -114,7 +114,7 @@ class assignments_model extends ci_Model{
 			$user_id		= $this->session->userdata('user_id');
 			$user_name		= $this->session->userdata('user_name');
 			
-			$assignment_id = $_SESSION['current_id']; //assignment you're replying to
+			$assignment_id  = $_SESSION['current_id']; //assignment you're replying to
 			$reply_title	= $this->input->post('reply_title');
 			$reply_body		= $this->input->post('reply_body');
 			
@@ -176,7 +176,7 @@ class assignments_model extends ci_Model{
 		}
 		
 		function list_replies(){//loads the replies to a specific assignment
-			$assignment_id 	= $_SESSION['current_id'];
+			$assignment_id 	= $this->uri->segment(4);
 			$replies_r['replies'] 		= array();
 			$replies_r['as_title']		= array();
 			$replies 		= $this->db->query("SELECT tbl_assignmentresponse.user_id, asresponse_id, CONCAT_WS(', ', UPPER(lname), fname) AS sender, res_title, response_datetime
@@ -213,7 +213,7 @@ class assignments_model extends ci_Model{
 		
 		function view_reply(){//view a specific reply to an assignment
 		
-			$reply_id = $_SESSION['current_id'];
+			$reply_id = $this->uri->segment(4);
 			$reply = array();
 			$reply_details = $this->db->query("SELECT tbl_assignmentresponse.assignment_id, CONCAT_WS(UPPER(lname), fname) AS sender, res_title, res_body, response_datetime
 											FROM tbl_assignmentresponse 
@@ -243,7 +243,7 @@ class assignments_model extends ci_Model{
 		//check the reply of the current student for the currently viewed assignment. returns 0 if nothing has been returned, and returns the response id for the
 		//specific assignment if the student has already replied to the assignment
 			$user_id		= $this->session->userdata('user_id');
-			$assignment_id 	= $_SESSION['current_id'];
+			$assignment_id 	= $this->uri->segment(4);
 			
 			$query = $this->db->query("SELECT asresponse_id FROM tbl_assignmentresponse WHERE user_id='$user_id' AND assignment_id='$assignment_id'");
 			if($query->num_rows() == 0){
@@ -267,14 +267,38 @@ class assignments_model extends ci_Model{
 		function check(){
 		//checks if student can still reply to an assignment 
 		//once the deadline becomes less than the current date the student cannot reply to the assignment anymore
-			$assignment_id = $_SESSION['current_id'];
+			$assignment_id = $this->uri->segment(4);
 			$query = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id='$assignment_id' AND deadline >= NOW()");
 			
 			return $query->num_rows();
 		}
 		
+		function check_owner(){
+		//checks if the user who wants to view the assignment is the owner of the assignment or the teacher
+			$assignmentreiply_id = $this->uri->segment(4);
+			$class_id = $_SESSION['current_class'];
+			$user_id = $this->session->userdata('user_id'); 
+			$teacher_id = $this->classusers_model->teacher($class_id);
+			$teacher_id = $teacher_id['teacher_id'];
+			$viewable = 1;
+			
+			//get the id of the user who submitted the assignment reply
+			$query = $this->db->query("SELECT user_id FROM tbl_assignmentresponse WHERE asresponse_id='$assignmentreiply_id'");
+			if($query->num_rows() > 0){
+				$row = $query->row();
+				$owner_id = $row->user_id;
+				
+				if($owner_id == $user_id || $teacher_id == $user_id){
+					$viewable = 1;
+				}else if($owner_id != $user_id && $teacher_id != $user_id){
+					$viewable = 0;
+				}
+			}
+			return $viewable;
+		}
+		
 		function assignment_details(){
-			$assignment_id = $_SESSION['current_id'];
+			$assignment_id = $this->uri->segment(4);
 			$details = array();
 			$query = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id='$assignment_id'");
 			if($query->num_rows() > 0){

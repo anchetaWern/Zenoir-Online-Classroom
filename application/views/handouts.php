@@ -30,7 +30,7 @@ $handouts = $table;
 			<?php } ?>
 			</td>
 			<td><?php echo $row['date_posted']; ?></td>
-			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_handout" data-id="<?php echo $row['handout_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_handout/<?php echo $row['handout_id']; ?>" data-id="<?php echo $row['handout_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		</tr>
 		<?php } ?>
 	</tbody>

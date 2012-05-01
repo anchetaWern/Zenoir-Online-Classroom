@@ -49,7 +49,7 @@ class groups_model extends ci_Model{
 	
 	function update(){
 		$user_id	= $this->session->userdata('user_id');
-		$user_name		= $this->session->userdata('user_name');
+		$user_name	= $this->session->userdata('user_name');
 		$group_id	= $_SESSION['current_id'];
 		
 		$group_name	= $this->input->post('group_name');
@@ -110,7 +110,7 @@ class groups_model extends ci_Model{
 	}
 	
 	function group_owner(){//returns the id of the group owner of the current group
-		$group_id = $_SESSION['current_id'];
+		$group_id = $this->uri->segment(4);
 		$creator_id = 0;
 		$query = $this->db->query("SELECT group_creator FROM tbl_groups WHERE group_id='$group_id'");
 		if($query->num_rows() > 0){
@@ -121,7 +121,7 @@ class groups_model extends ci_Model{
 	}
 	
 	function view(){
-		$group_id = $_SESSION['current_id'];
+		$group_id = $this->uri->segment(4);
 		$group = $this->db->query("SELECT group_people_id, group_name , tbl_grouppeople.user_id, fname, mname, lname
 									FROM tbl_groups
 									LEFT JOIN tbl_grouppeople ON tbl_groups.group_id = tbl_grouppeople.group_id
@@ -156,7 +156,7 @@ class groups_model extends ci_Model{
 	}
 	
 	function group_details(){
-		$group_id = $_SESSION['current_id'];
+		$group_id = $this->uri->segment(4);
 		
 		$details = array();
 		$query = $this->db->query("SELECT group_name, fname, mname, lname FROM tbl_groups
@@ -177,7 +177,7 @@ class groups_model extends ci_Model{
 	}
 	
 	function group_members($group_id){//returns all the ids of the group members of a specific group
-		$query 		= $this->db->query("SELECT user_id FROM tbl_grouppeople WHERE group_id='$group_id'");
+		$query 		= $this->db->query("SELECT user_id FROM tbl_grouppeople WHERE group_id='$group_id' AND status = 1");
 		$member_r	= array();
 		
 		if($query->num_rows() > 0){
@@ -264,7 +264,7 @@ class groups_model extends ci_Model{
 	
 	function pendings(){//returns pending members of a specific group
 		$class_id = $_SESSION['current_class'];
-		$group_id = $_SESSION['current_id'];
+		$group_id = $this->uri->segment(4);
 		
 		$pending_members = array();
 		$query = $this->db->query("SELECT tbl_grouppeople.user_id, fname, lname FROM tbl_grouppeople

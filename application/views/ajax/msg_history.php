@@ -5,8 +5,8 @@ $history = $page;
 $back		= array(
 				'id'=>'back',
 				'name'=>'back',
-				'value'=>'Back to Message',
-				'content'=>'Back to Message',
+				'value'=>'Root Message',
+				'content'=>'Root Message',
 				'class'=>'medium red'
 			);
 ?>
@@ -40,7 +40,7 @@ $back		= array(
 </p>
 </div>
 <p>
-<a href="<?php echo $this->config->item('ajax_base'); ?>view_message" class="lightbox"><?php echo form_button($back); ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_message/<?php echo $row['msg_id']; ?>" class="lightbox"><?php echo form_button($back); ?></a>
 </p>
 </div><!--end of container-->
 <script>

@@ -72,7 +72,7 @@ class classusers_model extends ci_Model{
 	
 	
 	function user_logs(){//lists all the activities performed of the selected student on the current class
-		$user_id	= $_SESSION['current_id'];
+		$user_id	= $this->uri->segment(4);
 		$class_id	= $_SESSION['current_class'];
 		
 		

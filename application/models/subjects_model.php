@@ -19,7 +19,7 @@ class subjects_model extends ci_Model{
 	
 	function get_subject(){
 		$subject_info = array();
-		$subject_id	  = $_SESSION['current_id'];
+		$subject_id	  = $this->uri->segment(4);
 		$subject = $this->db->query("SELECT * FROM tbl_subject WHERE subject_id='$subject_id'");
 		if($subject->num_rows > 0){
 			$row = $subject->row();

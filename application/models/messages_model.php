@@ -164,7 +164,7 @@ class messages_model extends ci_Model{
 	
 	function view(){//for viewing a message
 		$current_user = $this->session->userdata('user_id');
-		$message_id = $_SESSION['msg_id'];
+		$message_id = $this->uri->segment(4);
 		$file_message_id = 'PO'.$message_id;
 		
 		$message_data['message'] = array();
@@ -222,7 +222,7 @@ class messages_model extends ci_Model{
 	}
 	
 	function reply_details(){//for viewing reply details: Title of the message you're replying to and the Receiver
-		$message_id = $_SESSION['current_id'];
+		$message_id = $this->uri->segment(4);
 		
 		
 		
@@ -247,7 +247,7 @@ class messages_model extends ci_Model{
 	
 	
 	function history(){//conversation history
-		$root_message_id = $_SESSION['current_id'];
+		$root_message_id = $this->uri->segment(4);
 		$message_r = array();
 		$message = $this->db->query("SELECT tbl_messages.message_id, tbl_messages.root_msg_id, tbl_messages.sender_id, 
 								msg_title, CONCAT_WS(', ', UPPER(lname), fname) AS sender, 
@@ -267,10 +267,39 @@ class messages_model extends ci_Model{
 				
 				
 				
-				$message_r[] = array('msg_title'=>$msg_title, 'sender'=>$sender, 'msg_body'=>$msg_body, 'date'=>$date);
+				$message_r[] = array('msg_id'=>$msg_id, 'msg_title'=>$msg_title, 'sender'=>$sender, 'msg_body'=>$msg_body, 'date'=>$date);
 			}
 		}
 		return $message_r;
+	}
+	
+	
+	function sender_id(){
+		$message_id = $this->uri->segment(4);
+		$query = $this->db->query("SELECT sender_id FROM tbl_messages WHERE message_id='$message_id'");
+		if($query->num_rows() > 0){
+			$row = $query->row();
+			$sender_id = $row->sender_id;
+		}
+		return $sender_id;
+	}
+	
+	function check_owner(){
+	//checks whether the user who is trying to view the message is the receiver or the sender
+			$message_id = $this->uri->segment(4);
+			$user_id = $this->session->userdata('user_id'); 
+			$sender_id = $this->sender_id();
+			$viewable = 1;
+			
+			//checks if the current user is a receiver of the message
+			$query = $this->db->query("SELECT receiver_id FROM tbl_messagereceiver WHERE receiver_id='$user_id' AND message_id='$message_id'");
+			if($query->num_rows() > 0 || $sender_id == $user_id){
+				$viewable = 1;
+			}else{
+				$viewable = 0;
+			}
+			
+			return $viewable;
 	}
 	
 	

@@ -16,6 +16,7 @@ $view	= array(
 </div>
 
 <div class="container">
+
 	<div id="handout_date">
 		Date:
 		<?php echo $handout['ho_date']; ?>
@@ -38,7 +39,7 @@ $view	= array(
 	<p>
 	<?php if($this->session->userdata('usertype') <= 2){//view a list of students who opened the current handout
 	?>
-	<a href="<?php echo $this->config->item('ajax_base'); ?>view_nohandout" class="lightbox">
+	<a href="<?php echo $this->config->item('ajax_base'); ?>view_nohandout/<?php echo $this->uri->segment(4); ?>" class="lightbox">
 	<?php	echo form_button($view); ?>
 	</a>
 	<?php

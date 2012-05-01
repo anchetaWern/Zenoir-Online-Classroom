@@ -162,7 +162,7 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'take_quiz'://student
-				if($this->access(3, 1) == false){
+				if($this->access(3, 1) == false || $this->quizzes_model->check_owner() == 0){
 					redirect('../loader/view/login_form');
 				}
 				

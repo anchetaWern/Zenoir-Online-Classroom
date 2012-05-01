@@ -38,7 +38,7 @@ $back	= array(
 <?php } ?>
 
 <p>
-<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignment" data-id="<?php echo $details['id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignment/<?php echo $details['id']; ?>" data-id="<?php echo $details['id']; ?>" class="lightbox">
 <?php
 echo form_button($back);
 ?>

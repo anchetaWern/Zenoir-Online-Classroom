@@ -58,7 +58,7 @@ class handouts_model extends ci_Model{
 	}
 	
 	function view(){//view the contents of a single handout
-		$handout_id = $_SESSION['current_id'];
+		$handout_id = $this->uri->segment(4);
 		$handout_details['handout'] = array();
 		$handout_details['handout_files'] = array();
 		
@@ -83,7 +83,7 @@ class handouts_model extends ci_Model{
 	}
 	
 	function handout_details(){
-		$handout_id = $_SESSION['current_id'];
+		$handout_id = $this->uri->segment(4);
 		$details = array();
 		$query = $this->db->query("SELECT ho_title FROM tbl_handouts WHERE handout_id='$handout_id'");
 		if($query->num_rows() > 0){

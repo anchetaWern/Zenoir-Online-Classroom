@@ -111,7 +111,7 @@ class post extends ci_Model{
 	function unset_post($prefix){//unsets the read status of the post to the student
 		$user_id 	= $this->session->userdata('user_id');
 		$class_id	= $_SESSION['current_class'];
-		$post_id	= $prefix.$_SESSION['current_id'];
+		$post_id	= $prefix.$this->uri->segment(4);
 		
 		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_id='$post_id' AND post_to='$user_id'");
 		
@@ -136,7 +136,7 @@ class post extends ci_Model{
 	}
 	
 	function unset_all($prefix){//unsets all the status of scores of students in a quiz 
-		$post_id	= $prefix.$_SESSION['current_id'];
+		$post_id	= $prefix.$this->uri->segment(4);
 		$this->db->query("UPDATE tbl_poststatus SET status=0 WHERE post_id='$post_id'");
 	}
 	
@@ -189,7 +189,7 @@ class post extends ci_Model{
 	}
 	
 	function no_assignment(){//returns a list of students who didn't submit a particular assignment yet
-		$assignment_id = $_SESSION['current_id'];
+		$assignment_id = $this->uri->segment(4);
 		$class_id 	= $_SESSION['current_class'];
 		$students = array(); //students with no assignments
 		
@@ -236,7 +236,7 @@ class post extends ci_Model{
 	}
 	
 	function no_handout(){//returns a list of students who didn't open a specific handout
-		$handout_id = 'HO'.$_SESSION['current_id'];
+		$handout_id = 'HO'.$this->uri->segment(4);
 		$class_id 	= $_SESSION['current_class'];
 		$students = array(); //students with no quiz response to the specified quiz
 		

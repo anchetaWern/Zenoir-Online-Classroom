@@ -69,6 +69,7 @@ $(function(){
 		var mname = $.trim($('#mname').val());
 		var lname = $.trim($('#lname').val());
 		var auto_biography = $.trim($('#autobiography').val());
+		var email =	$.trim($('#email').val());
 		
 		var account_data = [fname, mname, lname];
 		for(var x in account_data){
@@ -78,14 +79,19 @@ $(function(){
 		}
 		
 		if(updates==1){
-			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
-			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography},
+			$.post('/zenoir/index.php/usert/update_user', {'pword' : password, 'fname' : fname, 'mname' : mname, 'lname' : lname, 'autobiography' : auto_biography, 'email' : email},
 				function(){
 					
-					$('#px-submit').click();
-					$('#ajax_loader').remove();
 					noty_success.text = 'Account was successfully updated!';
 					noty(noty_success);
+					
+					if($('.upload-data').length){//has files to upload
+						$('#px-submit').click();
+					}else{
+						setTimeout(function(){
+							location.reload();
+						}, 1000);
+					}
 				}
 			);
 		}else{

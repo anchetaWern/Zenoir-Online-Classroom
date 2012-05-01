@@ -33,6 +33,7 @@ $reply	= array(
 
 ?>
 <div id="modal_header">
+
 <h4>Reply to Assignment - <?php echo $assignment['as_title']; ?></h4>
 </div>
 <div class="container">

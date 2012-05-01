@@ -20,8 +20,8 @@ $subjects = $table;
 		<tr>
 			<td><?php echo $v[0]; ?></td>
 			<td><?php echo $v[1]; ?></td>
-			<td><a href="<?php echo $this->config->item('ajax_base'); ?>edit_subject" class="lightbox" data-id="<?php echo $v[2]; ?>"><img class="icons" src="/zenoir/img/update.png" /></a></td>
-			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_subjects" class="lightbox" data-id="<?php echo $v[2]; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td><!--view classes associated-->
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>edit_subject/<?php echo $v[2]; ?>" class="lightbox" data-id="<?php echo $v[2]; ?>"><img class="icons" src="/zenoir/img/update.png" /></a></td>
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_subjects/<?php echo $v[2]; ?>" class="lightbox" data-id="<?php echo $v[2]; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td><!--view classes associated-->
 		</tr>
 		<?php } ?>
 	</tbody>

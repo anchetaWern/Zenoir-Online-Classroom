@@ -38,7 +38,7 @@ Time submitted: <?php echo date('Y-m-d g:i:s A', strtotime($quiz_response['datet
 	<?php } ?>	
 </div><!--end of quizresponse_files-->
 <p>
-<a href="<?php echo $this->config->item('page_base'); ?>list_quizreplies" data-id="<?php echo $quiz_response['quiz_id']; ?>">
+<a href="<?php echo $this->config->item('page_base'); ?>list_quizreplies/<?php echo $quiz_response['quiz_id']; ?>" data-id="<?php echo $quiz_response['quiz_id']; ?>">
 <?php
 echo form_button($back);
 ?>

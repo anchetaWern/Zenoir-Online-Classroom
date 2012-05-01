@@ -101,8 +101,9 @@ class ajax_loader extends ci_Controller{
 			
 			case 'view_user'://all
 				
-				
-				$user_info = $this->users->user_information();
+				$user_id = $this->uri->segment(4);
+				$this->load->model('users');
+				$user_info = $this->users->user_information($user_id);
 				return $user_info;
 			break;
 			
@@ -134,7 +135,7 @@ class ajax_loader extends ci_Controller{
 			break;
 			
 			case 'view_message'://teacher + student
-				if($this->access(3, 0) == false){
+				if($this->access(3, 0) == false || $this->messages_model->check_owner() == 0){
 					redirect('../loader/view/login_form');
 				}
 				
@@ -203,7 +204,7 @@ class ajax_loader extends ci_Controller{
 			break;
 			
 			case 'view_assignmentreply'://teacher + student
-				if($this->access(3, 0) == false){
+				if($this->access(3, 0) == false || $this->assignments_model->check_owner() == 0){
 					redirect('../loader/view/login_form');
 				}
 				

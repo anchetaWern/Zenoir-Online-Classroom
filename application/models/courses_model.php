@@ -20,7 +20,7 @@ class courses_model extends ci_Model{
 	
 	function get_course(){
 		$course_info	= array();
-		$course_id 		= $_SESSION['current_id'];
+		$course_id 		= $this->uri->segment(4);
 		$course 		= $this->db->query("SELECT * FROM tbl_courses WHERE course_id='$course_id'");
 		if($course->num_rows() > 0){
 			$row 			= $course->row();

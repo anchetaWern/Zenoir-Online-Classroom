@@ -20,7 +20,7 @@ $users = $table;
 		<tr>
 			<td><?php echo strtoupper($v[2]) . ',  ' .  ucwords($v[0]) . ' ' . ucwords($v[1]); ?></td>
 			<td><?php echo $v[3]; ?></td>
-			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_user" data-id="<?php echo $v[4]; ?>" class="lightbox"><img class="icons" src="/zenoir/img/view.png"/></a></td><!--view user info and logs-->
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_user/<?php echo $v[4]; ?>" data-id="<?php echo $v[4]; ?>" class="lightbox"><img class="icons" src="/zenoir/img/view.png"/></a></td><!--view user info and logs-->
 			<td><a href="#"><img src="/zenoir/img/confirm.gif" class="icons" data-enable="<?php echo $v[4]; ?>"/></a></td>
 		</tr>
 		<?php } ?>

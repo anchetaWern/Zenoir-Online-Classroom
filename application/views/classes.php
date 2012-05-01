@@ -34,7 +34,7 @@ $act = array('data-lock', 'data-unlock');
 			<img src="/zenoir/img/<?php echo $img[$row['status']]; ?>" <?php echo $act[$row['status']]; ?>="<?php echo $row['class_id']; ?>">
 			</a>
 			</td>
-			<td><a href="<?php echo $this->config->item('page_base'); ?>class_home" data-classid="<?php echo $row['class_id']; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td>
+			<td><a href="<?php echo $this->config->item('page_base'); ?>class_home/<?php echo $row['class_id']; ?>" data-classid="<?php echo $row['class_id']; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td>
 			
 		</tr>
 		<?php } ?>

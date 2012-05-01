@@ -138,8 +138,8 @@ class users extends ci_Model{
 	}
 	
 	
-	function user_information(){
-		$user_id = $_SESSION['current_id'];
+	function user_information($user_id){
+		
 		
 		$userinfo_array = array();
 		$query = $this->db->query("SELECT * FROM tbl_userinfo WHERE user_id=?", $user_id);
@@ -195,11 +195,11 @@ class users extends ci_Model{
 	}
 	
 	function recent_activities(){//selects all the activities from all the classes in the past  week - SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK) 
-		$user_id = $_SESSION['current_id'];
+		$user_id = $this->uri->segment(4);
 	} 
 	
 	function previous_classes(){//selects all the previous classes attended by the current user
-		$user_id = $_SESSION['current_id'];
+		$user_id = $this->uri->segment(4);
 	}
 	
 	function user_img($user_id){

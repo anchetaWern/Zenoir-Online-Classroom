@@ -1,5 +1,6 @@
 <!--view message-->
 <?php 
+
 $message = $page['message'];
 $message_files = $page['files'];
 $message_receiver = $page['receivers'];
@@ -62,10 +63,10 @@ Attached Files:
 <?php 
 if(empty($message_receiver)){
 ?>
-<a href="<?php echo $this->config->item('ajax_base'); ?>reply" data-id="<?php echo $message['msg_id']; ?>" class="lightbox"><?php echo form_button($reply); ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>reply/<?php echo $message['msg_id']; ?>" data-id="<?php echo $message['msg_id']; ?>" class="lightbox"><?php echo form_button($reply); ?></a>
 <?php
 }
 ?>
-<a href="<?php echo $this->config->item('ajax_base'); ?>msg_history" data-id="<?php echo $message['root_msg_id']; ?>" class="lightbox"><?php echo form_button($history); ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>msg_history/<?php echo $message['root_msg_id']; ?>" data-id="<?php echo $message['root_msg_id']; ?>" class="lightbox"><?php echo form_button($history); ?></a>
 </p>
 </div><!--end of container-->

@@ -6,21 +6,13 @@
 	<table>
 		<tbody>
 			<tr>
-				<td><a href="/zenoir/index.php/adminloader/view/users"><button class="large orange">Users</button></a></td>
-				<td><a href="/zenoir/index.php/adminloader/view/classes"><button class="large blue">Classes</button></a></td>
+				<td><a href="<?php echo $this->config->item('admin_base'); ?>users"><button class="large orange">Users</button></a></td>
+				<td><a href="<?php echo $this->config->item('admin_base'); ?>classes"><button class="large blue">Classes</button></a></td>
 			</tr>
 			<tr>
-				<td><a href="/zenoir/index.php/adminloader/view/subjects"><button class="large green">Subjects</button></a></td>
-				<td><a href="/zenoir/index.php/adminloader/view/courses"><button class="large red">Courses</button></a></td>
+				<td><a href="<?php echo $this->config->item('admin_base'); ?>subjects"><button class="large green">Subjects</button></a></td>
+				<td><a href="<?php echo $this->config->item('admin_base'); ?>courses"><button class="large red">Courses</button></a></td>
 			</tr>
-			<!--
-			<tr>
-				<td><a href=""><button class="large red">Account</button></a></td>
-				<td><a href=""><button class="large pink">Admin</button></a></td>
-			</tr>
-			-->
 		</tbody>
 	</table>
 </div>
-
-

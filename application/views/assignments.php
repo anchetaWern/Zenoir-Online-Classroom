@@ -2,7 +2,7 @@
 <h4>[Assignments]</h4>
 <?php if($this->session->userdata('usertype') != 3){ ?>
 <p>
-<a href="/zenoir/index.php/ajax_loader/view/new_assignment" class="lightbox">Create New</a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>new_assignment" class="lightbox">Create New</a>
 </p>
 <?php } ?>
 
@@ -46,7 +46,7 @@ $assignments = $table;
 			</td>
 			<td><?php echo $row['date']; ?></td>
 			<td><?php echo date('Y-m-d g:i:s A', strtotime($row['deadline'])); ?></td>
-			<td><a href="/zenoir/index.php/ajax_loader/view/view_assignment" data-id="<?php echo $row['assignment_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_assignment" data-id="<?php echo $row['assignment_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		</tr>
 		<?php } ?>
 	</tbody>

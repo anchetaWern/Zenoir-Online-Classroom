@@ -10,10 +10,10 @@ $yes_no = array('NO', 'YES');
 
 <p>
 <?php if($this->session->userdata('usertype') != 3){//only teacher can create masked and class session ?>
-<span class="spacer"><a href="/zenoir/index.php/ajax_loader/view/new_classsession" data-sestype="2" class="lightbox">Masked Session</a></span>
-<span class="spacer"><a href="/zenoir/index.php/ajax_loader/view/new_classsession" data-sestype="1" class="lightbox">Class Session</a></span>
+<span class="spacer"><a href="<?php echo $this->config->item('ajax_base'); ?>new_classsession" data-sestype="2" class="lightbox">Masked Session</a></span>
+<span class="spacer"><a href="<?php echo $this->config->item('ajax_base'); ?>new_classsession" data-sestype="1" class="lightbox">Class Session</a></span>
 <?php } ?>
-<span class="spacer"><a href="/zenoir/index.php/ajax_loader/view/new_classsession" data-sestype="3" class="lightbox">Team Session</a></span>
+<span class="spacer"><a href="<?php echo $this->config->item('ajax_base'); ?>new_classsession" data-sestype="3" class="lightbox">Team Session</a></span>
 </p>
 
 <div class="tbl_view">
@@ -51,7 +51,7 @@ $yes_no = array('NO', 'YES');
 			<?php } ?>
 			<td>
 			<?php if($row['status'] == 1){ ?>
-			<a href="/zenoir/index.php/ajax_loader/view/join_session?sesid=<?php echo $row['id']; ?>" class="lightbox" data-sestype="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>">
+			<a href="<?php echo $this->config->item('ajax_base'); ?>join_session?sesid=<?php echo $row['id']; ?>" class="lightbox" data-sestype="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>">
 			<img src="/zenoir/img/take.png" class="icons"/>
 			</a>
 			<?php }else{ ?>

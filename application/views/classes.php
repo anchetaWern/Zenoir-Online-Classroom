@@ -34,7 +34,7 @@ $act = array('data-lock', 'data-unlock');
 			<img src="/zenoir/img/<?php echo $img[$row['status']]; ?>" <?php echo $act[$row['status']]; ?>="<?php echo $row['class_id']; ?>">
 			</a>
 			</td>
-			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $row['class_id']; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td>
+			<td><a href="<?php echo $this->config->item('page_base'); ?>class_home" data-classid="<?php echo $row['class_id']; ?>"><img class="icons" src="/zenoir/img/view.png"/></a></td>
 			
 		</tr>
 		<?php } ?>
@@ -43,8 +43,8 @@ $act = array('data-lock', 'data-unlock');
 <script>
 var datalist = 'options' in document.createElement('datalist');
 if(datalist){
-	$('#nc').attr('href', '/zenoir/index.php/ajax_loader/view/new_class?dl=1');
+	$('#nc').attr('href', '<?php echo $this->config->item('ajax_base'); ?>new_class?dl=1');
 }else{
-	$('#nc').attr('href', '/zenoir/index.php/ajax_loader/view/new_class?dl=2');
+	$('#nc').attr('href', '<?php echo $this->config->item('ajax_base'); ?>new_class?dl=2');
 }
 </script>

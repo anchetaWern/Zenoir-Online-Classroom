@@ -1,7 +1,7 @@
 <!--courses management-->
 <h4>[Courses]</h4>
 <p>
-<a href="/zenoir/index.php/ajax_loader/view/new_course" class="lightbox">Create New</a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>new_course" class="lightbox">Create New</a>
 </p>
 <?php 
 $courses = $table;
@@ -20,8 +20,8 @@ $courses = $table;
 		<tr>
 			<td><?php echo $v[0]; ?></td>
 			<td><?php echo $v[1]; ?></td>
-			<td><a href="/zenoir/index.php/ajax_loader/view/edit_course" data-id="<?php echo $v[2]; ?>" class="lightbox"><img class="icons" src="/zenoir/img/update.png"/></a></td>
-			<td><a href="/zenoir/index.php/ajax_loader/view/view_courses" data-id="<?php echo $v[2]; ?>" class="lightbox"><img class="icons" src="/zenoir/img/view.png"/></a></td><!--view classes associated-->
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>edit_course" data-id="<?php echo $v[2]; ?>" class="lightbox"><img class="icons" src="/zenoir/img/update.png"/></a></td>
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_courses" data-id="<?php echo $v[2]; ?>" class="lightbox"><img class="icons" src="/zenoir/img/view.png"/></a></td><!--view classes associated-->
 		</tr>
 		<?php } ?>
 	</tbody>

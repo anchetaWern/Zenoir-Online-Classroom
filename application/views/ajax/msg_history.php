@@ -40,7 +40,7 @@ $back		= array(
 </p>
 </div>
 <p>
-<a href="/zenoir/index.php/ajax_loader/view/view_message" class="lightbox"><?php echo form_button($back); ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_message" class="lightbox"><?php echo form_button($back); ?></a>
 </p>
 </div><!--end of container-->
 <script>

@@ -43,18 +43,18 @@ Date: <?php echo date('Y-m-d g:i:s A', strtotime($response['res_date'])); ?>
 <?php if(!empty($reply_files)){ ?>
 Attached Files:
 <?php foreach($reply_files as $files){ ?>
-	<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $files['file_id']; ?>" class="lightbox"><?php echo $files['filename']; ?></a></li>
+	<li><a href="<?php echo $this->config->item('ajax_base'); ?>view_file?fid=<?php echo $files['file_id']; ?>" class="lightbox"><?php echo $files['filename']; ?></a></li>
 <?php } ?>
 <?php } ?>
 
 <?php if($this->session->userdata('usertype') == 2){ ?>
 <p>
-<a href="/zenoir/index.php/ajax_loader/view/list_assignmentreplies" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>list_assignmentreplies" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
 <?php echo form_button($back); ?>
 </a>
 <?php }else if($this->session->userdata('usertype') == 3){ ?>
 <p>
-<a href="/zenoir/index.php/ajax_loader/view/view_assignment" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignment" data-id="<?php echo $response['as_id']; ?>" class="lightbox">
 <?php echo form_button($view); ?>
 </a>
 </p>

@@ -37,7 +37,7 @@ $back	= array(
 <?php } ?>
 
 <p>
-<a href="/zenoir/index.php/class_loader/view/view_quiz" data-id="<?php echo $quiz['id']; ?>">
+<a href="<?php echo $this->config->item('page_base'); ?>view_quiz" data-id="<?php echo $quiz['id']; ?>">
 <?php
 echo form_button($back);
 ?>

@@ -28,7 +28,7 @@ Time submitted: <?php echo date('Y-m-d g:i:s A', strtotime($quiz_response['datet
 	<?php if(!empty($files)){ ?>
 		Attached Files:
 		<?php foreach($files as $row){ ?>
-			<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
+			<li><a href="<?php echo $this->config->item('ajax_base'); ?>view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
 		<?php } ?>
 	<?php } ?>	
 </div><!--end of quizresponse_files-->

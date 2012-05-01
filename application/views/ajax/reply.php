@@ -71,7 +71,7 @@ echo form_textarea($msg_body);
 <?php
 echo form_button($reply);
 ?>
-<a href="/zenoir/index.php/ajax_loader/view/view_message" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_message" class="lightbox">
 <?php echo form_button($back); ?>
 </a>
 </p>

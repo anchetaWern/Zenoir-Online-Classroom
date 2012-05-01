@@ -16,7 +16,7 @@ $logs	= array(
 
 <div class="container">
 <div id="pic">
-<img width="200px" height="200px" src="/zenoir/index.php/ajax_loader/view/dl_file?fid=<?php echo $page[5]; ?>"/>
+<img width="200px" height="200px" src="<?php echo $this->config->item('ajax_base'); ?>dl_file?fid=<?php echo $page[5]; ?>"/>
 </div>
 <!--USER INFO-->
 <p>
@@ -29,9 +29,9 @@ $logs	= array(
 
 
 <!--CLASSES HANDLED(IF TEACHER)-->
-<?php if($this->session->userdata('usertype') != 3 && $user_page == '/zenoir/index.php/class_loader/view/reports'){ ?>
+<?php if($this->session->userdata('usertype') != 3 && $user_page == '<?php echo $this->config->item('page_base'); ?>reports'){ ?>
 <p>
-<a href="/zenoir/index.php/ajax_loader/view/user_logs" data-classid="<?php echo $_SESSION['current_class']; ?>" data-id="<?php echo $page[4]; ?>" class="lightbox"><?php echo form_button($logs); ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>user_logs" data-classid="<?php echo $_SESSION['current_class']; ?>" data-id="<?php echo $page[4]; ?>" class="lightbox"><?php echo form_button($logs); ?></a>
 </p>
 <?php } ?>
 </div>

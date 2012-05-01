@@ -41,7 +41,7 @@ $old_classes=$table['old_classes'];
 	<tbody>
 		<?php foreach($classes as $v){ ?>
 		<tr>
-			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0] .' - '.$v[1]; ?></a></td><!--enter class-->
+			<td><a href="<?php echo $this->config->item('page_base'); ?>class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0] .' - '.$v[1]; ?></a></td><!--enter class-->
 			<td><?php echo $v[2]; ?></td>
 			<td><?php echo $v[3]; ?></td>
 			
@@ -158,7 +158,7 @@ Group Invites
 				<?php } ?>
 				</td>
 				<td><?php echo $row['class_code'] .' - '. $row['class_description'];  ?></td>
-				<td><a href="/zenoir/index.php/ajax_loader/view/view_user" class="lightbox" data-id="<?php echo $row['id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+				<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_user" class="lightbox" data-id="<?php echo $row['id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 			</tr>
 		<?php } ?>
 		</tbody>
@@ -210,7 +210,7 @@ Group Invites
 	<tbody>
 		<?php foreach($old_classes as $v){ ?>
 		<tr>
-			<td><a href="/zenoir/index.php/class_loader/view/class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0] .' - '. $v[1]; ?></a></td><!--enter class-->
+			<td><a href="<?php echo $this->config->item('page_base'); ?>class_home" data-classid="<?php echo $v[5]; ?>"><?php echo $v[0] .' - '. $v[1]; ?></a></td><!--enter class-->
 			<td><?php echo $v[2]; ?></td>
 			<td><?php echo $v[3]; ?></td>
 			<td><?php echo $v[4]; ?></td>
@@ -220,6 +220,3 @@ Group Invites
 </table>
 <?php } ?>
 </div><!--end of previous-->
-
-
-

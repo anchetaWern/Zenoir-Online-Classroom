@@ -26,8 +26,10 @@ $config['base_url']	= 'http://'.$_SERVER['HTTP_HOST'].'/zenoir/index.php';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
-
+$config['index_page'] = '';
+$config['page_base'] = '/zenoir/class_loader/view/';
+$config['ajax_base'] = '/zenoir/ajax_loader/view/';
+$config['admin_base'] = '/zenoir/index.php/adminloader/view/';
 /*
 |--------------------------------------------------------------------------
 | URI PROTOCOL

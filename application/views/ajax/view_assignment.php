@@ -59,7 +59,7 @@ Deadline : <?php echo $assignment['deadline']; ?>
 <div id="files">
 
 <?php foreach($files as $row){ ?>
-	<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
+	<li><a href="<?php echo $this->config->item('ajax_base'); ?>view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
 <?php } ?>
 </div>
 
@@ -67,12 +67,12 @@ Deadline : <?php echo $assignment['deadline']; ?>
 <?php if($this->session->userdata('usertype') == 3){ ?>
 <?php if($response == 0){ ?>
 <!--reply button for student-->
-<a href="/zenoir/index.php/ajax_loader/view/assignment_reply" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>assignment_reply" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
 <?php echo form_button($reply); ?>
 </a>
 <?php }else{ ?>
 <!--view reply if current student has already replied-->
-<a href="/zenoir/index.php/ajax_loader/view/view_assignmentreply" data-id="<?php echo $response; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignmentreply" data-id="<?php echo $response; ?>" class="lightbox">
 <?php echo form_button($viewreply); ?>
 </a>
 <?php } ?>
@@ -80,9 +80,9 @@ Deadline : <?php echo $assignment['deadline']; ?>
 
 <!--assignment responses-->
 <?php if($this->session->userdata('usertype') == 1 || $this->session->userdata('usertype') == 2){ ?>
-<a href="/zenoir/index.php/ajax_loader/view/list_assignmentreplies" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>list_assignmentreplies" data-id="<?php echo $assignment['as_id']; ?>" class="lightbox">
 <?php echo form_button($view); ?>
 </a>
-<a href="/zenoir/index.php/ajax_loader/view/view_nohw" class="lightbox"><?php echo form_button($view_no); ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_nohw" class="lightbox"><?php echo form_button($view_no); ?></a>
 <?php } ?>
 </div><!--end of container-->

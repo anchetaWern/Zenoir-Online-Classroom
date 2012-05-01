@@ -3,7 +3,7 @@
 <!--new quiz-->
 <?php if($this->session->userdata('usertype') != 3){ ?>
 <p>
-<a href="/zenoir/index.php/class_loader/view/new_quiz">Create New</a>
+<a href="<?php echo $this->config->item('page_base'); ?>new_quiz">Create New</a>
 </p>
 <?php } ?>
 
@@ -46,20 +46,20 @@ $quizzes = $table;
 			<?php
 			if($row['stat'] == 1){ 
 			?>
-				<td><a href="/zenoir/index.php/class_loader/view/take_quiz" data-takequiz="1" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/take.png" class="icons"/></a></td>
+				<td><a href="<?php echo $this->config->item('page_base'); ?>take_quiz" data-takequiz="1" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/take.png" class="icons"/></a></td>
 			<?php }else if($row['stat'] == 0 && $row['type'] == 1){ ?><!--view score-->
 			
-				<td><a href="/zenoir/index.php/ajax_loader/view/score" data-id="<?php echo $row['quiz_id']; ?>"  class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+				<td><a href="<?php echo $this->config->item('ajax_base'); ?>score" data-id="<?php echo $row['quiz_id']; ?>"  class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 			
 			<?php }else if($row['stat'] == 0 && $row['type'] == 2){ ?><!--view response-->
 			
-				<td><a href="/zenoir/index.php/ajax_loader/view/view_quizreply" data-id="<?php echo $row['quiz_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+				<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_quizreply" data-id="<?php echo $row['quiz_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 			<?php }else if($row['stat'] == 2){ ?>
 				<td><img src="/zenoir/img/lock.png" class="icons"/></td>
 			<?php } ?>
 			
 		<?php }else{ ?><!--teacher-->
-		<td><a href="/zenoir/index.php/class_loader/view/view_quiz" data-quiz_id="<?php echo $row['quiz_id']; ?>" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+		<td><a href="<?php echo $this->config->item('page_base'); ?>view_quiz" data-quiz_id="<?php echo $row['quiz_id']; ?>" data-id="<?php echo $row['quiz_id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		<?php } ?>
 	</tr>
 <?php } ?>

@@ -51,7 +51,7 @@ $session_title 	= $_SESSION['ses']['title'];
 $session_date 	= date('Y-m-d ', strtotime($_SESSION['ses']['from']));
 $time_from		= date('g:i:s A', strtotime($_SESSION['ses']['from']));
 $time_to		= date('g:i:s A', strtotime($_SESSION['ses']['to']));
-echo "Session:<a href='/zenoir/index.php/ajax_loader/view/session' class='lightbox'> ". $session_title ."</a><br/>";
+echo "Session:<a href='/zenoir/ajax_loader/view/session' class='lightbox'> ". $session_title ."</a><br/>";
 
 if($_SESSION['ses']['infinite'] != 1){
 

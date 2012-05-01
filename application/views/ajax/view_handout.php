@@ -31,14 +31,14 @@ $view	= array(
 	<?php if(!empty($handout['handout_files'])){ ?>
 		Attached Files:
 		<?php foreach($handout['handout_files'] as $row){ ?>
-			<li><a href="/zenoir/index.php/ajax_loader/view/view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
+			<li><a href="<?php echo $this->config->item('ajax_base'); ?>view_file?fid=<?php echo $row['file_id']; ?>" class="lightbox"><?php echo $row['filename']; ?></a></li>
 		<?php } ?>
 	<?php } ?>	
 	</div>
 	<p>
 	<?php if($this->session->userdata('usertype') <= 2){//view a list of students who opened the current handout
 	?>
-	<a href="/zenoir/index.php/ajax_loader/view/view_nohandout" class="lightbox">
+	<a href="<?php echo $this->config->item('ajax_base'); ?>view_nohandout" class="lightbox">
 	<?php	echo form_button($view); ?>
 	</a>
 	<?php

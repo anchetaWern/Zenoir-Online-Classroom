@@ -40,7 +40,7 @@ $submit	= array(
 <div id="quiz_files">
 	Attached Files:
 	<?php foreach($quiz_files as $row){ ?>
-		<li><a href="/zenoir/index.php/ajax_loader/view/dl_file?fid=<?php echo $row['file_id']; ?>"><?php echo $row['filename']; ?></a></li>
+		<li><a href="<?php echo $this->config->item('ajax_base'); ?>dl_file?fid=<?php echo $row['file_id']; ?>"><?php echo $row['filename']; ?></a></li>
 	<?php } ?>
 </div>
 

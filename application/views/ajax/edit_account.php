@@ -28,7 +28,7 @@ $('.ui-button-text span').text('Select Photo');
 </form>
 </p>
 <div id="pic">
-<img width="200px" height="200px" src="/zenoir/index.php/ajax_loader/view/dl_file?fid=<?php echo $file_id; ?>"/>
+<img width="200px" height="200px" src="<?php echo $this->config->item('ajax_base'); ?>dl_file?fid=<?php echo $file_id; ?>"/>
 </div>
 <label for="password">Password</label>
 <input type="password" id="password" name="password"/>
@@ -53,5 +53,3 @@ $('.ui-button-text span').text('Select Photo');
 
 <input type="button" class="medium green" id="btn_update_account" value="Update Account">
 </div>
-
-

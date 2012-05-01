@@ -105,11 +105,11 @@ $quiz_list	= array(
 	</div><!--end of quiz items-->
 	
 	
-	<a href="/zenoir/index.php/class_loader/view/view_scores">
+	<a href="<?php echo $this->config->item('page_base'); ?>view_scores">
 	<?php echo form_button($response); ?>
 	</a>
 	
-	<a href="/zenoir/index.php/class_loader/view/view_noquiz">
+	<a href="<?php echo $this->config->item('page_base'); ?>view_noquiz">
 	<?php echo form_button($no_quiz); ?>
 	</a>
 	
@@ -121,22 +121,22 @@ $quiz_list	= array(
 	<?php if(!empty($quiz_files)){ ?>
 		Attached Files:
 		<?php foreach($quiz_files as $row){ ?>
-			<li><a href="/zenoir/index.php/ajax_loader/view/dl_file?fid=<?php echo $row['file_id']; ?>"><?php echo $row['filename']; ?></a></li>
+			<li><a href="<?php echo $this->config->item('ajax_base'); ?>dl_file?fid=<?php echo $row['file_id']; ?>"><?php echo $row['filename']; ?></a></li>
 		<?php } ?>
 	<?php } ?>	
 	</div>
 	
 	<p></p>
-	<a href="/zenoir/index.php/class_loader/view/list_quizreplies">
+	<a href="<?php echo $this->config->item('page_base'); ?>list_quizreplies">
 	<?php echo form_button($replies); ?>
 	</a>
 	
-	<a href="/zenoir/index.php/class_loader/view/view_noquizresponse">
+	<a href="<?php echo $this->config->item('page_base'); ?>view_noquizresponse">
 	<?php echo form_button($no_reply); ?>
 	</a>
 	<?php } ?>
 	
-	<a href="/zenoir/index.php/class_loader/view/quizzes">
+	<a href="<?php echo $this->config->item('page_base'); ?>quizzes">
 	<?php echo form_button($quiz_list); ?>
 	</a>
 	

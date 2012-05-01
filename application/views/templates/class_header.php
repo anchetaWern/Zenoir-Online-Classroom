@@ -354,7 +354,7 @@ $(function(){
 			$.post('/zenoir/index.php/quizzes/cache', {'quiz_title' : quiz_title, 'quiz_body' : quiz_body, 'start_time' : start_time, 'end_time' : end_time},
 				function(){
 					
-					window.location = "/zenoir/index.php/class_loader/view/quiz_items";
+					window.location = "<?php echo $this->config->item('page_base'); ?>quiz_items";
 				}
 			);
 		}else{
@@ -415,7 +415,7 @@ $(function(){
 						$('#px-submit').click();
 					}else{
 						setTimeout(function(){
-							location.replace('/zenoir/index.php/class_loader/view/quizzes');
+							location.replace('<?php echo $this->config->item('page_base'); ?>quizzes');
 						}, 1000);
 					}
 					
@@ -450,7 +450,7 @@ $(function(){
 					noty_success.text = 'Quiz was successfully created!';
 					noty(noty_success);
 					setTimeout(function(){
-						window.location = "/zenoir/index.php/class_loader/view/quizzes"
+						window.location = "<?php echo $this->config->item('page_base'); ?>quizzes"
 					}, 1000);
 					
 			});
@@ -490,7 +490,7 @@ $(function(){
 							noty(noty_success);
 							 
 							setTimeout(function(){
-								window.location = "/zenoir/index.php/class_loader/view/quizzes";
+								window.location = "<?php echo $this->config->item('page_base'); ?>quizzes";
 							}, 1000);
 						}
 						);
@@ -1097,18 +1097,18 @@ $notes		= $class_info['notes'];
 <input type="hidden" id="current_date" value="<?php echo date('Y-m-d'); ?>"/>
 <!--user id-->
 <span class="spacer">
-<a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $_SESSION['user_name']; ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>edit_account" class="lightbox"><?php echo $_SESSION['user_name']; ?></a>
 </span>
 <?php if(!empty($_SESSION['current_class'])){ ?>
 <span class="spacer">
-<a href="/zenoir/index.php/ajax_loader/view/groups" class="lightbox">Groups</a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>groups" class="lightbox">Groups</a>
 <?php } ?>
 </span>
 <span class="spacer">
 <a href="/zenoir/index.php/class_loader/destroy_userdata">[Logout]</a>
 </span>
 <div id="container">
-	<div id="app_name"><img src="/zenoir/img/zenoir.png"/><h2><a id="app_title" href="/zenoir/index.php/class_loader/view/class_home">Zenoir</a></h2></div>
+	<div id="app_name"><img src="/zenoir/img/zenoir.png"/><h2><a id="app_title" href="<?php echo $this->config->item('page_base'); ?>class_home">Zenoir</a></h2></div>
 
 <div id="class_title">
 <h6>

@@ -456,9 +456,7 @@ $(function(){
 </script>
 <title><?php echo $title; ?></title>
 <!--user id-->
-<a href="/zenoir/index.php/ajax_loader/view/edit_account" class="lightbox"><?php echo $this->session->userdata('user_name'); ?></a>
+<a href="<?php echo $this->config->item('ajax_base'); ?>edit_account" class="lightbox"><?php echo $this->session->userdata('user_name'); ?></a>
 <a href="/zenoir/index.php/adminloader/destroy_userdata">[Logout]</a>
 <div id="container">
-	<div id="app_name"><img src="/zenoir/img/zenoir.png"/><h2><a id="app_title" href="/zenoir/index.php/adminloader/view/admin_home">Zenoir</a></h2></div>
-	
-
+	<div id="app_name"><img src="/zenoir/img/zenoir.png"/><h2><a id="app_title" href="<?php echo $this->config->item('admin_base'); ?>admin_home">Zenoir</a></h2></div>

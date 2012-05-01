@@ -38,7 +38,7 @@ $back	= array(
 			</td>
 			<td><?php echo date('Y-m-d g:i:s A', strtotime($row['res_date'])); ?></td>
 			<td><?php echo $row['sender']; ?></td>
-			<td><a href="/zenoir/index.php/ajax_loader/view/view_assignmentreply" data-id="<?php echo $row['res_id']; ?>" data-sid="<?php echo $row['status_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>view_assignmentreply" data-id="<?php echo $row['res_id']; ?>" data-sid="<?php echo $row['status_id']; ?>" class="lightbox"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		</tr>
 	<?php } ?>
 	</tbody>
@@ -47,7 +47,7 @@ $back	= array(
 </div>
 <?php } ?>
 <p>
-<a href="/zenoir/index.php/ajax_loader/view/view_assignment" data-id="<?php echo $replies['as_id']; ?>" class="lightbox">
+<a href="<?php echo $this->config->item('ajax_base'); ?>view_assignment" data-id="<?php echo $replies['as_id']; ?>" class="lightbox">
 <?php
 echo form_button($back);
 ?>

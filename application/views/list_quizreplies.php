@@ -36,15 +36,14 @@ $back	= array(
 			</td>
 			<td><?php echo date('Y-m-d g:i:s A', strtotime($row['datetime'])); ?></td>
 			<td><?php echo strtoupper($row['lname']) . ', ' . ucwords($row['fname']) . ' ' . ucwords($row['mname']); ?></td>
-			<td><a href="/zenoir/index.php/class_loader/view/view_quizreply" data-id="<?php echo $row['id']; ?>" data-sid="<?php echo $row['status_id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
+			<td><a href="<?php echo $this->config->item('page_base'); ?>view_quizreply" data-id="<?php echo $row['id']; ?>" data-sid="<?php echo $row['status_id']; ?>"><img src="/zenoir/img/view.png" class="icons"/></a></td>
 		</tr>
 	<?php } ?>
 	</tbody>
 </table>
 <?php } ?>
-<a href="/zenoir/index.php/class_loader/view/view_quiz" data-id="<?php echo $quiz['quiz_id']; ?>">
+<a href="<?php echo $this->config->item('page_base'); ?>view_quiz" data-id="<?php echo $quiz['quiz_id']; ?>">
 <?php
 echo form_button($back);
 ?>
 </a>
-

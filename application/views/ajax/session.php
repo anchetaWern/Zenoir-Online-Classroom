@@ -3,7 +3,7 @@
 $conversation = $page;
 if(!empty($conversation)){ 
 ?>
-<h4><?php echo $_SESSION['ses']['title']; ?></h4>
+<h4><?php echo urldecode($_SESSION['ses']['title']); ?></h4>
 <div id="conversation">
 <p>
 <table>

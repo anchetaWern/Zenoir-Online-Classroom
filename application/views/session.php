@@ -13,6 +13,7 @@ $(document).ready(function(){
 		
 		$("#tbl_messages").append("<tr><td>" + "<strong>" + name + "</strong>" + ": " + message +"</td></tr>");
 		$('#tbl_messages tr:even').addClass('alt');
+		$('#chatbox').animate({scrollTop: $('#tbl_messages').height()}, 800);
 	}
 
 	// Send message to people in the same group
@@ -62,7 +63,7 @@ echo "To:      ".$time_to."<br/>";
 ?>
 <input type="hidden" id="user_id" value="<?php echo $_SESSION['user_id']; ?>"/><!--id-->
 <input type="hidden" id="user_name" value="<?php echo $_SESSION['mask_name']; ?>"/><!--name-->
-<input type="hidden" id="session_room" value="<?php echo $_GET['sid']; ?>"/><!--session room-->
+<input type="hidden" id="session_room" value="<?php echo $this->uri->segment(4); ?>"/><!--session room-->
 
 <div id="chatbox">
 <p>

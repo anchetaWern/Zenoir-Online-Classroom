@@ -267,10 +267,13 @@ class assignments_model extends ci_Model{
 		function check(){
 		//checks if student can still reply to an assignment 
 		//once the deadline becomes less than the current date the student cannot reply to the assignment anymore
+			$status = 0;
 			$assignment_id = $this->uri->segment(4);
 			$query = $this->db->query("SELECT as_title FROM tbl_assignment WHERE assignment_id='$assignment_id' AND deadline >= NOW()");
-			
-			return $query->num_rows();
+			if($query->num_rows() > 0){
+				$status = 1;
+			}
+			return $status;
 		}
 		
 		function check_owner(){

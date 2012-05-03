@@ -206,7 +206,12 @@ class sessions_model extends ci_Model{
 	}
 	
 	function content(){//loads all the content of a specific content 
-		$session_id 	= $_SESSION['ses']['id']; 
+		if($this->uri->segment(4) == 'id'){
+			$session_id 	= $this->uri->segment(5); 
+			$_SESSION['ses']['title'] = $this->uri->segment(6);
+		}else{
+			$session_id 	= $_SESSION['ses']['id']; 
+		}
 		$session_content= array();
 		$conversation	= $this->db->query("SELECT mask_name, message, time_sent FROM tbl_sessioncontent WHERE session_id=?", $session_id);
 		if($conversation->num_rows() > 0){

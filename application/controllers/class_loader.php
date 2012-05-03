@@ -247,11 +247,11 @@ class class_loader extends ci_Controller{
 			
 			
 			case 'session'://teacher + student
-				if($this->access(3, 0) == false){
+				if($this->access(3, 0) == false  || empty($_SERVER['HTTP_REFERER'])){
 					redirect('../loader/view/login_form');
 				}
 				
-				$join 	 = $this->sessions_model->check($_GET['sid']);
+				$join 	 = $this->sessions_model->check($this->uri->segment(4));
 			
 				if($join == 0){
 					redirect("../class_loader/view/sessions");
@@ -260,7 +260,7 @@ class class_loader extends ci_Controller{
 				
 				$user_id = $this->session->userdata('user_id');
 				$_SESSION['user_id']		= $user_id;
-				$_SESSION['session_id']		= $_GET['sid'];
+				$_SESSION['session_id']		= $this->uri->segment(4);
 				
 			break;
 			

@@ -46,6 +46,9 @@ class ajax_loader extends ci_Controller{
 	}
 	
 	function view($page){
+		if(empty($_SERVER['HTTP_REFERER'])){
+			show_404();
+		}
 		$user_id = $this->session->userdata('user_id');
 		
 		
@@ -228,7 +231,7 @@ class ajax_loader extends ci_Controller{
 				
 				$reply = $this->assignments_model->check();
 				if($reply == 0){
-					redirect('../ajax_loader/view/view_assignment');
+					redirect('../ajax_loader/view/view_assignment/'.$this->uri->segment(4));
 				}
 				$assignment = $this->assignments_model->reply_details();
 				return $assignment;
@@ -305,7 +308,7 @@ class ajax_loader extends ci_Controller{
 			case 'join_session':
 				
 				
-				$session = $this->sessions_model->view($_GET['sesid']);
+				$session = $this->sessions_model->view($this->uri->segment(4));
 				return $session;
 			break;		
 			
@@ -318,7 +321,7 @@ class ajax_loader extends ci_Controller{
 				$user['logs']	= array();
 				
 				
-				$user['user_info'] = $this->users->user_information();
+				$user['user_info'] = $this->users->user_information($this->uri->segment(4));
 			
 				
 				$user['logs']	= $this->classusers_model->user_logs();

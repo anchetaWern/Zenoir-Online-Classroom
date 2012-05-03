@@ -8,7 +8,7 @@ class adminloader extends ci_Controller{
 	}
 	
 	function view($page = 'admin_home'){
-		if (!file_exists('application/views/'.$page.'.php')){
+		if (!file_exists('application/views/'.$page.'.php') || empty($_SERVER['HTTP_REFERER'])){
 			show_404();
 		}
 		

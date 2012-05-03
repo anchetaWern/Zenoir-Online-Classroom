@@ -317,7 +317,7 @@ class quizzes_model extends ci_Model{
 		$query = $this->db->query("SELECT quiz_id FROM tbl_quiz WHERE quiz_id='$quiz_id' AND NOW() BETWEEN start_time AND end_time");
 		if($query->num_rows() == 1 && $not_taken == 1){
 			return 1;//can take the quiz
-		}else if($query->num_rows() == 0 && $not_taken == 1){//locked
+		}else if(($query->num_rows() == 0 && $not_taken == 1) || ($query->num_rows() == 0 && $not_taken == 0)){//locked
 			return 2;
 		}else{
 			return 0;//cannot take the quiz

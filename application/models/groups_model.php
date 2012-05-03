@@ -245,6 +245,13 @@ class groups_model extends ci_Model{
 	function non_members($group_id){//select members of the class who are not members of the group yet
 		$class_id = $_SESSION['current_class'];
 		$group_members = $this->group_members($group_id);
+		$pendings = $this->pendings();
+		$pending_members = array();
+		
+		foreach($pendings as $key){
+			$pending_members[] = $key['user_id'];
+		}
+		
 		$invite_members = array();
 		$query = $this->db->query("SELECT tbl_classpeople.user_id, fname, lname FROM tbl_classpeople 
 									LEFT JOIN tbl_userinfo ON tbl_classpeople.user_id = tbl_userinfo.user_id
@@ -254,7 +261,7 @@ class groups_model extends ci_Model{
 				$user_id = $row->user_id;
 				$fname	= $row->fname;
 				$lname	= $row->lname;
-				if(!in_array($user_id, $group_members)){//exclude users who are already members of the group
+				if(!in_array($user_id, $group_members) && !in_array($user_id, $pending_members)){//exclude users who are already members of the group
 					$invite_members[] = array('user_id'=>$user_id, 'fname'=>$fname, 'lname'=>$lname);
 				}
 			}

@@ -2,8 +2,13 @@
 class tester extends ci_Controller{
 	function index(){
 		
-		print_r($this->messages_model->check_owner());
 		
+		$pendings = $this->groups_model->pendings();
+		$members = array();
+		foreach($pendings as $key){
+			$members[] = $key['user_id'];
+		}
+		print_r($members);
 	}
 
 }

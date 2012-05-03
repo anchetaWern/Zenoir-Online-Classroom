@@ -34,7 +34,7 @@ $yes_no = array('NO', 'YES');
 	<tbody>
 		<?php foreach($sessions as $row){ ?>
 		<tr>
-			<td><?php echo $row['title']; ?></td>
+			<td><a href="<?php echo $this->config->item('ajax_base'); ?>/session/id/<?php echo $row['id']; ?>/<?php echo $row['title']; ?>" class="lightbox"><?php echo $row['title']; ?></a></td>
 			<td><?php echo $row['description']; ?></td>
 			<td><?php echo $session_types[$row['type'] - 1]; ?></td>
 			<td>
@@ -51,7 +51,7 @@ $yes_no = array('NO', 'YES');
 			<?php } ?>
 			<td>
 			<?php if($row['status'] == 1){ ?>
-			<a href="<?php echo $this->config->item('ajax_base'); ?>join_session?sesid=<?php echo $row['id']; ?>" class="lightbox" data-sestype="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>">
+			<a href="<?php echo $this->config->item('ajax_base'); ?>join_session/<?php echo $row['id']; ?>" class="lightbox" data-sestype="<?php echo $row['type']; ?>" data-id="<?php echo $row['id']; ?>">
 			<img src="/zenoir/img/take.png" class="icons"/>
 			</a>
 			<?php }else{ ?>

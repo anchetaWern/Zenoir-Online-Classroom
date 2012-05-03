@@ -57,7 +57,7 @@ echo form_input($alias);
 }
 ?>
 <p>
-<a href="<?php echo $this->config->item('page_base'); ?>session?sid=<?php echo $session['id']; ?>" data-id="<?php echo $session['id']; ?>">
+<a href="<?php echo $this->config->item('page_base'); ?>session/<?php echo $this->uri->segment(4); ?>" data-id="<?php echo $session['id']; ?>">
 <?php echo form_button($enter); ?>
 </a>
 </p>

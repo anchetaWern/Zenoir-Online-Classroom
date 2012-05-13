@@ -6,7 +6,7 @@
 	<table>
 		<tbody>
 			<tr>
-				<td><a href="<?php echo $this->config->item('admin_base'); ?>users"><button class="large orange">Users</button></a></td>
+				<td><a href="<?php echo $this->config->item('admin_base'); ?>users"><button class="large orange">&nbsp;&nbsp;Users&nbsp;&nbsp;</button></a></td>
 				<td><a href="<?php echo $this->config->item('admin_base'); ?>classes"><button class="large blue">Classes</button></a></td>
 			</tr>
 			<tr>

@@ -896,18 +896,6 @@ $(function(){
 		);
 	});
 	
-	$('#enter_session').live('click', function(){
-		var masked_name = $.trim($('#alias').val());
-		
-		
-		$.post('/zenoir/index.php/sessions/join');
-		if(masked_name != ''){//for masked session
-			$.post('/zenoir/index.php/data_setter/set_mask', {'masked_name' : masked_name});
-		}else{//for team and class session
-			$.post('/zenoir/index.php/data_setter/set_name');
-		}
-	});
-	
 	$('.endis_module').live('click', function(){
 		
 		var classmodule_id = $(this).data('classmoduleid');
@@ -1082,6 +1070,15 @@ $(function(){
 		var quiz_id = $.trim($(this).data('quiz_id'));
 		
 		$.post('/zenoir/index.php/data_setter/set_quiz_id', {'quiz_id' : quiz_id});
+	});
+	
+	$('#alias').live('keyup', function(){
+		var alias = $.trim($(this).val());
+		var current_url = $('#enter_session').parents('a').attr('href');
+		var exploded_url = current_url.split('/');
+		exploded_url.pop();
+		var new_url = exploded_url.join('/') + '/' + alias;
+		$('#enter_session').parents('a').attr('href', new_url);
 	});
 });
 </script>

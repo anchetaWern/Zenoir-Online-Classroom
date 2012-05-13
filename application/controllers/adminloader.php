@@ -44,6 +44,7 @@ class adminloader extends ci_Controller{
 	}
 	
 	function selector($page){
+		$_SESSION['user_page'] = $_SERVER["REQUEST_URI"];
 		switch($page){
 			case 'subjects':
 				

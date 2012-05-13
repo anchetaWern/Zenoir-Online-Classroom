@@ -23,7 +23,7 @@ $enter	= array(
 <h4><?php echo $session['title']; ?></h4>
 </div>
 <div id="description">
-Description
+Description:
 <?php echo $session['description']; ?>
 </div>
 <div id="sessiontype">
@@ -57,7 +57,7 @@ echo form_input($alias);
 }
 ?>
 <p>
-<a href="<?php echo $this->config->item('page_base'); ?>session/<?php echo $this->uri->segment(4); ?>" data-id="<?php echo $session['id']; ?>">
+<a href="<?php echo $this->config->item('page_base'); ?>session/<?php echo $this->uri->segment(4); ?>/<?php echo $this->session->userdata('user_name'); ?>" data-id="<?php echo $session['id']; ?>">
 <?php echo form_button($enter); ?>
 </a>
 </p>

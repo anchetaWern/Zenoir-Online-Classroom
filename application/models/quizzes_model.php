@@ -399,8 +399,10 @@ class quizzes_model extends ci_Model{
 									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
 									WHERE quiz_id='$quiz_id'");
 		
-		
-							
+		$details 	= $this->quiz_details($quiz_id);
+		$quiz_title	= $details['title'];
+		$replies['quiz'] 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title);	
+				
 		if($query->num_rows() > 0){
 			foreach($query->result() as $row){
 			
@@ -413,14 +415,13 @@ class quizzes_model extends ci_Model{
 				$lname		= $row->lname;
 				
 				
-				$details 	= $this->quiz_details($quiz_id);
-				$quiz_title	= $details['title'];
+				
 				
 				
 				$post_status 	= $this->post->quizreply_status('QR'.$quiz_id, $post_from);
 				$status_id		= $this->post->status_id('QR'.$quiz_id, $post_from);
 				
-				$replies['quiz'] 		= array('quiz_id'=>$quiz_id, 'quiz_title'=>$quiz_title);
+				
 				$replies['replies'][] 	= array('status_id'=>$status_id, 'quiz_id'=>$quiz_id, 'status'=>$post_status, 'id'=>$id, 'title'=>$title, 'datetime'=>$datetime, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
 			}
 		}

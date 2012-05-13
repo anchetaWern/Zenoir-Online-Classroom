@@ -8,26 +8,6 @@ class data_setter extends ci_Controller{
 		$_SESSION['current_id'] = $value;
 	}
 	
-	function set_mask(){
-		$_SESSION['mask_name'] = '';
-		$masked_name = $this->input->post('masked_name');
-		$_SESSION['mask_name'] = $masked_name;
-		if(empty($_SESSION['mask_name'])){
-			$_SESSION['mask_name'] = $masked_name;
-		}
-	}
-	
-	function set_name(){
-		$_SESSION['mask_name'] = '';
-		$user_id = $this->session->userdata('user_id');
-		$user_name = $this->users->user_name($user_id);
-		$_SESSION['mask_name']	= $user_name;
-		if(empty($_SESSION['mask_name'])){
-			$_SESSION['mask_name'] = $masked_name;
-		}
-	}
-	
-	
 	function set_class(){//sets the details for the class where the teacher or student entered
 		$class_id = $this->input->post('class_id');
 		

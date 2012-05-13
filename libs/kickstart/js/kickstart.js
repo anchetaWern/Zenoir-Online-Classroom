@@ -110,11 +110,12 @@ $(document).ready(function(){
 	/*---------------------------------
 		Snippet Syntax Highlighting
 	-----------------------------------*/
+	/*commented out because there's an error
 	$('pre.html').snippet("html",{style:"zellner"});
 	$('pre.css').snippet("css",{style:"zellner"});
 	$('pre.js').snippet("javascript",{style:"zellner"});
 	$('pre.php').snippet("php",{style:"zellner"});
-	
+	*/
 	/*---------------------------------
 		HTML5 Placeholder Support
 	-----------------------------------*/

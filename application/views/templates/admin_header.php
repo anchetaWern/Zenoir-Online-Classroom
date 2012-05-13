@@ -89,7 +89,7 @@ $(function(){
 						$('#px-submit').click();
 					}else{
 						setTimeout(function(){
-							location.reload();
+							location.href="admin_home";
 						}, 1000);
 					}
 				}

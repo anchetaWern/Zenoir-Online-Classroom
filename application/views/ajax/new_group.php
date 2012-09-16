@@ -9,6 +9,11 @@ $group	= array(
 			'id'=>'group_name'
 		);
 		
+$group_description	= array(
+			'name'=>'group_description',
+			'id'=>'group_description'
+		);
+		
 $create	= array(
 			'id'=>'create_group',
 			'name'=>'create_group',
@@ -21,6 +26,9 @@ $create	= array(
 <?php
 echo form_label('Group Name' , 'group_name');
 echo form_input($group);
+
+echo form_label('Group Description', 'group_description');
+echo form_textarea($group_description);
 ?>
 <?php echo form_label('Select Members', 'class_users'); ?>
 <?php if(!empty($members)){ ?>

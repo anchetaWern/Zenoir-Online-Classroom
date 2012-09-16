@@ -85,4 +85,6 @@ $('.fileUpload').fileUploader({
 			}
 });
 $('.px-buttons').hide();
+
+$('#quiz_body').redactor();
 </script>

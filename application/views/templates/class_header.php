@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="/zenoir/css/fileUploader.css"/><!--fileuploader style-->
 <link rel="stylesheet" href="/zenoir/libs/noty/css/jquery.noty.css"/><!--notifications-->
 <link rel="stylesheet" href="/zenoir/libs/noty/css/noty_theme_default.css"/><!--notifications-->
-
 <link rel="stylesheet" href="/zenoir/libs/jScrollPane/style/jquery.jscrollpane.css"  media="all"/><!--scrollbars-->
+<link rel="stylesheet" href="/zenoir/libs/redactor/redactor.css"/><!--wysiywg-->
 
 <script src="/zenoir/js/jquery171.js"></script><!--core-->
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
@@ -18,9 +18,9 @@
 <script src="/zenoir/js/jquery.fileUploader.js"></script><!--file uploader script-->
 <script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
 <script src="/zenoir/libs/noty/js/jquery.noty.js"></script><!--notifications-->
-
-<script type="text/javascript" src="/zenoir/libs/jScrollPane/script/jquery.mousewheel.js"></script><!-- the mousewheel plugin -->
-<script type="text/javascript" src="/zenoir/libs/jScrollPane/script/jquery.jscrollpane.min.js"></script><!--scrollbars-->
+<script src="/zenoir/libs/jScrollPane/script/jquery.mousewheel.js"></script><!-- the mousewheel plugin -->
+<script src="/zenoir/libs/jScrollPane/script/jquery.jscrollpane.min.js"></script><!--scrollbars-->
+<script src="/zenoir/libs/redactor/redactor.min.js"></script><!--wysiywg-->
 
 <link rel="zenoir icon" href="/zenoir/img/zenoir.ico">
 <script>
@@ -63,9 +63,9 @@ $(function(){
 	
 	$('.tbl_classes').dataTable({aaSorting: []});
 	
-	$('a[data-classid]').live('hover', function(){//creates a session for the class
+	$('a[data-classid]').live('mouseenter', function(){//creates a session for the class
 		var class_id = $.trim($(this).data('classid'));
-		
+
 		$.post('/zenoir/index.php/data_setter/set_class', {'class_id' : class_id});
 	});
 	
@@ -74,24 +74,6 @@ $(function(){
 		var act_id	= 3;
 		var prefix 	= 'EC';
 		$.post('/zenoir/index.php/logs/log_act', {'act_id' : act_id, 'prefix' : prefix});
-	});
-	
-	$('a[data-id]').live('hover', function(){
-		
-		var current_id = $(this).data('id');
-		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
-	});
-	
-	$('a[data-sid]').live('hover', function(){
-		
-		var current_id = $(this).data('sid');
-		$.post('/zenoir/index.php/data_setter/set_sid', {'sid' : current_id});
-	});
-	
-	
-	$('a[data-msgid]').live('hover', function(){
-		var msg_id = $(this).data('msgid');
-		$.post('/zenoir/index.php/data_setter/set_message', {'msg_id' : msg_id});
 	});
 	
 	$('#btn_update_account').live('click',function(){
@@ -285,6 +267,7 @@ $(function(){
 	
 	$('#submit_assignmentreply').live('click', function(){
 		var create		= 1;
+		var assignment_id = $.trim($('input[name=assignment_id]').val());
 		var reply_title	= $.trim($('#as_title').val());
 		var reply_body	= $.trim($('#as_body').val());
 		
@@ -298,7 +281,7 @@ $(function(){
 		
 		if(create == 1){
 			$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
-			$.post('/zenoir/index.php/assignments/reply', {'reply_title' : reply_title, 'reply_body' : reply_body},
+			$.post('/zenoir/index.php/assignments/reply/' + assignment_id, {'reply_title' : reply_title, 'reply_body' : reply_body},
 				function(){
 					$('#ajax_loader').remove();
 					noty_success.text = 'Reply was successfully submitted!';
@@ -623,15 +606,16 @@ $(function(){
 	});
 	
 	$('#update_group').live('click', function(){
-		
+		var group_id 		= $.trim($('input[name=group_id]').val());
 		var group_name 		= $.trim($('#group_name').val());
+		var group_description = $.trim($('#group_description').val());
 		
 		if(group_name != ''){
 			
 					
 					var group_members 	= $('#class_users').serializeArray();
 					$("#fancybox-content").append("<img id='ajax_loader' src='/zenoir/img/ajax-loader.gif' class='centered'/>");
-					$.post('/zenoir/index.php/groups/update', {'group_name' : group_name, 'members' : group_members},
+					$.post('/zenoir/index.php/groups/update', {'group_id' : group_id, 'group_name' : group_name, 'group_description' : group_description, 'members' : group_members},
 							function(){
 								$('#ajax_loader').remove();
 								noty_success.text = "Group successfully updated!";
@@ -652,16 +636,6 @@ $(function(){
 		}else{
 			$('#time_setter').show();
 		}
-	});
-	
-	$('a[data-sestype]').live('hover', function(){
-		var session_type 	= $(this).data('sestype');
-		$.post('/zenoir/index.php/data_setter/set_sessiontype', {'session_type' : session_type});
-	});
-	
-	$('a[data-sestype]').live('click', function(){
-		var session_type 	= $(this).data('sestype');
-		$.post('/zenoir/index.php/data_setter/set_sessiontype', {'session_type' : session_type});
 	});
 	
 	$('#create_mcsession').live('click', function(){
@@ -1063,13 +1037,6 @@ $(function(){
 		}
 		
 		$.post('/zenoir/index.php/notifs/change_status', {'nevent_id' : nevent_id, 'status' : status});
-	});
-	
-	$('a[data-quiz_id]').live('hover', function(){
-		
-		var quiz_id = $.trim($(this).data('quiz_id'));
-		
-		$.post('/zenoir/index.php/data_setter/set_quiz_id', {'quiz_id' : quiz_id});
 	});
 	
 	$('#alias').live('keyup', function(){

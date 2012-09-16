@@ -156,8 +156,8 @@ class class_loader extends ci_Controller{
 			
 				$this->logs_model->lag(5, 'QZ');
 			
-			
-				$quiz = $this->quizzes_model->view();
+				$quiz_id = $this->uri->segment(4);
+				$quiz = $this->quizzes_model->view($quiz_id);
 				return $quiz;
 			break;
 			
@@ -189,8 +189,8 @@ class class_loader extends ci_Controller{
 				
 				$this->post->unset_all('QR');
 			
-				
-				$scores = $this->quizzes_model->scores();
+				$quiz_id = $this->uri->segment(4);
+				$scores = $this->quizzes_model->scores($quiz_id);
 				return $scores;
 			break;
 			
@@ -265,30 +265,32 @@ class class_loader extends ci_Controller{
 			break;
 			
 			case 'view_noquiz':
-				
+				$quiz_id = $this->uri->segment(4);
 				
 				$quiz['students'] = $this->post->no_quiz();
-				$quiz['details'] = $this->quizzes_model->quiz_details($_SESSION['current_id']);
+				$quiz['details'] = $this->quizzes_model->quiz_details($quiz_id);
 				return $quiz;
 			break;
 			
 			case 'view_noquizresponse':
-				
+				$quiz_id = $this->uri->segment(4);
 				
 				$quiz['students'] = $this->post->no_quizresponse();
-				$quiz['details'] = $this->quizzes_model->quiz_details($_SESSION['current_id']);
+				$quiz['details'] = $this->quizzes_model->quiz_details($quiz_id);
 				return $quiz;
 			break;
 			
 			case 'list_quizreplies':
+				$quiz_id = $this->uri->segment(4);
 				
-				$replies = $this->quizzes_model->list_replies();
+				$replies = $this->quizzes_model->list_replies($quiz_id);
 				return $replies;
 			break;
 			
 			case 'view_quizreply':
+				$quizresponse_id = $this->uri->segment(4);
 				
-				$reply = $this->quizzes_model->view_reply();
+				$reply = $this->quizzes_model->view_reply($quizresponse_id);
 				$_SESSION['page']= '';//empty so that the back button won't show up in view_file.php
 				
 				

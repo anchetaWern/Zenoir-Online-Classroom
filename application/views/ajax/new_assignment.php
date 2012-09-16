@@ -77,4 +77,7 @@ $('.time_picker').datetimepicker({
 	ampm: true,
 	dateFormat: 'yy-mm-dd'
 });
+
+$('#as_body').redactor();
 </script>
+

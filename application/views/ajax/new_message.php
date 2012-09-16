@@ -70,3 +70,7 @@ echo form_button($create);
 </p>
 
 </div>
+
+<script>
+$('#msg_body').redactor();
+</script>

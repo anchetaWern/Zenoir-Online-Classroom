@@ -198,9 +198,9 @@ class ajax_loader extends ci_Controller{
 				
 				$this->logs_model->lag(4, 'AS');
 			
-				
-				$assignment['details'] = $this->assignments_model->view();
-				$assignment['response'] = $this->assignments_model->response_id();
+				$assignment_id = $this->uri->segment(4);
+				$assignment['details'] = $this->assignments_model->view($assignment_id);
+				$assignment['response'] = $this->assignments_model->response_id($assignment_id);
 				
 				$_SESSION['page']= $_SERVER['REQUEST_URI'];
 				return $assignment;
@@ -217,8 +217,8 @@ class ajax_loader extends ci_Controller{
 				
 				$this->logs_model->lag(14, 'AR');
 			
-				
-				$assignment = $this->assignments_model->view_reply();
+				$reply_id = $this->uri->segment(4);
+				$assignment = $this->assignments_model->view_reply($reply_id);
 				
 				$_SESSION['page']= $_SERVER['REQUEST_URI'];
 				return $assignment;
@@ -233,7 +233,9 @@ class ajax_loader extends ci_Controller{
 				if($reply == 0){
 					redirect('../ajax_loader/view/view_assignment/'.$this->uri->segment(4));
 				}
-				$assignment = $this->assignments_model->reply_details();
+				
+				$assignment_id = $this->uri->segment(4);
+				$assignment = $this->assignments_model->reply_details($assignment_id);
 				return $assignment;
 			break;
 			
@@ -242,7 +244,8 @@ class ajax_loader extends ci_Controller{
 					redirect('../loader/view/login_form');
 				}
 				
-				$assignment_reply = $this->assignments_model->list_replies();
+				$assignment_id 	= $this->uri->segment(4);
+				$assignment_reply = $this->assignments_model->list_replies($assignment_id);
 				return $assignment_reply;
 			break;
 			

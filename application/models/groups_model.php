@@ -7,11 +7,12 @@ class groups_model extends ci_Model{
 		$class_id	= $_SESSION['current_class'];
 		
 		$group_name	= $this->input->post('group_name');
+		$group_description = $this->input->post('group_description');
 		$members 	= $this->input->post('members');
 		
-		$group_data = array($class_id, $group_name, $user_id);
+		$group_data = array($class_id, $group_name, $group_description, $user_id);
 		
-		$create_group 	= $this->db->query("INSERT INTO tbl_groups SET class_id=?, group_name=?, group_creator=?", $group_data);
+		$create_group 	= $this->db->query("INSERT INTO tbl_groups SET class_id=?, group_name=?, group_description=?, group_creator=?", $group_data);
 		$group_id		= $this->db->insert_id();
 		
 		
@@ -50,19 +51,15 @@ class groups_model extends ci_Model{
 	function update(){
 		$user_id	= $this->session->userdata('user_id');
 		$user_name	= $this->session->userdata('user_name');
-		$group_id	= $_SESSION['current_id'];
+		$group_id	= $this->input->post('group_id');
 		
 		$group_name	= $this->input->post('group_name');
+		$group_description = $this->input->post('group_description');
 		$members 	= $this->input->post('members');
 		
-		$group_data = array($group_name, $group_id);
+		$group_data = array($group_name, $group_description, $group_id);
 		
-		$update_group = $this->db->query("UPDATE tbl_groups SET group_name=? WHERE group_id=?", $group_data);
-		
-	
-		
-		
-		
+		$update_group = $this->db->query("UPDATE tbl_groups SET group_name=?, group_description=? WHERE group_id=?", $group_data);
 		
 		foreach($members as $member_id){
 			$member_id = $member_id['value'];
@@ -122,7 +119,7 @@ class groups_model extends ci_Model{
 	
 	function view(){
 		$group_id = $this->uri->segment(4);
-		$group = $this->db->query("SELECT group_people_id, group_name , tbl_grouppeople.user_id, fname, mname, lname
+		$group = $this->db->query("SELECT group_people_id, group_name, tbl_grouppeople.user_id, fname, mname, lname
 									FROM tbl_groups
 									LEFT JOIN tbl_grouppeople ON tbl_groups.group_id = tbl_grouppeople.group_id
 									LEFT JOIN tbl_userinfo ON tbl_grouppeople.user_id = tbl_userinfo.user_id
@@ -131,10 +128,11 @@ class groups_model extends ci_Model{
 		
 		$details = $this->group_details();
 		$grp_name= $details['group_name'];
+		$grp_descr= $details['group_descr'];
 		$c_fname = $details['fname'];
 		$c_lname = $details['lname'];
 		
-		$group_data['group'] = array('group_id'=>$group_id, 'group_name'=>$grp_name, 'cfname'=>$c_fname, 'clname'=>$c_lname);
+		$group_data['group'] = array('group_id'=>$group_id, 'group_name'=>$grp_name, 'group_descr'=>$grp_descr,'cfname'=>$c_fname, 'clname'=>$c_lname);
 		$group_data['invited'] =  $this->non_members($group_id);
 		
 		if($group->num_rows() > 0){
@@ -159,7 +157,7 @@ class groups_model extends ci_Model{
 		$group_id = $this->uri->segment(4);
 		
 		$details = array();
-		$query = $this->db->query("SELECT group_name, fname, mname, lname FROM tbl_groups
+		$query = $this->db->query("SELECT group_name, group_description, fname, mname, lname FROM tbl_groups
 								LEFT JOIN tbl_userinfo ON tbl_groups.group_creator = tbl_userinfo.user_id
 								WHERE group_id = '$group_id'");
 								
@@ -167,11 +165,12 @@ class groups_model extends ci_Model{
 			$row = $query->row();
 			
 			$group_name = $row->group_name;
+			$group_description = $row->group_description;
 			$fname		= $row->fname;
 			$mname		= $row->mname;
 			$lname		= $row->lname;
 			
-			$details = array('group_name'=>$group_name, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
+			$details = array('group_descr'=>$group_description, 'group_name'=>$group_name, 'fname'=>$fname, 'mname'=>$mname, 'lname'=>$lname);
 		}
 		return $details;
 	}

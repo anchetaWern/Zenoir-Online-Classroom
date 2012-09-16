@@ -9,12 +9,12 @@ class assignments extends ci_Controller{
 		$this->assignments_model->create();
 	}
 	
-	function reply(){
+	function reply($assignment_id){
 		
 		$this->logs_model->lag(12, 'AR');
 	
 		
-		$this->assignments_model->reply();
+		$this->assignments_model->reply($assignment_id);
 	}
 }
 ?>

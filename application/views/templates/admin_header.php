@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/zenoir/libs/noty/css/jquery.noty.css"/><!--notifications-->
 <link rel="stylesheet" href="/zenoir/libs/noty/css/noty_theme_default.css"/><!--notifications-->
 <link rel="stylesheet" href="/zenoir/libs/jScrollPane/style/jquery.jscrollpane.css"  media="all"/><!--scrollbars-->
+<link rel="stylesheet" href="/zenoir/libs/redactor/redactor.css"/><!--wysiywg-->
 
 <script src="/zenoir/js/jquery171.js"></script><!--core-->
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
@@ -17,9 +18,10 @@
 <script src="/zenoir/js/jquery.fileUploader.js"></script><!--file uploader script-->
 <script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
 <script src="/zenoir/libs/noty/js/jquery.noty.js"></script><!--notifications-->
-
 <script type="text/javascript" src="/zenoir/libs/jScrollPane/script/jquery.mousewheel.js"></script><!-- the mousewheel plugin -->
 <script type="text/javascript" src="/zenoir/libs/jScrollPane/script/jquery.jscrollpane.min.js"></script><!--scrollbars-->
+<script src="/zenoir/libs/redactor/redactor.min.js"></script><!--wysiywg-->
+
 <link rel="zenoir icon" href="/zenoir/img/zenoir.ico">
 
 <script>
@@ -56,11 +58,12 @@ $(function(){
 	
 	$('.tbl_classes').dataTable();
 	
-	$('a[data-classid]').live('hover', function(){//creates a session for the class
+	$('a[data-classid]').live('mouseenter', function(){//creates a session for the class
 		var class_id = $.trim($(this).data('classid'));
-		
+
 		$.post('/zenoir/index.php/data_setter/set_class', {'class_id' : class_id});
 	});
+	
 	
 	$('#btn_update_account').live('click',function(){
 		var updates	= 1;
@@ -274,14 +277,6 @@ $(function(){
 			noty(noty_err);
 		}
 	});
-	
-	$('a[data-id]').live('hover', function(){
-		
-		var current_id = $(this).data('id');
-		$.post('/zenoir/index.php/data_setter/sets', {'current_id' : current_id});
-	});
-	
-
 	
 	$('#update_subject').live('click', function(){
 		var update		= 1;

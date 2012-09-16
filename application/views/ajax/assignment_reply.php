@@ -39,6 +39,8 @@ $reply	= array(
 <div class="container">
 
 <?php
+echo form_hidden('assignment_id', $assignment['as_id']);
+
 echo form_label('Title', 'as_title');
 echo form_input($title);	
 
@@ -59,3 +61,6 @@ echo form_button($reply);
 </p>
 
 </div>
+<script>
+	$('#as_body').redactor();
+</script>

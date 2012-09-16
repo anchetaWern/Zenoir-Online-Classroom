@@ -1,5 +1,5 @@
 <!--reports-->
-<h4>[Reports]</h4>
+<h4>[Logs]</h4>
 <?php 
 $students = $table;
 ?>

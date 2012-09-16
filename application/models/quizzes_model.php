@@ -152,8 +152,8 @@ class quizzes_model extends ci_Model{
 		}
 	}
 	
-	function view(){//returns quiz details and quiz items
-		$quiz_id = $this->uri->segment(4);
+	function view($quiz_id){//returns quiz details and quiz items
+		
 		$file_quiz_id = 'QZ'.$quiz_id;
 		$quiz['quiz'] = array();
 		$quiz['quiz_items'] = array();
@@ -265,10 +265,10 @@ class quizzes_model extends ci_Model{
 		
 	}
 	
-	function scores(){
+	function scores($quiz_id){
 		$quiz_results['details'] = array();
 		$quiz_results['result'] = array();
-		$quiz_id	= $_SESSION['current_quiz_id'];
+		
 		$quiz = $this->db->query("SELECT qz_title, DATE(start_time) AS quiz_date FROM tbl_quiz WHERE quiz_id='$quiz_id'");
 		if($quiz->num_rows() > 0){
 			$row = $quiz->row();
@@ -392,8 +392,8 @@ class quizzes_model extends ci_Model{
 		}
 	}
 	
-	function list_replies(){//returns a list of replies for a specific quiz
-		$quiz_id = $this->uri->segment(4);
+	function list_replies($quiz_id){//returns a list of replies for a specific quiz
+		
 		$replies = array();
 		$query = $this->db->query("SELECT quizresponse_id, tbl_quizresponse.student_id, res_title, res_datetime, fname, mname, lname FROM tbl_quizresponse 
 									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id
@@ -428,8 +428,8 @@ class quizzes_model extends ci_Model{
 		return $replies;
 	}
 	
-	function view_reply(){//returns a single reply for a specific quiz
-		$quizresponse_id = $this->uri->segment(4);
+	function view_reply($quizresponse_id){//returns a single reply for a specific quiz
+		
 		$reply = array();
 		$query = $this->db->query("SELECT quiz_id, res_title, res_body, res_datetime , fname, mname, lname FROM tbl_quizresponse 
 									LEFT JOIN tbl_userinfo ON tbl_quizresponse.student_id = tbl_userinfo.user_id

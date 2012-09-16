@@ -76,3 +76,7 @@ echo form_button($reply);
 </a>
 </p>
 </div>
+
+<script>
+	$('#msg_body').redactor();
+</script>

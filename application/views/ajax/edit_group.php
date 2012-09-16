@@ -2,14 +2,17 @@
 <?php
 $group_data = $page['members']['group'];
 if(!empty($page['members']['members'])){
-$group_members = $page['members']['members'];
+	$group_members = $page['members']['members'];
 }
+
 if(!empty($page['pendings'])){ 
-$pending_members = $page['pendings'];
+	$pending_members = $page['pendings'];
 }
+
 $group_invited = $page['members']['invited'];
 $group_id	= $group_data['group_id'];
 $group_name	= $group_data['group_name'];
+$group_descr = $group_data['group_descr'];
 
 ?>
 <div id="modal_header">
@@ -20,6 +23,12 @@ $group	= array(
 			'name'=>'group_name',
 			'id'=>'group_name',
 			'value'=>$group_name
+		);
+
+$group_description	= array(
+			'name'=>'group_description',
+			'id'=>'group_description',
+			'value'=>$group_descr
 		);
 		
 $edit	= array(
@@ -34,8 +43,13 @@ $edit	= array(
 
 
 <?php
+echo form_hidden('group_id', $group_id);
+
 echo form_label('Group Name' , 'group_name');
 echo form_input($group);
+
+echo form_label('Group Description', 'group_description');
+echo form_input($group_description);
 ?>
 
 <ul class="tabs left">

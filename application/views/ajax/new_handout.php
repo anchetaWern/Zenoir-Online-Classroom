@@ -54,3 +54,6 @@ echo form_button($create);
 ?>
 </p>
 </div>
+<script>
+$('#ho_body').redactor();
+</script>

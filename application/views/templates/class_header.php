@@ -76,6 +76,12 @@ $(function(){
 		$.post('/zenoir/index.php/logs/log_act', {'act_id' : act_id, 'prefix' : prefix});
 	});
 	
+	$('a[data-sid]').live('hover', function(){
+                
+		var current_id = $(this).data('sid');
+		$.post('/zenoir/index.php/data_setter/set_sid', {'sid' : current_id});
+    });
+	
 	$('#btn_update_account').live('click',function(){
 		var updates	= 1;
 		var password = $.trim($('#password').val()); 

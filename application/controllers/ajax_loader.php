@@ -215,6 +215,7 @@ class ajax_loader extends ci_Controller{
 					$this->post->unset_assignmentreply();
 				}
 				
+				$this->post->unset_post('AR');
 				$this->logs_model->lag(14, 'AR');
 			
 				$reply_id = $this->uri->segment(4);

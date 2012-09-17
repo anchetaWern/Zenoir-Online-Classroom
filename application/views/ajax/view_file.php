@@ -1,5 +1,7 @@
 <!--file viewer-->
 <div class="image_container">
+<h4>View File</h4>
+<p>
 <?php
 
 $file_id	= $page['file_id'];
@@ -67,4 +69,9 @@ switch($type_id){
 </a>
 </p>
 <?php } ?>
+</p>
 </div>
+
+<script>
+$('.image_container').jScrollPane({autoReinitialise: true});
+</script>

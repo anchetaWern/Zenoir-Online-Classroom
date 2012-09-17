@@ -2,6 +2,7 @@
 <script>
 var page = "<?php if(!empty($_SESSION['user_page'])){ echo $_SESSION['user_page']; }else{ echo 1; }?>";
 $('.fileUpload').fileUploader({
+		
 			allowedExtension: 'jpg|jpeg|gif|png|zip|avi',
 			afterEachUpload: function(data, status, formContainer){
 				$jsonData = $.parseJSON( $(data).find('#upload_data').text() );

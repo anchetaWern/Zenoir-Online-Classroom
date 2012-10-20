@@ -1,8 +1,6 @@
 Zenoir
 ==========
 
-This application will be used for quick database schema generation and visualization
-
 ##Overview
 
 Zenoir Online Classroom is an E-learning system which is mainly targeted towards teachers and students to implement online learning. The importance of these kinds of software is that it encourages the participation of students in the classroom this is implemented in the sessions module of the system which emulates classroom discussions in the real world. 

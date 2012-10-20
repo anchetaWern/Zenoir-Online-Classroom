@@ -1,7 +1,7 @@
 <!--class template-->
 <link rel="stylesheet" href="/zenoir/libs/kickstart/css/kickstart.css"/><!--ui and overall layout style-->
 <link rel="stylesheet" href="/zenoir/css/main.css"/><!--main style-->
-<link rel="stylesheet" href="/zenoir/libs/dataTables/css/demo_page.css"/><!--table styles-->
+<link rel="stylesheet" href="/zenoir/libs/datatables/media/css/demo_table.css"/><!--table styles-->
 <link rel="stylesheet" href="/zenoir/libs/jquery_ui/css/ui-lightness/jquery-ui-1.8.18.custom.css"/><!--ui style-->
 <link rel="stylesheet" href="/zenoir/css/fileUploader.css"/><!--fileuploader style-->
 <link rel="stylesheet" href="/zenoir/libs/noty/css/jquery.noty.css"/><!--notifications-->
@@ -13,7 +13,7 @@
 <script src="/zenoir/libs/kickstart/js/kickstart.js"></script><!--ui and overall layout script-->
 <script src="/zenoir/libs/kickstart/js/jquery.snippet.min.js"></script>
 <script src="/zenoir/libs/kickstart/js/prettify.js"></script>
-<script src="/zenoir/libs/dataTables/js/jquery.dataTables.min.js"></script><!--table functionality-->
+<script src="/zenoir/libs/datatables/media/js/jquery.dataTables.js"></script><!--table functionality-->
 <script src="/zenoir/libs/jquery_ui/js/jquery-ui-1.8.18.custom.min.js"></script><!--ui script-->
 <script src="/zenoir/js/jquery.fileUploader.js"></script><!--file uploader script-->
 <script src="/zenoir/libs/jquery_ui/js/datetimepicker.js"></script><!--date and time picker script-->
@@ -642,6 +642,16 @@ $(function(){
 		}else{
 			$('#time_setter').show();
 		}
+	});
+	
+	 $('a[data-sestype]').live('hover', function(){
+		var session_type        = $(this).data('sestype');
+		$.post('/zenoir/index.php/data_setter/set_sessiontype', {'session_type' : session_type});
+    });
+        
+	$('a[data-sestype]').live('click', function(){
+		var session_type        = $(this).data('sestype');
+		$.post('/zenoir/index.php/data_setter/set_sessiontype', {'session_type' : session_type});
 	});
 	
 	$('#create_mcsession').live('click', function(){

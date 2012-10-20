@@ -1,0 +1,32 @@
+*updates to zenoir:
+
+-//description on group
+-admin must be able to do anything
+-use urls on loading ajax content
+-//wysiwyg on all textareas
+-//view formatted text
+-default image for thos without pictures
+-links to unread posts
+-next and previous for data tables, 
+-pagination on data tables
+-when replying to expired assignments there should be an alert saying that it
+has already expired
+
+-facebook integration -when teacher posts an assignment it will be posted in their messages
+on facebook
+
+-setting for facebook integration, every student can check
+whether or not they will be notified, the default is they will be notified
+
+-quizzes
+ -identification
+ -multiple choice - should not be limited to 4 choices, teacher must be able to 
+  select how many choices
+ -select files on quiz must have attachment label
+
+-notifications:
+ -in assignment:
+   -if there are no responses ->alert
+
+-Things that are not working:
+ -file uploads

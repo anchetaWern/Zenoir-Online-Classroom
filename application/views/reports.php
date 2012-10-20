@@ -3,7 +3,7 @@
 <?php 
 $students = $table;
 ?>
-
+<div class="tbl_view">
 <?php if(!empty($table)){ ?>
 <table class="tbl_classes">
 	<thead>
@@ -27,3 +27,4 @@ $students = $table;
 	</tbody>
 </table>
 <?php } ?>
+</div>

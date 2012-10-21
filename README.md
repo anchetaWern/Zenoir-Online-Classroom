@@ -22,25 +22,25 @@ Here's a list of some of the technologies, libraries, frameworks and plugins use
 
 ###Framework
 
-- CodeIgniter - Backend handling, MVC
+- [CodeIgniter](http://codeigniter.com/) - Backend handling, MVC
 
 
 ###Library
 
-- jQuery - DOM Manipulation, Event-delegation and other frontend stuff
+- [jQuery](http://jquery.com/) - DOM Manipulation, Event-delegation and other frontend stuff
 
 
 ###Plugins
 
-- Data Tables – for adding sorting, searching, and paging functionality to tables
-- jQuery UI – Calendar, Buttons
-- JScrollPane – for customizing the default scrollbars
-- HTML KickStart – used for most of the UI elements
-- Noty – for the notifications (Eg. Error, Success)
-- Pixel Cone File Uploader – for handling file uploads
+- [Data Tables](http://datatables.net/) – for adding sorting, searching, and paging functionality to tables
+- [jQuery UI](http://jqueryui.com/) – Calendar, Buttons
+- [JScrollPane](http://jscrollpane.kelvinluck.com/) – for customizing the default scrollbars
+- [HTML KickStart](http://www.99lime.com/) – used for most of the UI elements
+- [Noty](http://needim.github.com/noty/) – for the notifications (Eg. Error, Success)
+- [Pixel Cone File Uploader](http://pixelcone.com/jquery/ajax-file-upload-script/) – for handling file uploads
 
 
-###Current Features
+##Current Features
 - User information import tool - This tool is used to easily import existing user information from another database into the Zenoir database
 - Adding of subjects, classes, and courses
 - Creating and updating user accounts
@@ -53,7 +53,7 @@ Messages are not recorded as they are private.
 - Class Settings - only the teacher can access the class settings. The teacher can invite students, accept pending students, remove current students, enable or disable modules, set email notifications, and export classroom data.
 
 
-###Todo
+##Todo
 
 - Admin must be able to do anything - currently the admin can only enter the classroom but not actually interact with it
 - Default image for users without pictures
@@ -67,4 +67,4 @@ identification, fill in the blanks, pop-up quiz, matching, ordering, true or fal
 
 
 
-If you want to know more about this project, you can [the documentation](https://dl.dropbox.com/u/27328449/Zenoir%20Online%20Classroom%20Users%20Manual.pdf)
+If you want to know more about this project, you can read [the documentation](https://dl.dropbox.com/u/27328449/Zenoir%20Online%20Classroom%20Users%20Manual.pdf)

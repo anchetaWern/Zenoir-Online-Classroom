@@ -67,6 +67,11 @@ identification, fill in the blanks, pop-up quiz, matching, ordering, true or fal
 If you want to know more about this project, you can read [the documentation](https://dl.dropbox.com/u/27328449/Zenoir%20Online%20Classroom%20Users%20Manual.pdf)
 
 
+##Project Status
+
+Abandonware. I no longer have any plans on improving and maintaining this project.
+
+
 ##License
 
 The MIT License (MIT) Copyright (c)
